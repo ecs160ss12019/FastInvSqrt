@@ -9,3 +9,5 @@ Story Mapping: https://github.com/ecs160ss12019/FastInvSqrt/blob/master/StoryMap
 ## Members
 ### Nicola Mussi
 <p>New at Java programming but has some experience making games using various languages and tools. Very, very, very enthusiastic about this project. Usually wears blue 24/7. Will "git push -f origin master" when really lazy.</p>
+### James Huang
+<p> Has a little bit of experience programming in Java. Plays lots of games on his free time and is very excited about being able to make one. </p>
