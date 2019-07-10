@@ -17,4 +17,4 @@ Story Mapping: https://github.com/ecs160ss12019/FastInvSqrt/blob/master/StoryMap
 <p> Has some experience in mobile development, but no experience in game development. I hope I can learn a lot from creating this Android game!<p>
 
 ### Mohamed Sayed
-<p> New at Java programming but has experience in web development and creating small games using other languages. Excited to develop and work on this project! </p>
+<p> New at Java programming but has experience in web development and creating small games using other languages. Excited to develop and work on this project while taking this class! </p>
