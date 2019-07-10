@@ -18,3 +18,6 @@ Story Mapping: https://github.com/ecs160ss12019/FastInvSqrt/blob/master/StoryMap
 
 ### Mohamed Sayed
 <p> New at Java programming but has experience in web development and creating small games using other languages. Excited to develop and work on this project while taking this class! </p>
+
+### Kamal Sadek
+<p> Experience in Java and mobile development. Master of the "anything goes" style of programming, hoping to learn about software engineering. </p>
