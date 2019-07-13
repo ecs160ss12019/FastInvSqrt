@@ -6,7 +6,6 @@ import android.graphics.RectF;
  * Superclass for all in-game objects.
  * They all have position, velocity, and images.
  * Everything is a rectangle, by the way.
- * Note that it's impossible to make an Actor object.
  *
  * TODO
  * Graphics support! Must be done ASAP.
@@ -17,7 +16,7 @@ class Actor {
     // The size and position of the object.
     private int width;
     private int height;
-    
+
     class Velocity {
 
         float x;
@@ -33,9 +32,16 @@ class Actor {
             y = _y;
         }
 
+        //Actual velocity; speed and direction
         void setVelocity(float _x, float _y){
             x = _x;
             y = _y;
+        }
+
+        //Just speed, not direction
+        void setSpeed(float speed_multiplier){
+            x *= speed_multiplier;
+            y *= speed_multiplier;
         }
 
         void reverseX(){
@@ -52,6 +58,11 @@ class Actor {
 
         float width;
         float height;
+
+        Size (){
+            width = 0;
+            height = 0;
+        }
 
         Size (float x, float y){
             width = x;
@@ -75,7 +86,19 @@ class Actor {
     Size size;
     //TODO: Graphics
 
-    //Updates position of Actor based on velocity.
+    Actor (RectF _hitbox, float x_vel, float y_vel, float width, float height){
+        hitbox = new RectF(_hitbox);
+        velocity = new Velocity(x_vel, y_vel);
+        size = new Size(width, height);
+    }
+
+    Actor (){
+        hitbox = new RectF(0,0,0,0);
+        velocity = new Velocity (0,0);
+        size = new Size (0,0);
+    }
+
+    //Updates position of the Actor based on velocity.
     void Update (float fps){
         hitbox.left += velocity.x / fps;
         hitbox.top += velocity.y / fps;

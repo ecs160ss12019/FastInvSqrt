@@ -1,5 +1,7 @@
 package com.example.ultrabreakout;
 
+import android.graphics.RectF;
+
 /**
  * Handles the ball(s).
  * When the game updates, check if the ball has collided
@@ -12,6 +14,11 @@ package com.example.ultrabreakout;
 //
 
 class Ball extends Actor {
-    boolean colliding = false;
-    boolean isLive;
+
+    boolean colliding;
+    boolean is_live;
+
+//    Ball (){
+//        super(
+//    }
 }
