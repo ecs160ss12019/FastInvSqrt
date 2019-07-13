@@ -12,6 +12,11 @@ package com.example.ultrabreakout;
 //
 
 class Ball extends Actor {
+
+	private float xDirection;
+    private float yDirection;
+
+
     boolean colliding = false;
     boolean isLive;
 }
