@@ -24,7 +24,7 @@ public class UltraBreakoutActivity extends AppCompatActivity {
         Point size = new Point();
         display.getSize(size);
 
-        ultraBreakout = new UltraBreakout();
+        ultraBreakout = new UltraBreakout(this, size.x, size.y);
         setContentView(ultraBreakout);
     }
 

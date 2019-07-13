@@ -5,8 +5,14 @@ import android.view.SurfaceView;
 
 public class UltraBreakout extends SurfaceView implements Runnable {
 
-    public UltraBreakout(Context context, int x, int y) {
+    private int screen_width;
+    private int screen_height;
+
+    public UltraBreakout(Context context, int screen_width, int screen_height) {
         super(context);
+
+        this.screen_width = screen_width;
+        this.screen_height = screen_height;
     }
 
     @Override
@@ -14,6 +20,5 @@ public class UltraBreakout extends SurfaceView implements Runnable {
     }
 
     void draw() {
-        
     }
 }
