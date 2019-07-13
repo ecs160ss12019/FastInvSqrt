@@ -12,11 +12,19 @@ import android.graphics.RectF;
  */
 
 class Actor {
+    // The size and position of the object.
     private int width;
     private int height;
 
+    private int x;
+    private int y;
+
+    // The getters for the variables of this class.
     public int getWidth() {
         return width;
     }
     public int getHeight() { return height; }
+
+    public int getX() { return x; }
+    public int getY() { return y; }
 }
