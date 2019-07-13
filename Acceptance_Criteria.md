@@ -23,7 +23,7 @@ When the ball hits the spike, a life should be loss.
 When the ball hits a wormhole, the position of the ball should be moved to the position of a connected wormhole after a short animation, while maintaining the same vector of movement.  
 
 # UI/UX interface: As the UI/UX interface I want to display relevant information and game control buttons in an aesthetically pleasing way.  
-# When specific buttons are pressed, it should react accordingly (i.e. pressing the settings button will open up the settings).  
+When specific buttons are pressed, it should react accordingly (i.e. pressing the settings button will open up the settings).  
 Should include a title menu, so I can select level and difficulty (stage level).  
 After selecting level and difficulty, I should be able to start playing.  
 After losing all of my lives, a retry button should show up, resetting my score for current level.  
