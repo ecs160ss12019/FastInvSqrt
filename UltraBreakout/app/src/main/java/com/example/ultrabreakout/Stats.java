@@ -10,4 +10,8 @@ package com.example.ultrabreakout;
  */
 
 class Stats {
+  private int bricks_remaining;
+  private int score;
+  private int turns;
+  private float time_played;
 }
