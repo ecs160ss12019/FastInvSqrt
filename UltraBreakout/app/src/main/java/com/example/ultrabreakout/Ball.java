@@ -9,8 +9,9 @@ package com.example.ultrabreakout;
  * See "Ball.java" from Ch. 11
  * THE BALL HANDLES CHECKING WHEN AND WHERE IT HIT(S).
  */
+//
 
 class Ball extends Actor {
-
+    boolean colliding = false;
     boolean isLive;
 }
