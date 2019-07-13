@@ -1,14 +1,19 @@
 package com.example.ultrabreakout;
 
-import androidx.appcompat.app.AppCompatActivity;
+import android.content.Context;
+import android.view.SurfaceView;
 
-import android.os.Bundle;
+public class UltraBreakout extends SurfaceView implements Runnable {
 
-public class UltraBreakout extends AppCompatActivity {
+    public UltraBreakout(Context context, int x, int y) {
+        super(context);
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    public void run() {
+    }
+
+    void draw() {
+        
     }
 }
