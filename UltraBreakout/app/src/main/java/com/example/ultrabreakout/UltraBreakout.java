@@ -11,7 +11,6 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 
     private Input input;
 
-
     // Keeps track whether the main thread should be running or not.
     // Volatile so that it is thread-safe.
     private volatile boolean playing;
