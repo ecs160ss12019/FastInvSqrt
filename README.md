@@ -6,7 +6,7 @@ https://github.com/ecs160ss12019/FastInvSqrt
 https://github.com/ecs160ss12019/FastInvSqrt/blob/master/StoryMapping.md
 ### CRC Cards: 
 https://github.com/ecs160ss12019/FastInvSqrt/blob/master/CRC_Cards.md
-### 
+### Acceptance Criteria:
 https://github.com/ecs160ss12019/FastInvSqrt/blob/master/Acceptance_Criteria.md
 
 The goal of this project is to create a clone of the Atari 2600 game <em>Super Breakout</em>, possibly with expansions on top of the already existing game. Currently, we are aiming to replicate the original game modes and tentatively adding more features such as powerups and non-monochromatic simplistic graphics.
