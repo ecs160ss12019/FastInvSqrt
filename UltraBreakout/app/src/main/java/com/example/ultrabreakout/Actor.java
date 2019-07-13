@@ -14,7 +14,10 @@ import android.graphics.RectF;
  */
 
 class Actor {
-
+    // The size and position of the object.
+    private int width;
+    private int height;
+    
     class Velocity {
 
         float x;
@@ -79,5 +82,4 @@ class Actor {
         hitbox.right = hitbox.left + size.width;
         hitbox.bottom = hitbox.top + size.height;
     }
-
 }

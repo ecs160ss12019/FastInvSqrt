@@ -11,5 +11,4 @@ package com.example.ultrabreakout;
 
 class Brick extends Actor {
     int hp;
-
 }
