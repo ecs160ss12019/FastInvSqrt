@@ -32,15 +32,13 @@ public class UltraBreakoutActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
 
-        // Leave for later
-        //ultraBreakout.resume();
+        ultraBreakout.resume();
     }
 
     @Override
     public void onPause() {
         super.onPause();
 
-        // Leave for later
-        //ultraBreakout.pause();
+        ultraBreakout.pause();
     }
 }
