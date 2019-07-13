@@ -15,6 +15,8 @@ class Ball extends Actor {
 
 	private float xDirection;
     private float yDirection;
+    private float BallWidth;
+    private float BallHeight;
 
 
     boolean colliding = false;
