@@ -1,7 +1,10 @@
 package com.example.ultrabreakout;
 
 import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.view.MotionEvent;
+import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 public class UltraBreakout extends SurfaceView implements Runnable {
@@ -9,6 +12,15 @@ public class UltraBreakout extends SurfaceView implements Runnable {
     private int screenWidth;
     private int screenHeight;
 
+    // Keeps track of fps for physics and updating purposes.
+    private long fps;
+
+    // Used for drawing objects on screen.
+    private SurfaceHolder holder;
+    private Canvas canvas;
+    private Paint paint;
+
+    private Ball ball;
     private Input input;
 
     // Keeps track whether the main thread should be running or not.
@@ -27,6 +39,12 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
 
+        // Initialize for drawing objects on screen.
+        holder = getHolder();
+        paint = new Paint();
+
+        // Actors and functions related to the game.
+        //ball = new Ball();
         input = new Input(screenWidth, screenHeight);
 
         // Initialize paused game.
@@ -39,8 +57,24 @@ public class UltraBreakout extends SurfaceView implements Runnable {
     @Override
     public void run() {
         while(playing) {
-            // Testing purposes
-            System.out.println(Boolean.toString(input.isPressLeft()) + " " + Boolean.toString(input.isPressRight()));
+            long frameTimeStart = System.currentTimeMillis();
+
+            if (!paused) {
+                update();
+            }
+
+            draw();
+            ball.update(fps);
+        }
+    }
+
+    public void update() {
+
+    }
+
+    void draw() {
+        if (holder.getSurface().isValid()) {
+
         }
     }
 
@@ -56,9 +90,6 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         }
 
         return true;
-    }
-
-    void draw() {
     }
 
     public void pause() {

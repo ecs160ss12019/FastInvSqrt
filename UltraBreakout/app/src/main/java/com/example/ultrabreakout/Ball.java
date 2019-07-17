@@ -14,11 +14,9 @@ import android.graphics.RectF;
 //
 
 class Ball extends Actor {
-
-    boolean colliding;
     boolean is_live;
 
-//    Ball (){
-//        super(
-//    }
+    public Ball(RectF _hitbox, float x_vel, float y_vel, float width, float height) {
+        super(_hitbox, x_vel, y_vel, width, height);
+    }
 }
