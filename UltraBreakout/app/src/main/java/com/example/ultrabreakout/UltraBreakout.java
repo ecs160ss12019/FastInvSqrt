@@ -4,11 +4,14 @@ import android.content.Context;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 
+import static java.lang.Thread.sleep;
+
+
 public class UltraBreakout extends SurfaceView implements Runnable {
 
     private int screenWidth;
     private int screenHeight;
-
+    private Ball ball;
     private Input input;
 
     // Keeps track whether the main thread should be running or not.
@@ -21,9 +24,9 @@ public class UltraBreakout extends SurfaceView implements Runnable {
     // The main thread running the game.
     private Thread gameThread;
 
-    public UltraBreakout(Context context, int screenWidth, int screenHeight) {
+    public UltraBreakout(Context context, int screenWidth, int screenHeight,Ball ball) {
         super(context);
-
+        this.ball = ball;
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
 
@@ -32,8 +35,8 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         // Initialize paused game.
         paused = true;
         gameThread = null;
-
         System.out.println("INITIALIZING THE GAME");
+
     }
 
     @Override
@@ -41,6 +44,10 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         while(playing) {
             // Testing purposes
             System.out.println(Boolean.toString(input.isPressLeft()) + " " + Boolean.toString(input.isPressRight()));
+            for(int i = 0; i < 63; i++){
+                ball.setY(i*4);
+            }
+            break;
         }
     }
 
@@ -56,9 +63,6 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         }
 
         return true;
-    }
-
-    void draw() {
     }
 
     public void pause() {
