@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Point;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 
 /* Main activity for project, simply sets up app and sends it to UltraBreakout
@@ -26,6 +27,8 @@ public class UltraBreakoutActivity extends AppCompatActivity {
 
         ultraBreakout = new UltraBreakout(this, size.x, size.y);
         setContentView(ultraBreakout);
+        Log.d("Debugging", "In onCreate");
+
     }
 
     @Override

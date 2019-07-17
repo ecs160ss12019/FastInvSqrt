@@ -6,12 +6,4 @@
     android:layout_height="match_parent"
     tools:context=".UltraBreakout_TitleScreenActivity">
 
-    <Button
-        android:id="@+id/LevelsButton"
-        android:layout_width="wrap_content"
-        android:layout_height="15dp"
-        android:text="Levels"
-        tools:layout_editor_absoluteX="321dp"
-        tools:layout_editor_absoluteY="214dp" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
