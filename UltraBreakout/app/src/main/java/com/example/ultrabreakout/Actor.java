@@ -13,9 +13,6 @@ import android.graphics.RectF;
  */
 
 class Actor {
-    // The size and position of the object.
-    private int width;
-    private int height;
 
     class Velocity {
 
