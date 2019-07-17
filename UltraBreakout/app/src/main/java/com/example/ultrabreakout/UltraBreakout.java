@@ -2,7 +2,9 @@ package com.example.ultrabreakout;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.RectF;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -44,7 +46,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         paint = new Paint();
 
         // Actors and functions related to the game.
-        //ball = new Ball();
+        ball = new Ball(new RectF(10, 20, 20, 10), 0, 0, 0, 0);
         input = new Input(screenWidth, screenHeight);
 
         // Initialize paused game.
@@ -64,7 +66,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
             }
 
             draw();
-            ball.update(fps);
+            //ball.update(fps);
         }
     }
 
@@ -74,7 +76,15 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 
     void draw() {
         if (holder.getSurface().isValid()) {
+            // Lock the canvas, so we can start drawing.
+            canvas = holder.lockCanvas();
 
+            canvas.drawColor(Color.rgb(255, 255, 255));
+
+            paint.setColor(Color.rgb(255, 0, 0));
+            canvas.drawRect(ball.hitbox.left, ball.hitbox.top, ball.hitbox.right, ball.hitbox.bottom, paint);
+
+            holder.unlockCanvasAndPost(canvas);
         }
     }
 
