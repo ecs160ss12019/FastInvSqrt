@@ -71,11 +71,16 @@ class Actor {
         color = _color;
     }
 
+    Actor() {
+
+    }
+
     //Updates position of the Actor based on velocity.
-    void Update (float fps){
+    void update (float fps){
         hitbox.left += velocity.x / fps;
         hitbox.top += velocity.y / fps;
         hitbox.right = hitbox.left + width;
         hitbox.bottom = hitbox.top + height;
+
     }
 }
