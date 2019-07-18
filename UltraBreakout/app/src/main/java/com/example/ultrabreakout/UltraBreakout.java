@@ -9,6 +9,8 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import java.util.ArrayList;
+
 public class UltraBreakout extends SurfaceView implements Runnable {
 
     private int screenWidth;
@@ -25,7 +27,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
     private Paddle paddle;
     private Ball ball;
     private Input input;
-    private Brick[][] bricks;
+    private ArrayList<Brick> bricks;
     private Level level;
 
     // Keeps track whether the main thread should be running or not.
@@ -53,11 +55,11 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         // Initialize for drawing objects on screen.
         holder = getHolder();
         paint = new Paint();
-        bricks = new Brick[level.NUM_ROWS][level.NUM_COLUMNS];
+        bricks = new ArrayList<>();
 
         // Actors and functions related to the game.
-        paddle = new Paddle(500, 750);
-        ball = new Ball(50, 50, 200, 200);
+        paddle = new Paddle(500, 900);
+        ball = new Ball(screenWidth - 500, 800, 200, -200);
         input = new Input(screenWidth, screenHeight);
         generateBricks();
 
@@ -104,7 +106,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         if (ball.hitbox.right > screenWidth || ball.hitbox.left < 0){
             ball.velocity.x = -ball.velocity.x;
         }
-        if (ball.hitbox.top > screenHeight || (ball.hitbox.bottom + ball.height) < 0){
+        if (ball.hitbox.top > screenHeight || ball.hitbox.top < 0){
             ball.velocity.y = -ball.velocity.y;
         }
         //checks if paddle hits the ball, and reflects it by the y axis if it does
@@ -114,7 +116,6 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         ball.update(fps);
         paddle.update(fps);
 
-
         // TODO: Update all actors
         // TODO: Check to see collisions between actors
     }
@@ -122,21 +123,19 @@ public class UltraBreakout extends SurfaceView implements Runnable {
     public void generateBricks(){
         for (int i = 0; i < level.NUM_ROWS; i++){
             for (int j = 0; j < level.NUM_COLUMNS; j++){
-                if (level.csv_file_data.get(i).get(j).equals( "1")) {
-                    bricks[i][j] = new Brick(j, i);
+                if (level.csv_file_data.get(i).get(j).equals("1")) {
+                    bricks.add(new Brick(Brick.BRICK_WIDTH * j, Brick.BRICK_HEIGHT * i));
+                    Brick brick = bricks.get(bricks.size() - 1);
+                    System.out.println("BRICK " + brick.hitbox.left + " " + brick.hitbox.top + " " + brick.hitbox.right + " " + brick.hitbox.bottom);
                 }
             }
         }
     }
 
-    public void drawBricks(){
-        for (int i = 0; i < level.NUM_ROWS; i++){
-            for (int j = 0; j < level.NUM_COLUMNS; j++){
-                if (level.csv_file_data.get(i).get(j).equals( "1")) {
-                    paint.setColor(bricks[i][j].color);
-                    canvas.drawRect(bricks[i][j].hitbox.left, bricks[i][j].hitbox.top, bricks[i][j].hitbox.right, bricks[i][j].hitbox.bottom, paint);
-                }
-            }
+    public void drawBricks() {
+        for (Brick b : bricks) {
+            paint.setColor(b.color);
+            canvas.drawRect(b.hitbox.left, b.hitbox.top, b.hitbox.right, b.hitbox.bottom, paint);
         }
     }
 
@@ -147,13 +146,13 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 
             canvas.drawColor(Color.rgb(255, 255, 255));
 
+            drawBricks();
+
             paint.setColor(ball.color);
             canvas.drawRect(ball.hitbox.left, ball.hitbox.top, ball.hitbox.right, ball.hitbox.bottom, paint);
 
             paint.setColor(paddle.color);
             canvas.drawRect(paddle.hitbox.left, paddle.hitbox.top, paddle.hitbox.right, paddle.hitbox.bottom, paint);
-
-            drawBricks();
 
             holder.unlockCanvasAndPost(canvas);
         }
