@@ -22,6 +22,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
     private Canvas canvas;
     private Paint paint;
 
+    private Paddle paddle;
     private Ball ball;
     private Input input;
 
@@ -48,6 +49,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         paint = new Paint();
 
         // Actors and functions related to the game.
+        paddle = new Paddle(500, 500);
         ball = new Ball(50, 50, 50, 50);
         input = new Input(screenWidth, screenHeight);
 
@@ -81,7 +83,17 @@ public class UltraBreakout extends SurfaceView implements Runnable {
     }
 
     public void update() {
+        if (input.isPressLeft()) {
+            paddle.velocity.setVelocity(-100, 0);
+        } else if (input.isPressRight()) {
+            paddle.velocity.setVelocity(100, 0);
+        } else {
+            paddle.velocity.setVelocity(0, 0);
+        }
+
         ball.update(fps);
+        paddle.update(fps);
+
 
         // TODO: Update all actors
         // TODO: Check to see collisions between actors
@@ -94,8 +106,11 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 
             canvas.drawColor(Color.rgb(255, 255, 255));
 
-            paint.setColor(Color.rgb(255, 0, 0));
+            paint.setColor(ball.color);
             canvas.drawRect(ball.hitbox.left, ball.hitbox.top, ball.hitbox.right, ball.hitbox.bottom, paint);
+
+            paint.setColor(paddle.color);
+            canvas.drawRect(paddle.hitbox.left, paddle.hitbox.top, paddle.hitbox.right, paddle.hitbox.bottom, paint);
 
             holder.unlockCanvasAndPost(canvas);
         }
