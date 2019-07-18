@@ -20,9 +20,11 @@ import java.util.List;
 
 
 public class LevelSelectPopUpScreen extends Activity {
-
-    String[] level_file_names;     //array storing the names of all files in the level folder
+    //array storing the names of all files in the level folder
+    String[] level_file_names;
+    //array storing resource id's of previous button so we can layout the next button right below it
     List<Integer> r_ids = new ArrayList<Integer>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +78,7 @@ public class LevelSelectPopUpScreen extends Activity {
     private void setUpLevelSelectButtons(){
         //for (int i = 0; i < level_file_names.length; i++){
         //temporarily set as 2 until over lapping button position bug is fixed.
-        for (int i = 0; i < 2; i++){    //currently there is an overllaping bug when generating greater than 2 buttons
+        for (int i = 0; i < 2; i++){    //currently there is a bug when generating greater than 2 buttons
             configureButton(i);
         }
     }
