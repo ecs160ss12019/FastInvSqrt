@@ -90,6 +90,12 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         } else {
             paddle.velocity.setVelocity(0, 0);
         }
+        if (ball.hitbox.right > screenWidth || ball.hitbox.left < 0){
+            ball.velocity.x = -ball.velocity.x;
+        }
+        if (ball.hitbox.top > screenHeight || ball.hitbox.bottom < 0){
+            ball.velocity.y = -ball.velocity.y;
+        }
 
         ball.update(fps);
         paddle.update(fps);
