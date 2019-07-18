@@ -2,8 +2,10 @@ package com.example.ultrabreakout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 
 /* Main activity for project, simply sets up app and sends it to UltraBreakout
@@ -13,6 +15,7 @@ public class UltraBreakoutActivity extends AppCompatActivity {
 
     // Class that contains all the main logic for the game.
     private UltraBreakout ultraBreakout;
+    private Level level;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,9 +26,18 @@ public class UltraBreakoutActivity extends AppCompatActivity {
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-
         ultraBreakout = new UltraBreakout(this, size.x, size.y);
         setContentView(ultraBreakout);
+
+        //read in level file
+        String level_file = null;
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        if(bundle != null){
+            level_file = bundle.getString("csv_file");
+        }
+        level = new Level(level_file, this);
+        Log.d("Debugging", level.csv_file_data.get(0).get(0));
     }
 
     @Override
