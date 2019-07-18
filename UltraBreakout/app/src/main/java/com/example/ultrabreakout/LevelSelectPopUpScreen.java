@@ -1,28 +1,24 @@
 package com.example.ultrabreakout;
 
+import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
-import android.media.tv.TvView;
+
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+
 
 public class LevelSelectPopUpScreen extends Activity {
 
-    //array storing all csv file names of our stage levels
-    List<String> Levels = new ArrayList<String>();
-
-
-
+    String[] level_file_names;     //array storing the names of all files in the level folder
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,38 +38,33 @@ public class LevelSelectPopUpScreen extends Activity {
     }
 
     //Set up the Level selection
-    //Currently Only 1 button, button is responsible for starting a UltraBreakout Activity
+    //Currently Only 1 button
+    //TODO: dynamically generate buttons based on number of csv files.
     private void configureButton(final int level){
-        Button Levels_button = (Button) findViewById(R.id.Level1);
-        Levels_button.setOnClickListener(new View.OnClickListener() {
+        String buttonID = "button" + level;
+        int resourceID = getResources().getIdentifier(buttonID, "id", getPackageName());
+        Button button = (Button) findViewById(resourceID);
+        if (button == null){
+            Log.d("Debugging: ","can't find button");
+        }
+        button.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View view) {
+            public void onClick(View view){
                 Intent i = new Intent(LevelSelectPopUpScreen.this, UltraBreakoutActivity.class);
-                i.putExtra("csv_file",Levels.get(level));
+                i.putExtra("csv_file",level_file_names[level]); //Sends level file name to activity
                 startActivity(i);
             }
         });
+
     }
 
     //reads in all file names from assets/levels into our Levels array
     private void get_all_Levels(){
         AssetManager assetMgr = getResources().getAssets();
         try {
-            final String[] level_file_names = assetMgr.list("levels/");
-            Log.d("Debugging", "In get_all_Levels");
+            level_file_names = assetMgr.list("levels/");
         } catch (IOException e ){
-          e.printStackTrace();
+            e.printStackTrace();
         }
-
-
-        /*File folder = new File("/assets/levels/");
-        File[] listOfFiles = folder.listFiles();
-        for (File file : listOfFiles) {
-            if (file.isFile()) {
-                String file_name = file.getName();
-                System.out.println(file_name);
-                Levels.add(file_name);
-            }
-        }*/
     }
 }
