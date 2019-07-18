@@ -1,7 +1,7 @@
 package com.example.ultrabreakout;
 
 import android.graphics.RectF;
-import android.graphics.Canvas;
+import androidx.annotation.ColorInt;
 
 /*
  * Superclass for all in-game objects.
@@ -52,51 +52,23 @@ class Actor {
 
     }
 
-    //Contains the RGB+A coloring for the object
-    class Color {
-        int red;
-        int green;
-        int blue;
-        int alpha;
-
-        Color (int r_color_channel, int g_color_channel,
-               int b_color_channel, int a_color_channel){
-            red = r_color_channel;
-            green = g_color_channel;
-            blue = b_color_channel;
-            alpha = a_color_channel;
-        }
-    }
-
     RectF hitbox;
     Velocity velocity;
-    Color color;
+    @ColorInt int color;
 
+    //Should be constant width/height
     float width;
     float height;
 
-    //TODO: Graphics
 
     Actor (float x_pos, float y_pos, float x_vel, float y_vel,
            float _width, float _height,
-           int r_color_channel, int g_color_channel,
-           int b_color_channel, int a_color_channel){
+           @ColorInt int _color){
         width = _width;
         height = _height;
         hitbox = new RectF(x_pos,y_pos + height,x_pos + width,y_pos);
         velocity = new Velocity(x_vel, y_vel);
-        color = new Color(r_color_channel, g_color_channel, b_color_channel, a_color_channel);
-    }
-
-    Actor (){
-        hitbox = new RectF(0,0,0,0);
-        velocity = new Velocity (0,0);
-        color = new Color(0,0,0,0);
-    }
-
-    //Draws the actor on the canvas based on position and color
-    void Draw (Canvas canvas){
-
+        color = _color;
     }
 
     //Updates position of the Actor based on velocity.

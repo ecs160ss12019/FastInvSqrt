@@ -1,6 +1,7 @@
 package com.example.ultrabreakout;
 
 import android.graphics.RectF;
+import android.graphics.Color;
 
 /**
  * Handles the ball(s).
@@ -14,11 +15,13 @@ import android.graphics.RectF;
 //
 
 class Ball extends Actor {
+    private static final int BALL_HEIGHT = 40;
+    private static final int BALL_WIDTH = 40;
     boolean is_live;
 
     public Ball(float x_pos, float y_pos, float x_vel, float y_vel) {
         //FIXME: Come up with a standardized ball size
-        super(x_pos, y_pos, x_vel,y_vel, 40,40,
-                255, 255, 0, 0);
+        super(x_pos, y_pos, x_vel, y_vel, BALL_WIDTH, BALL_HEIGHT,
+                Color.CYAN);
     }
 }
