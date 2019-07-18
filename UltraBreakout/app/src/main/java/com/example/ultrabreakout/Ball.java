@@ -16,7 +16,11 @@ import android.graphics.RectF;
 class Ball extends Actor {
     boolean is_live;
 
-    public Ball(RectF _hitbox, float x_vel, float y_vel, float width, float height) {
-        super(_hitbox, x_vel, y_vel, width, height);
+    public Ball(RectF _hitbox, float x_vel, float y_vel,
+                int r_color_channel, int g_color_channel,
+                int b_color_channel, int a_color_channel) {
+        //FIXME: Come up with a standardized brick size in RectF constructor
+        super(_hitbox, x_vel, y_vel,
+                255, 255, 0, 0);
     }
 }
