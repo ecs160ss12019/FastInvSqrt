@@ -1,9 +1,6 @@
 package com.example.ultrabreakout;
 
-import android.content.Context;
-import android.widget.ImageView;
-
-import androidx.core.content.ContextCompat;
+import android.graphics.RectF;
 
 /**
  * Handles the ball(s).
@@ -17,15 +14,9 @@ import androidx.core.content.ContextCompat;
 //
 
 class Ball extends Actor {
-    private ImageView ball;
-    Ball (Context context, ImageView ball){
-        this.ball = ball;
-        //ball.setX(100);// how i move it
-    }
-    void setY(float val){
-        this.ball.setY(val);
-    }
-    void setX(float val){
-        this.ball.setX(val);
+    boolean is_live;
+
+    public Ball(RectF _hitbox, float x_vel, float y_vel, float width, float height) {
+        super(_hitbox, x_vel, y_vel, width, height);
     }
 }

@@ -13,9 +13,6 @@ import android.graphics.RectF;
  */
 
 class Actor {
-    // The size and position of the object.
-    private int width;
-    private int height;
 
     class Velocity {
 
@@ -99,10 +96,10 @@ class Actor {
     }
 
     //Updates position of the Actor based on velocity.
-    void Update (float fps){
-        hitbox.left += velocity.x / fps;
-        hitbox.top += velocity.y / fps;
-        hitbox.right = hitbox.left + size.width;
-        hitbox.bottom = hitbox.top + size.height;
+    void update (float fps){
+        this.hitbox.left += velocity.x / fps;
+        this.hitbox.top += velocity.y / fps;
+        this.hitbox.right = hitbox.left + size.width;
+        this.hitbox.bottom = hitbox.top + size.height;
     }
 }
