@@ -95,7 +95,7 @@ class Actor {
     }
 
     //Draws the actor on the canvas based on position and color
-    void Draw (){
+    void Draw (Canvas canvas){
 
     }
 
