@@ -75,6 +75,7 @@ public class LevelSelectPopUpScreen extends Activity {
     //For each file in the levels directory, builds a button that starts an UltraBreakoutActivity that sends the file name to the created activity
     private void setUpLevelSelectButtons(){
         //for (int i = 0; i < level_file_names.length; i++){
+        //temporarily set as 2 until over lapping button position bug is fixed.
         for (int i = 0; i < 2; i++){    //currently there is an overllaping bug when generating greater than 2 buttons
             configureButton(i);
         }
