@@ -72,12 +72,18 @@ class Actor {
     Velocity velocity;
     Color color;
 
+    float width;
+    float height;
+
     //TODO: Graphics
 
-    Actor (RectF _hitbox, float x_vel, float y_vel,
+    Actor (float x_pos, float y_pos, float x_vel, float y_vel,
+           float _width, float _height,
            int r_color_channel, int g_color_channel,
            int b_color_channel, int a_color_channel){
-        hitbox = new RectF(_hitbox);
+        width = _width;
+        height = height;
+        hitbox = new RectF(x_pos,y_pos + height,x_pos + width,y_pos);
         velocity = new Velocity(x_vel, y_vel);
         color = new Color(r_color_channel, g_color_channel, b_color_channel, a_color_channel);
     }
@@ -88,15 +94,13 @@ class Actor {
         color = new Color(0,0,0,0);
     }
 
+    //Draws the actor on the canvas based on position and color
     void Draw (){
 
     }
 
     //Updates position of the Actor based on velocity.
     void Update (float fps){
-        float width = Math.abs(hitbox.right - hitbox.left);
-        float height = Math.abs(hitbox.top - hitbox.bottom);
-
         hitbox.left += velocity.x / fps;
         hitbox.top += velocity.y / fps;
         hitbox.right = hitbox.left + width;
