@@ -47,7 +47,7 @@ class Actor {
         }
 
         void reverseY(){
-            x = -x;
+            y = -y;
         }
 
     }

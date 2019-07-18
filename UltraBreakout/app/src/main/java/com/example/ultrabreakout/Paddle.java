@@ -8,11 +8,11 @@ package com.example.ultrabreakout;
 import android.graphics.Color;
 
 class Paddle extends Actor {
+    private static final int PADDLE_WIDTH = 160;
+    private static final int PADDLE_HEIGHT = 40;
 
-
-    public Paddle(float x_pos, float y_pos, float x_vel, float y_vel) {
-        //FIXME: Come up with a standardized ball size
-        super(x_pos, y_pos, x_vel,y_vel, 40,40,
-                Color.GREEN);
+    public Paddle(float x_pos, float y_pos) {
+        super(x_pos, y_pos, 0, 0, PADDLE_WIDTH, PADDLE_HEIGHT,
+                Color.RED);
     }
 }

@@ -5,10 +5,17 @@ package com.example.ultrabreakout;
  * Each has its own HP.
  *
  * TODO
- * Decide how to assign the bricks unique properties,
- * such as exploding or powerup dropping.
+ * Decide how to put x_pos and y_pos in csv file for Level
  */
 
+import android.graphics.Color;
+
 class Brick extends Actor {
-    int hp;
+    private static final int BRICK_WIDTH = 80;
+    private static final int BRICK_HEIGHT = 40;
+
+    public Brick(float x_pos, float y_pos) {
+        super(x_pos, y_pos, 0, 0, BRICK_WIDTH, BRICK_HEIGHT,
+                Color.GREEN);
+    }
 }
