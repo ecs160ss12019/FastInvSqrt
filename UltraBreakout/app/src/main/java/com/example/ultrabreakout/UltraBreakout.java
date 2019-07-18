@@ -57,14 +57,14 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 
         // Actors and functions related to the game.
         paddle = new Paddle(500, 750);
-        ball = new Ball(50, 50, 100, 100);
+        ball = new Ball(50, 50, 200, 200);
         input = new Input(screenWidth, screenHeight);
         generateBricks();
 
         fps = 0;
 
         // Initialize paused game.
-        paused = true;
+        paused = false;
         gameThread = null;
 
         frameTimeNow = frameTimePrev = System.currentTimeMillis();
@@ -76,12 +76,15 @@ public class UltraBreakout extends SurfaceView implements Runnable {
     public void run() {
         while(playing) {
             if (!paused) {
+
+                // Calculate the frame rate for physics purposes.
                 frameTimeNow = System.currentTimeMillis();
                 fps = 1000 / ((float)(frameTimeNow - frameTimePrev));
 
                 if (fps > 0) {
                     update();
                 }
+
                 draw();
                 frameTimePrev = frameTimeNow;
             }
@@ -89,10 +92,11 @@ public class UltraBreakout extends SurfaceView implements Runnable {
     }
 
     public void update() {
+        // First update the paddle velocity based on user input.
         if (input.isPressLeft() && (paddle.hitbox.left > 0)) {
-            paddle.velocity.setVelocity(-100, 0);
+            paddle.velocity.setVelocity(-Paddle.PADDLE_SPEED, 0);
         } else if (input.isPressRight() && (paddle.hitbox.right < screenWidth)) {
-            paddle.velocity.setVelocity(100, 0);
+            paddle.velocity.setVelocity(Paddle.PADDLE_SPEED, 0);
         } else {
             paddle.velocity.setVelocity(0, 0);
         }
@@ -180,7 +184,6 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 
     public void resume() {
         playing = true;
-        paused = false;
         gameThread = new Thread(this);
         gameThread.start();
     }

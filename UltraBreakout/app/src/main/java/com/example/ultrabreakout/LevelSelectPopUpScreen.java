@@ -18,7 +18,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-//
+/*
+ * Activity for the level select screen.
+ * Able to select a level from a preconfigured number, and it sends
+ * the choice to the UltraBreakoutActivity.
+ */
 
 public class LevelSelectPopUpScreen extends Activity {
     //array storing the names of all files in the level folder
@@ -54,6 +58,7 @@ public class LevelSelectPopUpScreen extends Activity {
         button.setId(id);
         r_ids.add(id);
         Log.d("debugging", Integer.toString(button.getId()) );
+
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         if (level == 0) {
             params.addRule(RelativeLayout.ALIGN_PARENT_TOP);

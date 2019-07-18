@@ -81,6 +81,5 @@ class Actor {
         hitbox.top += velocity.y / fps;
         hitbox.right = hitbox.left + width;
         hitbox.bottom = hitbox.top + height;
-
     }
 }

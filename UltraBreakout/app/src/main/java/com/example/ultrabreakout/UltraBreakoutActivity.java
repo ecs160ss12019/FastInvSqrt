@@ -22,12 +22,11 @@ public class UltraBreakoutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         // Get display of size, then pass of app to UltraBreakout class.
-
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
 
-        //read in level file
+        // Read in level file
         String level_file = null;
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
@@ -36,24 +35,19 @@ public class UltraBreakoutActivity extends AppCompatActivity {
         }
         level = new Level(level_file, this);
 
-
-
         ultraBreakout = new UltraBreakout(this, size.x, size.y, level);
         setContentView(ultraBreakout);
-
     }
 
     @Override
     public void onResume() {
         super.onResume();
-
         ultraBreakout.resume();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-
         ultraBreakout.pause();
     }
 }

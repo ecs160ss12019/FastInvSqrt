@@ -3,7 +3,7 @@ package com.example.ultrabreakout;
 import android.graphics.RectF;
 import android.graphics.Color;
 
-/**
+/*
  * Handles the ball(s).
  * When the game updates, check if the ball has collided
  * (intersected) with anything after bouncing off the paddle.
@@ -15,8 +15,9 @@ import android.graphics.Color;
 //
 
 class Ball extends Actor {
-    private static final int BALL_HEIGHT = 40;
-    private static final int BALL_WIDTH = 40;
+    public static final int BALL_HEIGHT = 40;
+    public static final int BALL_WIDTH = 40;
+
     boolean is_live;
 
     public Ball(float x_pos, float y_pos, float x_vel, float y_vel) {
