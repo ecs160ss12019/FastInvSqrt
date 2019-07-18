@@ -26,7 +26,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
     private Paddle paddle;
     private Ball ball;
     private Input input;
-    private Brick[][] bricks;
+    private Brick[][] bricks = new Brick[Level.NUM_COLUMNS][Level.NUM_ROWS];
     private Level level;
 
     // Keeps track whether the main thread should be running or not.
@@ -58,7 +58,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 
         // Actors and functions related to the game.
         paddle = new Paddle(500, 750);
-        ball = new Ball(50, 50, 100, 100);
+        ball = new Ball(1000, 1000, 100, 100);
         input = new Input(screenWidth, screenHeight);
         generateBricks();
 
@@ -78,7 +78,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         while(playing) {
             if (!paused) {
                 frameTimeNow = System.currentTimeMillis();
-                fps = 1000 / ((float)(frameTimeNow - frameTimePrev));
+                fps = 180 / ((float)(frameTimeNow - frameTimePrev));
 
                 if (fps > 0) {
                     update();
@@ -142,11 +142,11 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         for (int i = 0; i < level.NUM_ROWS; i++){
             for (int j = 0; j < level.NUM_COLUMNS; j++){
                 if (bricks[i][j] != null){
+                    bricks[i][j].update(fps);
                     if (RectF.intersects(bricks[i][j].hitbox,ball.hitbox)){//never returns true
                         Log.d("DEBUGGING", "Intersecting");
                         ball.velocity.y = -ball.velocity.y;
                         bricks[i][j] = null;
-                        bricks[i][j].update(fps);
                     }
                 }
             }
