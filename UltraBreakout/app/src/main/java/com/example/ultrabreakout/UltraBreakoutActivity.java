@@ -37,6 +37,7 @@ public class UltraBreakoutActivity extends AppCompatActivity {
             level_file = bundle.getString("csv_file");
         }
         level = new Level(level_file, this);
+        Log.d("Debugging", level.csv_file_data.get(0).get(0));
     }
 
     @Override

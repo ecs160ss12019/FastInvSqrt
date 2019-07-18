@@ -10,22 +10,26 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class LevelSelectPopUpScreen extends Activity {
 
     String[] level_file_names;     //array storing the names of all files in the level folder
+    List<Integer> r_ids = new ArrayList<Integer>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         set_pop_up_screen_size();
         get_all_Levels();
-        configureButton(0);
+        setUpLevelSelectButtons();
     }
 
     private void set_pop_up_screen_size(){
@@ -41,12 +45,20 @@ public class LevelSelectPopUpScreen extends Activity {
     //Currently Only 1 button
     //TODO: dynamically generate buttons based on number of csv files.
     private void configureButton(final int level){
-        String buttonID = "button" + level;
-        int resourceID = getResources().getIdentifier(buttonID, "id", getPackageName());
-        Button button = (Button) findViewById(resourceID);
-        if (button == null){
-            Log.d("Debugging: ","can't find button");
+        RelativeLayout rl = (RelativeLayout)findViewById(R.id.popup_window);
+        Button button = new Button(this);
+        int id = View.generateViewId();
+        button.setId(id);
+        r_ids.add(id);
+        Log.d("debugging", Integer.toString(button.getId()) );
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        if (level == 0) {
+            params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+        } else {
+            params.addRule(RelativeLayout.BELOW, r_ids.get(level-1));//r_ids.get(level - 1));
         }
+        button.setLayoutParams(params);
+
         button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
@@ -55,7 +67,17 @@ public class LevelSelectPopUpScreen extends Activity {
                 startActivity(i);
             }
         });
+        button.setText("button"+level);
+        rl.addView(button);
 
+    }
+
+    //For each file in the levels directory, builds a button that starts an UltraBreakoutActivity that sends the file name to the created activity
+    private void setUpLevelSelectButtons(){
+        //for (int i = 0; i < level_file_names.length; i++){
+        for (int i = 0; i < 2; i++){    //currently there is an overllaping bug when generating greater than 2 buttons
+            configureButton(i);
+        }
     }
 
     //reads in all file names from assets/levels into our Levels array
