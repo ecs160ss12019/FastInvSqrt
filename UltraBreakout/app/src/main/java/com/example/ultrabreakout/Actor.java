@@ -52,32 +52,6 @@ class Actor {
 
     }
 
-    class Size {
-
-        float width;
-        float height;
-
-        Size (){
-            width = 0;
-            height = 0;
-        }
-
-        Size (float x, float y){
-            width = x;
-            height = y;
-        }
-
-        void changeSize (float x, float y){
-            width = x;
-            height = y;
-        }
-
-        void Rotate(){
-            width = -width;
-            height = -height;
-        }
-    }
-
     //Contains the RGB+A coloring for the object
     class Color {
         int red;
@@ -92,29 +66,26 @@ class Actor {
             blue = b_color_channel;
             alpha = a_color_channel;
         }
-
     }
 
     RectF hitbox;
     Velocity velocity;
-    Size size;
     Color color;
 
     //TODO: Graphics
 
-    Actor (RectF _hitbox, float x_vel, float y_vel, float width,
-           float height, int r_color_channel, int g_color_channel,
+    Actor (RectF _hitbox, float x_vel, float y_vel,
+           int r_color_channel, int g_color_channel,
            int b_color_channel, int a_color_channel){
         hitbox = new RectF(_hitbox);
         velocity = new Velocity(x_vel, y_vel);
-        size = new Size(width, height);
         color = new Color(r_color_channel, g_color_channel, b_color_channel, a_color_channel);
     }
 
     Actor (){
         hitbox = new RectF(0,0,0,0);
         velocity = new Velocity (0,0);
-        size = new Size (0,0);
+        color = new Color(0,0,0,0);
     }
 
     void Draw (){
@@ -123,9 +94,12 @@ class Actor {
 
     //Updates position of the Actor based on velocity.
     void Update (float fps){
+        float width = Math.abs(hitbox.right - hitbox.left);
+        float height = Math.abs(hitbox.top - hitbox.bottom);
+
         hitbox.left += velocity.x / fps;
         hitbox.top += velocity.y / fps;
-        hitbox.right = hitbox.left + size.width;
-        hitbox.bottom = hitbox.top + size.height;
+        hitbox.right = hitbox.left + width;
+        hitbox.bottom = hitbox.top + height;
     }
 }
