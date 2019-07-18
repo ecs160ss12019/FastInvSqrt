@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -107,6 +108,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         if (RectF.intersects(paddle.hitbox,ball.hitbox)){
             ball.velocity.y = -ball.velocity.y;
         }
+        checkBrickIntersection();
         ball.update(fps);
         paddle.update(fps);
 
@@ -128,9 +130,23 @@ public class UltraBreakout extends SurfaceView implements Runnable {
     public void drawBricks(){
         for (int i = 0; i < level.NUM_ROWS; i++){
             for (int j = 0; j < level.NUM_COLUMNS; j++){
-                if (level.csv_file_data.get(i).get(j).equals( "1")) {
+                if (bricks[i][j] != null) {
                     paint.setColor(bricks[i][j].color);
                     canvas.drawRect(bricks[i][j].hitbox.left, bricks[i][j].hitbox.top, bricks[i][j].hitbox.right, bricks[i][j].hitbox.bottom, paint);
+                }
+            }
+        }
+    }
+
+    public void checkBrickIntersection(){
+        for (int i = 0; i < level.NUM_ROWS; i++){
+            for (int j = 0; j < level.NUM_COLUMNS; j++){
+                if (bricks[i][j] != null){
+                    if (RectF.intersects(bricks[i][j].hitbox,ball.hitbox)){//never returns true
+                        Log.d("DEBUGGING", "Intersecting");
+                        ball.velocity.y = -ball.velocity.y;
+                        bricks[i][j] = null;
+                    }
                 }
             }
         }
