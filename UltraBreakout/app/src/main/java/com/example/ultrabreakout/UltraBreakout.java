@@ -49,7 +49,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         paint = new Paint();
 
         // Actors and functions related to the game.
-        paddle = new Paddle(500, 500);
+        paddle = new Paddle(500, 750);
         ball = new Ball(50, 50, 100, 100);
         input = new Input(screenWidth, screenHeight);
 
@@ -74,8 +74,6 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                 if (fps > 0) {
                     update();
                 }
-
-
                 draw();
                 frameTimePrev = frameTimeNow;
             }
@@ -83,9 +81,9 @@ public class UltraBreakout extends SurfaceView implements Runnable {
     }
 
     public void update() {
-        if (input.isPressLeft()) {
+        if (input.isPressLeft() && (paddle.hitbox.left > 0)) {
             paddle.velocity.setVelocity(-100, 0);
-        } else if (input.isPressRight()) {
+        } else if (input.isPressRight() && (paddle.hitbox.right < screenWidth)) {
             paddle.velocity.setVelocity(100, 0);
         } else {
             paddle.velocity.setVelocity(0, 0);
