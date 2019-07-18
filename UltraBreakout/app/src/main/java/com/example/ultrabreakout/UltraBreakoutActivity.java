@@ -26,8 +26,6 @@ public class UltraBreakoutActivity extends AppCompatActivity {
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        ultraBreakout = new UltraBreakout(this, size.x, size.y);
-        setContentView(ultraBreakout);
 
         //read in level file
         String level_file = null;
@@ -37,7 +35,12 @@ public class UltraBreakoutActivity extends AppCompatActivity {
             level_file = bundle.getString("csv_file");
         }
         level = new Level(level_file, this);
-        Log.d("Debugging", level.csv_file_data.get(0).get(0));
+
+
+
+        ultraBreakout = new UltraBreakout(this, size.x, size.y, level);
+        setContentView(ultraBreakout);
+
     }
 
     @Override

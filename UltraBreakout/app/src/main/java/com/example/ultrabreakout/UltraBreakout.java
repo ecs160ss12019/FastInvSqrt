@@ -25,6 +25,8 @@ public class UltraBreakout extends SurfaceView implements Runnable {
     private Paddle paddle;
     private Ball ball;
     private Input input;
+    private Brick[][] bricks;
+    private Level level;
 
     // Keeps track whether the main thread should be running or not.
     // Volatile so that it is thread-safe.
@@ -38,20 +40,26 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 
     long frameTimeNow, frameTimePrev;
 
-    public UltraBreakout(Context context, int screenWidth, int screenHeight) {
+    public UltraBreakout(Context context, int screenWidth, int screenHeight, Level level) {
         super(context);
 
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
+        this.level = level;
+
+        Brick.BRICK_WIDTH = screenWidth/Level.NUM_COLUMNS;
+        Brick.BRICK_HEIGHT = screenHeight/Level.NUM_ROWS;
 
         // Initialize for drawing objects on screen.
         holder = getHolder();
         paint = new Paint();
+        bricks = new Brick[level.NUM_ROWS][level.NUM_COLUMNS];
 
         // Actors and functions related to the game.
         paddle = new Paddle(500, 750);
         ball = new Ball(50, 50, 100, 100);
         input = new Input(screenWidth, screenHeight);
+        generateBricks();
 
         fps = 0;
 
@@ -107,6 +115,27 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         // TODO: Check to see collisions between actors
     }
 
+    public void generateBricks(){
+        for (int i = 0; i < level.NUM_ROWS; i++){
+            for (int j = 0; j < level.NUM_COLUMNS; j++){
+                if (level.csv_file_data.get(i).get(j).equals( "1")) {
+                    bricks[i][j] = new Brick(j, i);
+                }
+            }
+        }
+    }
+
+    public void drawBricks(){
+        for (int i = 0; i < level.NUM_ROWS; i++){
+            for (int j = 0; j < level.NUM_COLUMNS; j++){
+                if (level.csv_file_data.get(i).get(j).equals( "1")) {
+                    paint.setColor(bricks[i][j].color);
+                    canvas.drawRect(bricks[i][j].hitbox.left, bricks[i][j].hitbox.top, bricks[i][j].hitbox.right, bricks[i][j].hitbox.bottom, paint);
+                }
+            }
+        }
+    }
+
     void draw() {
         if (holder.getSurface().isValid()) {
             // Lock the canvas, so we can start drawing.
@@ -119,6 +148,8 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 
             paint.setColor(paddle.color);
             canvas.drawRect(paddle.hitbox.left, paddle.hitbox.top, paddle.hitbox.right, paddle.hitbox.bottom, paint);
+
+            drawBricks();
 
             holder.unlockCanvasAndPost(canvas);
         }

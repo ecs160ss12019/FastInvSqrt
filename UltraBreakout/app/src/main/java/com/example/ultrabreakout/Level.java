@@ -26,8 +26,8 @@ import java.util.List;
 import java.util.Scanner;
 
 class Level {
-    private static final int NUM_ROWS = 16;
-    private static final int NUM_COLUMNS = 16;
+    public static  int NUM_ROWS = 16;
+    public static  int NUM_COLUMNS = 16;
     int[][] game_level = new int[NUM_ROWS][NUM_COLUMNS];
     List<List<String>> csv_file_data = new ArrayList<List<String>>();
 
