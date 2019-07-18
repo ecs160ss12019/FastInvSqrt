@@ -1,6 +1,7 @@
 package com.example.ultrabreakout;
 
 import android.graphics.RectF;
+import android.graphics.Canvas;
 
 /*
  * Superclass for all in-game objects.
@@ -75,18 +76,39 @@ class Actor {
             width = -width;
             height = -height;
         }
+    }
+
+    //Contains the RGB+A coloring for the object
+    class Color {
+        int red;
+        int green;
+        int blue;
+        int alpha;
+
+        Color (int r_color_channel, int g_color_channel,
+               int b_color_channel, int a_color_channel){
+            red = r_color_channel;
+            green = g_color_channel;
+            blue = b_color_channel;
+            alpha = a_color_channel;
+        }
 
     }
 
     RectF hitbox;
     Velocity velocity;
     Size size;
+    Color color;
+
     //TODO: Graphics
 
-    Actor (RectF _hitbox, float x_vel, float y_vel, float width, float height){
+    Actor (RectF _hitbox, float x_vel, float y_vel, float width,
+           float height, int r_color_channel, int g_color_channel,
+           int b_color_channel, int a_color_channel){
         hitbox = new RectF(_hitbox);
         velocity = new Velocity(x_vel, y_vel);
         size = new Size(width, height);
+        color = new Color(r_color_channel, g_color_channel, b_color_channel, a_color_channel);
     }
 
     Actor (){
@@ -95,8 +117,12 @@ class Actor {
         size = new Size (0,0);
     }
 
+    void Draw (){
+
+    }
+
     //Updates position of the Actor based on velocity.
-    void update (float fps){
+    void Update (float fps){
         hitbox.left += velocity.x / fps;
         hitbox.top += velocity.y / fps;
         hitbox.right = hitbox.left + size.width;
