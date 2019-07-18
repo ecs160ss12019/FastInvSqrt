@@ -50,7 +50,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 
         // Actors and functions related to the game.
         paddle = new Paddle(500, 500);
-        ball = new Ball(50, 50, 50, 50);
+        ball = new Ball(50, 50, 100, 100);
         input = new Input(screenWidth, screenHeight);
 
         fps = 0;
@@ -90,13 +90,17 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         } else {
             paddle.velocity.setVelocity(0, 0);
         }
+        //checks the bounds of the ball, and bounces back when it is about to go out of bounds
         if (ball.hitbox.right > screenWidth || ball.hitbox.left < 0){
             ball.velocity.x = -ball.velocity.x;
         }
-        if (ball.hitbox.top > screenHeight || ball.hitbox.bottom < 0){
+        if (ball.hitbox.top > screenHeight || (ball.hitbox.bottom + ball.height) < 0){
             ball.velocity.y = -ball.velocity.y;
         }
-
+        //checks if paddle hits the ball, and reflects it by the y axis if it does
+        if (RectF.intersects(paddle.hitbox,ball.hitbox)){
+            ball.velocity.y = -ball.velocity.y;
+        }
         ball.update(fps);
         paddle.update(fps);
 
