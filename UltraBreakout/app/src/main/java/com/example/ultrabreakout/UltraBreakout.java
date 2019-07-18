@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -59,7 +60,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 
         // Actors and functions related to the game.
         paddle = new Paddle(500, 900);
-        ball = new Ball(screenWidth - 500, 800, 200, -200);
+        ball = new Ball(screenWidth - 500, 800, 300, -300);
         input = new Input(screenWidth, screenHeight);
         generateBricks();
 
@@ -78,7 +79,6 @@ public class UltraBreakout extends SurfaceView implements Runnable {
     public void run() {
         while(playing) {
             if (!paused) {
-
                 // Calculate the frame rate for physics purposes.
                 frameTimeNow = System.currentTimeMillis();
                 fps = 1000 / ((float)(frameTimeNow - frameTimePrev));
@@ -113,6 +113,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         if (RectF.intersects(paddle.hitbox,ball.hitbox)){
             ball.velocity.y = -ball.velocity.y;
         }
+
         ball.update(fps);
         paddle.update(fps);
 

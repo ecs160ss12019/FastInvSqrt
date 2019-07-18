@@ -14,8 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".UltraBreakoutActivity" android:screenOrientation="landscape"></activity>
+        <activity android:name=".UltraBreakoutActivity" android:screenOrientation="landscape"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        </activity>
         <activity android:name=".UltraBreakout_TitleScreenActivity" android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
