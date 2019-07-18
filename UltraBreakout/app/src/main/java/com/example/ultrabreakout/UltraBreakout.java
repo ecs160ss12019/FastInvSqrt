@@ -116,6 +116,12 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         ball.update(fps);
         paddle.update(fps);
 
+        for (int i = bricks.size() - 1; i >= 0; i--) {
+            if (RectF.intersects(bricks.get(i).hitbox, ball.hitbox)) {
+                bricks.remove(bricks.get(i));
+            }
+        }
+
         // TODO: Update all actors
         // TODO: Check to see collisions between actors
     }
