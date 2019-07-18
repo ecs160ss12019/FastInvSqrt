@@ -146,6 +146,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                         Log.d("DEBUGGING", "Intersecting");
                         ball.velocity.y = -ball.velocity.y;
                         bricks[i][j] = null;
+                        bricks[i][j].update(fps);
                     }
                 }
             }
