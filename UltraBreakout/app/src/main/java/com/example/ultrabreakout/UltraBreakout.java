@@ -132,8 +132,6 @@ public class UltraBreakout extends SurfaceView implements Runnable {
             for (int j = 0; j < level.NUM_COLUMNS; j++){
                 if (level.csv_file_data.get(i).get(j).equals("1")) {
                     bricks.add(new Brick(Brick.BRICK_WIDTH * j, Brick.BRICK_HEIGHT * i));
-                    Brick brick = bricks.get(bricks.size() - 1);
-                    System.out.println("BRICK " + brick.hitbox.left + " " + brick.hitbox.top + " " + brick.hitbox.right + " " + brick.hitbox.bottom);
                 }
             }
         }
