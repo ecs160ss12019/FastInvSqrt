@@ -82,7 +82,7 @@ class Actor {
            int r_color_channel, int g_color_channel,
            int b_color_channel, int a_color_channel){
         width = _width;
-        height = height;
+        height = _height;
         hitbox = new RectF(x_pos,y_pos + height,x_pos + width,y_pos);
         velocity = new Velocity(x_vel, y_vel);
         color = new Color(r_color_channel, g_color_channel, b_color_channel, a_color_channel);
