@@ -62,7 +62,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 
         // Actors and functions related to the game.
         paddle = new Paddle(500, 900);
-        ball = new Ball(screenWidth - 500, 800, 300, -300);
+        ball = new Ball(screenWidth - 500, 800, 450, -450);
         input = new Input(screenWidth, screenHeight);
         generateBricks();
 
@@ -105,11 +105,12 @@ public class UltraBreakout extends SurfaceView implements Runnable {
             paddle.velocity.setVelocity(0, 0);
         }
         //checks the bounds of the ball, and bounces back when it is about to go out of bounds
-        if (ball.hitbox.right > screenWidth || ball.hitbox.left < 0){
-            //FIXME: Ball can get stuck in infinite loop on left side
+        if ((ball.hitbox.right > screenWidth && ball.velocity.x > 0)
+                || (ball.hitbox.left < 0 && ball.velocity.x < 0)){
             ball.velocity.reverseX();
         }
-        if (ball.hitbox.top > screenHeight || ball.hitbox.top < 0){
+        if ((ball.hitbox.top > screenHeight && ball.velocity.y > 0)
+                || (ball.hitbox.top < 0 && ball.velocity.y < 0)){
             ball.velocity.reverseY();
         }
         //checks if paddle hits the ball, and reflects it by the y axis if it does
@@ -126,6 +127,10 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                 //There's only vertical and horizontal hits; we always
                     //reverse y if we hit either top or bottom regardless
                 //Take the min because we won't intersect more than halfway
+                /*FIXME: Ball can hit middle of two bricks and reverseX twice
+                 * when ascending, need to make check for if ball is "colliding"
+                 * with side of brick it's moving away from
+                 */
                 float vertical_dist = Math.min (
                         Math.abs(bricks.get(i).hitbox.bottom - ball.hitbox.top),
                         Math.abs(bricks.get(i).hitbox.top - ball.hitbox.bottom)
@@ -162,7 +167,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
     public void drawBricks() {
         for (Brick b : bricks) {
             paint.setColor(b.color);
-            canvas.drawRect(b.hitbox.left, b.hitbox.top, b.hitbox.right, b.hitbox.bottom, paint);
+            canvas.drawRect(b.hitbox, paint);
         }
     }
 
@@ -176,10 +181,10 @@ public class UltraBreakout extends SurfaceView implements Runnable {
             drawBricks();
 
             paint.setColor(ball.color);
-            canvas.drawRect(ball.hitbox.left, ball.hitbox.top, ball.hitbox.right, ball.hitbox.bottom, paint);
+            canvas.drawRect(ball.hitbox, paint);
 
             paint.setColor(paddle.color);
-            canvas.drawRect(paddle.hitbox.left, paddle.hitbox.top, paddle.hitbox.right, paddle.hitbox.bottom, paint);
+            canvas.drawRect(paddle.hitbox, paint);
 
             holder.unlockCanvasAndPost(canvas);
         }
