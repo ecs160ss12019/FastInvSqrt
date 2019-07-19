@@ -12,6 +12,8 @@ import android.view.SurfaceView;
 
 import java.util.ArrayList;
 
+import static java.lang.Math.abs;
+
 public class UltraBreakout extends SurfaceView implements Runnable {
 
     private int screenWidth;
@@ -104,14 +106,15 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         }
         //checks the bounds of the ball, and bounces back when it is about to go out of bounds
         if (ball.hitbox.right > screenWidth || ball.hitbox.left < 0){
-            ball.velocity.x = -ball.velocity.x;
+            //FIXME: Ball can get stuck in infinite loop on left side
+            ball.velocity.reverseX();
         }
         if (ball.hitbox.top > screenHeight || ball.hitbox.top < 0){
-            ball.velocity.y = -ball.velocity.y;
+            ball.velocity.reverseY();
         }
         //checks if paddle hits the ball, and reflects it by the y axis if it does
         if (RectF.intersects(paddle.hitbox,ball.hitbox)){
-            ball.velocity.y = -ball.velocity.y;
+            ball.velocity.reverseY();
         }
 
         ball.update(fps);
@@ -119,7 +122,26 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 
         for (int i = bricks.size() - 1; i >= 0; i--) {
             if (RectF.intersects(bricks.get(i).hitbox, ball.hitbox)) {
+                //Calculate which side of the brick the ball hit more
+                //There's only vertical and horizontal hits; we always
+                    //reverse y if we hit either top or bottom regardless
+                //Take the min because we won't intersect more than halfway
+                float vertical_dist = Math.min (
+                        Math.abs(bricks.get(i).hitbox.bottom - ball.hitbox.top),
+                        Math.abs(bricks.get(i).hitbox.top - ball.hitbox.bottom)
+                        );
+                float horizontal_dist = Math.min (
+                        Math.abs(bricks.get(i).hitbox.left - ball.hitbox.right),
+                        Math.abs(bricks.get(i).hitbox.right - ball.hitbox.left)
+                        );
+                if (vertical_dist >= horizontal_dist){
+                    ball.velocity.reverseX();
+                }
+                else{
+                    ball.velocity.reverseY();
+                }
                 bricks.remove(bricks.get(i));
+                break;
             }
         }
 
