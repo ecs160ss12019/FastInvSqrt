@@ -1,0 +1,616 @@
+commit c78574a57de26b1a8669468431dd9fe24617e04e
+Author: JamesHuang11 <42248879+JamesHuang11@users.noreply.github.com>
+Date:   Thu Jul 18 19:12:40 2019 -0700
+
+    Delete Acceptance_Criteria.pdf
+
+commit fea02e06db909aff3346e06f972f40ec2293132a
+Author: JamesHuang11 <42248879+JamesHuang11@users.noreply.github.com>
+Date:   Thu Jul 18 19:12:27 2019 -0700
+
+    Delete README.pdf
+
+commit 37fb461aef4374ad337839e9703c269e1868baa5
+Author: JamesHuang11 <42248879+JamesHuang11@users.noreply.github.com>
+Date:   Thu Jul 18 19:12:11 2019 -0700
+
+    Delete StoryMapping.pdf
+
+commit 46a7a723251a909922a01814993fbd1145ed0e16
+Author: JamesHuang11 <42248879+JamesHuang11@users.noreply.github.com>
+Date:   Thu Jul 18 19:12:01 2019 -0700
+
+    Delete CRC_Cards.pdf
+
+commit f220b11d52db00d2d1526b88d9e7032e8bdb760b
+Author: JamesHuang11 <42248879+JamesHuang11@users.noreply.github.com>
+Date:   Thu Jul 18 19:06:19 2019 -0700
+
+    Update StoryMapping
+
+commit c6c3666a5147974fa7476d6372212cdda0542578
+Author: JamesHuang11 <42248879+JamesHuang11@users.noreply.github.com>
+Date:   Thu Jul 18 19:05:14 2019 -0700
+
+    Update StoryMapping.md
+
+commit 7a02d9b4f430adf40f46207909b0f863c6c37e80
+Author: Nicola Mussi <npmussi@gmail.com>
+Date:   Thu Jul 18 19:00:40 2019 -0700
+
+    Update README.md
+
+commit 89b523373887d9f716e62a1a6d6395e7bf921e1d
+Author: Nicola Mussi <npmussi@gmail.com>
+Date:   Thu Jul 18 18:56:44 2019 -0700
+
+    Fixed trapping bug with deflecting off sides of screen
+
+commit 1716d3658a297f14a5104c9bb0f75ea7c379020a
+Author: Nicola Mussi <npmussi@gmail.com>
+Date:   Thu Jul 18 18:15:22 2019 -0700
+
+    Added proper deflection off bricks
+
+commit ee095c269116d40cd08cb8f8f4af0ef6ae3637fb
+Author: JamesHuang11 <42248879+JamesHuang11@users.noreply.github.com>
+Date:   Thu Jul 18 18:13:20 2019 -0700
+
+    Updating CRC_Cards
+
+commit 6951feff88117885bb1654672337f4b7f330171d
+Author: unknown <James.Huang.R@gmail.com>
+Date:   Thu Jul 18 17:37:17 2019 -0700
+
+    combined Title class with UltraBreakout_TitleScreenActivity class
+
+commit 83a62898610b1a815302caf533410e8e9fc2e352
+Author: Kamal Sadek <kjsadek@ucdavis.edu>
+Date:   Thu Jul 18 16:22:55 2019 -0700
+
+    Remove debugging statements
+
+commit f551f35527ff7a894e8d70ff112bacb69e682f86
+Merge: b0e3a56 1305e67
+Author: Kamal Sadek <kjsadek@ucdavis.edu>
+Date:   Thu Jul 18 16:20:57 2019 -0700
+
+    Merge branch 'master' of github.com:ecs160ss12019/FastInvSqrt
+
+commit b0e3a56e964c16349d4faf8ecdc797907162d6d0
+Author: Kamal Sadek <kjsadek@ucdavis.edu>
+Date:   Thu Jul 18 16:17:06 2019 -0700
+
+    Add rudimentary collision, bricks disappear
+    
+    Bricks simply disappear when hit.
+
+commit 19fdb991011a01dd0921a7d7d05294dacb189b8d
+Author: Kamal Sadek <kjsadek@ucdavis.edu>
+Date:   Thu Jul 18 16:14:01 2019 -0700
+
+    Update UltraBreakout handling of bricks
+    
+    Instead of having a 2d array of bricks, where the position of the brick
+    within the array is the position, we instead have an ArrayList of
+    bricks, where their position and other attributes are stored within the
+    object.
+
+commit 1305e677a7e23b3caf09c83db45f839b7203a3a0
+Author: unknown <James.Huang.R@gmail.com>
+Date:   Thu Jul 18 15:51:06 2019 -0700
+
+    ball collision
+
+commit 12c664fddbe04ab437fd809b81ff6c63ce19a6df
+Author: Kamal Sadek <kjsadek@ucdavis.edu>
+Date:   Thu Jul 18 15:49:36 2019 -0700
+
+    Fix formatting, clean up code, add documentation
+    
+    Changed a lot of the predefined values to be constants and moved them to
+    their respective classes (ex PADDLE_SPEED), and changed magic values to
+    be these constants.
+
+commit 845546dd20ebc6b7850c0e606b4c4204baa38a6d
+Author: unknown <James.Huang.R@gmail.com>
+Date:   Thu Jul 18 14:34:25 2019 -0700
+
+    try again
+
+commit 86232645fcfbb9da61402b0d41b99bb724f63e8a
+Author: unknown <James.Huang.R@gmail.com>
+Date:   Thu Jul 18 13:47:57 2019 -0700
+
+    trouble with collision detection
+
+commit 33a7376cb5553e9423a2f9f2b84316380ee01684
+Author: unknown <James.Huang.R@gmail.com>
+Date:   Thu Jul 18 13:16:32 2019 -0700
+
+    brick generation onto game based on csv file
+
+commit 72df4d255cffe7c813a3e25687e507b044787463
+Merge: 1fe0e5c 2168b69
+Author: unknown <James.Huang.R@gmail.com>
+Date:   Thu Jul 18 12:01:24 2019 -0700
+
+    merge
+
+commit 2168b69f1af6e02d737fe70af7f4fbc2365a6618
+Author: unknown <James.Huang.R@gmail.com>
+Date:   Thu Jul 18 11:54:49 2019 -0700
+
+    comments
+
+commit 5f0af18ee79db0acc2bf07fadd345bc9d84f1683
+Author: unknown <James.Huang.R@gmail.com>
+Date:   Thu Jul 18 11:51:41 2019 -0700
+
+    dynamic button creation currently only works when there are twoor less level.csv files
+
+commit 1fe0e5ca300713afbf54e6aaacc9590ac73b8ebe
+Author: zkleung <raylenliang@gmail.com>
+Date:   Thu Jul 18 09:44:43 2019 -0700
+
+    paddle cant move out of bounds
+
+commit 6cf73e1e8a69b76dbb9c08d78a0bb0f7c03f54f4
+Author: zkleung <raylenliang@gmail.com>
+Date:   Thu Jul 18 09:39:22 2019 -0700
+
+    ball bounces off paddle
+
+commit d933c97abd630acbc6d319aa345b44533e665c61
+Author: zkleung <raylenliang@gmail.com>
+Date:   Thu Jul 18 09:23:17 2019 -0700
+
+    ball bounces on sides of screen, removed title bar
+
+commit b1d282de35417a1a5006fb1ab5be25db633c208c
+Author: unknown <James.Huang.R@gmail.com>
+Date:   Thu Jul 18 01:50:23 2019 -0700
+
+    can dynamically generate buttons based off number of files in level directory, but bug in button positions overllaping when there are more than two level files
+
+commit 364467978f636b86a7063297cf01eb4865191c9f
+Author: unknown <James.Huang.R@gmail.com>
+Date:   Wed Jul 17 20:46:48 2019 -0700
+
+    Reading data from a level.csv file to UltraBreakout Activity
+
+commit d2463c436c4a19ed9eaa0deb251148529f2e6b91
+Merge: d8a19c5 114fe47
+Author: Nicola Mussi <npmussi@gmail.com>
+Date:   Wed Jul 17 19:22:49 2019 -0700
+
+    Merge branch 'master' of https://github.com/ecs160ss12019/FastInvSqrt
+
+commit d8a19c5481e60f1e126a7f1ef578c0e236e5f687
+Author: Nicola Mussi <npmussi@gmail.com>
+Date:   Wed Jul 17 19:22:20 2019 -0700
+
+    Added constructors for all objects
+
+commit 114fe47c0392e78be815ed48037b0b6ac6d8ce70
+Author: Mohamed Sayed <mosayed@ucdavis.edu>
+Date:   Wed Jul 17 19:05:29 2019 -0700
+
+    Paddle Movement, placement of paddle and moving left to right
+    
+    put functionality that basically allows the paddle to appear and move left to right when clicked.
+
+commit d06499a4a871a3b2f7eafcc826ae857406f64854
+Merge: 65a57cc 882cea8
+Author: Mohamed Sayed <mosayed@ucdavis.edu>
+Date:   Wed Jul 17 18:56:05 2019 -0700
+
+    Merge branch 'master' of https://github.com/ecs160ss12019/FastInvSqrt
+
+commit 65a57cc946cb28490286e0686a44010daf18a89a
+Author: Mohamed Sayed <mosayed@ucdavis.edu>
+Date:   Wed Jul 17 18:55:23 2019 -0700
+
+    created paddle
+
+commit 882cea8c5b188ecdda7f0913ef3073f3ca2eab2e
+Author: Nicola Mussi <npmussi@gmail.com>
+Date:   Wed Jul 17 18:54:25 2019 -0700
+
+    Added constructors for Brick and Paddle
+
+commit 9bf58f63e2a51e8ffb5180a0ffc2c0b488f268e1
+Merge: 6c79565 22e8ecd
+Author: Mohamed Sayed <mosayed@ucdavis.edu>
+Date:   Wed Jul 17 18:54:08 2019 -0700
+
+    Merge branch 'raylen' of https://github.com/ecs160ss12019/FastInvSqrt
+
+commit 38bf8ba978cd498ca982c16f8fbb782e78b9a946
+Author: Nicola Mussi <npmussi@gmail.com>
+Date:   Wed Jul 17 18:48:39 2019 -0700
+
+    Using Color class, fixed reverseY error
+
+commit 6c795654154fb027dcd167553fdd248bd624de62
+Merge: 166e385 2a1f55b
+Author: Nicola Mussi <npmussi@gmail.com>
+Date:   Wed Jul 17 18:45:50 2019 -0700
+
+    Merge branch 'master' of https://github.com/ecs160ss12019/FastInvSqrt
+
+commit 166e385b8193120a2100934905d285b5a947bfce
+Author: Nicola Mussi <npmussi@gmail.com>
+Date:   Wed Jul 17 18:45:35 2019 -0700
+
+    Using Android's Color class instead of homebrewed one
+
+commit 22e8ecd9062f34f116372a63edd48330c376c3e1
+Author: zkleung <raylenliang@gmail.com>
+Date:   Wed Jul 17 18:37:23 2019 -0700
+
+    ball moving
+
+commit 2a1f55b3e43b15401ebbbf549b62981417126d07
+Merge: f5aa9fa 277845e
+Author: Mohamed Sayed <mosayed@ucdavis.edu>
+Date:   Wed Jul 17 18:15:51 2019 -0700
+
+    Merge branch 'master' of https://github.com/ecs160ss12019/FastInvSqrt
+
+commit f5aa9fa0c136df905dc9d776f9d55787719b2538
+Author: Mohamed Sayed <mosayed@ucdavis.edu>
+Date:   Wed Jul 17 18:15:32 2019 -0700
+
+    fixed variable
+    
+    in a actor class
+
+commit 277845eaf63dad184c378d7832140af31c9366d3
+Author: Nicola Mussi <npmussi@gmail.com>
+Date:   Wed Jul 17 18:14:19 2019 -0700
+
+    Finalized Actor constructor, example in Ball.java
+
+commit 38a6a3841028fd6ab74aff2bd50873e5fe5a1b97
+Author: Nicola Mussi <npmussi@gmail.com>
+Date:   Wed Jul 17 18:13:40 2019 -0700
+
+    Finalized Actor constructor, example in Ball.java
+
+commit 7f7057676b861400c5567998765b59badb9d6b9e
+Author: Nicola Mussi <npmussi@gmail.com>
+Date:   Wed Jul 17 18:12:03 2019 -0700
+
+    Finalized Actor constructor, example in Ball.java
+
+commit e6d69ce67d3ed594d3943e11d97e174a3efc4aea
+Author: Nicola Mussi <npmussi@gmail.com>
+Date:   Wed Jul 17 17:54:02 2019 -0700
+
+    Made Ball constructor, should be example for other children
+
+commit fc47ae0eb647fd5fce34f2bc3dfbeeb8f25c4a50
+Author: Nicola Mussi <npmussi@gmail.com>
+Date:   Wed Jul 17 17:47:39 2019 -0700
+
+    Added a color field to Actors, need to hardcode colors for child classes
+
+commit f3f8836831ccfa889407de1c9a1cdf9f7033564a
+Author: Nicola Mussi <npmussi@gmail.com>
+Date:   Wed Jul 17 17:33:08 2019 -0700
+
+    Added a color field to Actors, need to hardcode colors for child classes
+
+commit 19ad81b7bab4c3dc01435a289ce4f1d05d2a6016
+Author: Kamal Sadek <kjsadek@ucdavis.edu>
+Date:   Wed Jul 17 16:59:44 2019 -0700
+
+    Finish simple drawing of ball to screen
+    
+    The ball does not move, and it currently draws a square instead of a
+    circle on the position of the ball.
+
+commit e22e6dd884de8ce4890d246322edfcc877922e2c
+Author: Kamal Sadek <kjsadek@ucdavis.edu>
+Date:   Wed Jul 17 16:52:08 2019 -0700
+
+    Set up structure of drawing objects
+    
+    This includes initializing all of the necessary variables for drawing
+    objects on screen.
+
+commit 6156a062fb8db48aab05c557886c6ee239b4a959
+Author: Kamal Sadek <kjsadek@ucdavis.edu>
+Date:   Wed Jul 17 16:51:55 2019 -0700
+
+    Fix name of function
+
+commit 9c8b55b3f9a5edb169c7601198d4f6a2e4a26eac
+Author: zkleung <raylenliang@gmail.com>
+Date:   Wed Jul 17 16:45:43 2019 -0700
+
+    ball moving, but not rendering
+
+commit 6dbf3fd8a641983887d4cee2b03359a3148f80ee
+Author: Kamal Sadek <kjsadek@ucdavis.edu>
+Date:   Wed Jul 17 16:42:58 2019 -0700
+
+    Remove redundant variables
+    
+    Specifically remove those that are relevant to the width and height for
+    Actors, since we have a dedicated class for that now.
+
+commit 0e52a93af9369ff151b8ce6f4fefd2fd6dea5f8c
+Author: unknown <James.Huang.R@gmail.com>
+Date:   Wed Jul 17 16:28:38 2019 -0700
+
+    Update Level
+
+commit d625a74e8d395892eb7a6aa7c9a005b535e69a68
+Author: unknown <James.Huang.R@gmail.com>
+Date:   Tue Jul 16 21:19:16 2019 -0700
+
+    Basic Title Screen with Level Select option
+
+commit aded1ae7e94151b2abf60261c0b559b58b1fa917
+Author: Nicola Mussi <npmussi@gmail.com>
+Date:   Sat Jul 13 14:10:55 2019 -0700
+
+    Added constructor for Actor
+
+commit a0047059782e2c9820d86a0a1a8a7d9b4ecf9b52
+Author: Nicola Mussi <npmussi@gmail.com>
+Date:   Sat Jul 13 14:10:37 2019 -0700
+
+    Added constructor for Actor
+
+commit f058ae2a141c81b350c4a4b967b332242b558c75
+Merge: fa73c40 c7230e5
+Author: Nicola Mussi <npmussi@gmail.com>
+Date:   Sat Jul 13 13:37:53 2019 -0700
+
+    Created basic Actor class for inheritance, need to add graphics
+
+commit fa73c4042a02d535f61199fd3131ae1e9d4de19a
+Author: Nicola Mussi <npmussi@gmail.com>
+Date:   Sat Jul 13 13:33:42 2019 -0700
+
+    Created basic Actor class for inheritance, need to add graphics
+
+commit c7230e562370a7880d20428ca7c788aeaf16d9a2
+Author: Kamal Sadek <kjsadek@ucdavis.edu>
+Date:   Fri Jul 12 22:48:22 2019 -0700
+
+    Add barbones Input implementation, framework app
+    
+    App currently just prints to console whether you're pressing left or
+    right.
+    
+    Also includes the framework for running the game. Implements the logic
+    for checking to see if the game is currently running and is in focus, as
+    well as properly handing off the main thread from UltraBreakoutActivity
+    to UltraBreakout.
+
+commit 78aafeb90f8dc126d1cbe4d15903bf5179d20aa2
+Author: Kamal Sadek <kjsadek@ucdavis.edu>
+Date:   Fri Jul 12 22:09:14 2019 -0700
+
+    Change format of some classes, add Input for later
+    
+    The Input class will deal with handling user input, specifically whether
+    the user has directed the paddle to go a certain direction. Abstracting
+    this to a class will make it easier later if we want to change the
+    method of input / add new methods.
+
+commit 41816e7ccb43e81f10ecae6624cde51006c2be55
+Author: Kamal Sadek <kjsadek@ucdavis.edu>
+Date:   Fri Jul 12 22:04:44 2019 -0700
+
+    Fix formatting, add to Actor class.
+    
+    Previously there was some slight incosistency with naming, with some
+    variables not following camelCase. This has been fixed.
+
+commit e2bb59fab8be7d8823ea8d0f5826157c5aff0a90
+Author: JamesHuang11 <42248879+JamesHuang11@users.noreply.github.com>
+Date:   Fri Jul 12 20:39:46 2019 -0700
+
+    Added class members in Stats
+
+commit a139c9c688512655a16b931a06fc68ff4ccf4348
+Author: Mohamed Sayed <mosayed@ucdavis.edu>
+Date:   Fri Jul 12 19:41:16 2019 -0700
+
+    initialized ball width/height
+
+commit f35eef5408395e724d52bc4ada211707eb471b40
+Author: Mohamed Sayed <mosayed@ucdavis.edu>
+Date:   Fri Jul 12 19:39:18 2019 -0700
+
+    intializing x,y coordinates for ball
+
+commit d4f806d10dc356927e4f9db91fbfb886cf7dbb4d
+Author: JamesHuang11 <42248879+JamesHuang11@users.noreply.github.com>
+Date:   Fri Jul 12 19:33:56 2019 -0700
+
+    Update Acceptance_Criteria.md
+
+commit 549b4fe9c4cdf87e9aab925eff7d17e817b00927
+Author: JamesHuang11 <42248879+JamesHuang11@users.noreply.github.com>
+Date:   Fri Jul 12 19:15:20 2019 -0700
+
+    Update README.md
+
+commit b7b9b65628eb3eca66290431ee2f4b8dfada5f9a
+Author: JamesHuang11 <42248879+JamesHuang11@users.noreply.github.com>
+Date:   Fri Jul 12 19:15:05 2019 -0700
+
+    Update README.md
+
+commit c133619c292edd971c227008bc951fa3b03467be
+Author: JamesHuang11 <42248879+JamesHuang11@users.noreply.github.com>
+Date:   Fri Jul 12 19:12:00 2019 -0700
+
+    Update Acceptance_Criteria.md
+
+commit 356a65ea7c716c8e6e4c146712789239194e4077
+Author: JamesHuang11 <42248879+JamesHuang11@users.noreply.github.com>
+Date:   Fri Jul 12 19:10:09 2019 -0700
+
+    Create Acceptance_Criteria.md
+
+commit 694d38a253aad723f1bf0ebdf13597a17338407c
+Author: JamesHuang11 <42248879+JamesHuang11@users.noreply.github.com>
+Date:   Fri Jul 12 19:04:49 2019 -0700
+
+    Create CRC_Cards.md
+
+commit 6586b6ec70bd0c0d655908a8b20b76f0cbcebe84
+Author: JamesHuang11 <42248879+JamesHuang11@users.noreply.github.com>
+Date:   Fri Jul 12 19:02:34 2019 -0700
+
+    Add files via upload
+
+commit 4ea6d5ebe6fdc4cc29c2a15173a49936b942f926
+Author: zkleung <raylenliang@gmail.com>
+Date:   Fri Jul 12 18:30:52 2019 -0700
+
+    added boolean value for collision for ball class
+
+commit 713e5a6d7fc9f2c151b8cb09ed0e9a25877d1820
+Author: Kamal Sadek <kjsadek@ucdavis.edu>
+Date:   Fri Jul 12 17:49:22 2019 -0700
+
+    Set up constructor in UltraBreakout, fix error
+    
+    Previously had an error relating to the constructor of UltraBreakout not
+    being compatible with SurfaceView, fixed it.
+
+commit bff195eae5ff3f41a30ad51a9fd18331b8071098
+Author: Kamal Sadek <kjsadek@ucdavis.edu>
+Date:   Fri Jul 12 17:37:07 2019 -0700
+
+    Set up structure for UltraBreakout class
+    
+    Changes it to match the Pong game. We have an UltraBreakoutActivity that
+    simply calls the UltraBreakout class, which does all of the heavy
+    lifting (logic, drawing, etc).
+
+commit 5547f7c9f469fd39d35dbff0333e54afb68bffa7
+Author: Nicola Mussi <npmussi@gmail.com>
+Date:   Fri Jul 12 15:15:19 2019 -0700
+
+    Set up most of the skeleton with todos in them
+
+commit eeaa6896e719d31c1417e5584d8652c27457de18
+Author: Nicola Mussi <npmussi@gmail.com>
+Date:   Fri Jul 12 15:08:43 2019 -0700
+
+    Set up most of the skeleton with todos
+
+commit 3c7c36983514bfcfb52c0fbcadf13a674658f830
+Author: Kamal Sadek <kjsadek@ucdavis.edu>
+Date:   Tue Jul 9 20:04:41 2019 -0700
+
+    Fix grammer and wording of README
+
+commit c0dc201ed705293fbcb8dad9b28e50941abde80f
+Author: Kamal Sadek <kjsadek@ucdavis.edu>
+Date:   Tue Jul 9 20:01:48 2019 -0700
+
+    Add Introduction for Kamal
+
+commit e515f32966bf4753831d20c6faa893b16151cdb2
+Author: MoSayed1 <44792139+MoSayed1@users.noreply.github.com>
+Date:   Tue Jul 9 19:29:08 2019 -0700
+
+    Updated Intro
+    
+    Testing to see if I can commit
+
+commit 16cab16e339f4b7d2b5e4ee965341ed31f075cac
+Author: JamesHuang11 <42248879+JamesHuang11@users.noreply.github.com>
+Date:   Tue Jul 9 18:31:34 2019 -0700
+
+    Added introduction for Mohamed
+
+commit b29c9dd35a6d099d4170a932dbd93e35a3534c62
+Author: James Huang <James.Huang.R@gmail.com>
+Date:   Tue Jul 9 18:01:48 2019 -0700
+
+    basic project setup
+
+commit 90399f6477804772e6c3e8574ebd6da2682c5966
+Author: JamesHuang11 <42248879+JamesHuang11@users.noreply.github.com>
+Date:   Tue Jul 9 17:24:45 2019 -0700
+
+    Included additional game mechanics
+
+commit 9762e77f18a7012f11a76c78d515b32cfb1addf9
+Author: JamesHuang11 <42248879+JamesHuang11@users.noreply.github.com>
+Date:   Tue Jul 9 13:45:09 2019 -0700
+
+    Added my Introduction
+
+commit 305f04c6216e18e8aad9566ec8a8522e22e469d5
+Author: zkleung <raylenliang@gmail.com>
+Date:   Tue Jul 9 13:43:25 2019 -0700
+
+    hi
+
+commit 9f9d0b51e47f004ca9fbc51f011ec9ebabf8feb7
+Author: JamesHuang11 <42248879+JamesHuang11@users.noreply.github.com>
+Date:   Tue Jul 9 13:08:32 2019 -0700
+
+    Update README.md
+
+commit 3042214dccf2462ec08414dd6b57943be7defadf
+Author: Nicola Mussi <npmussi@gmail.com>
+Date:   Mon Jul 8 22:36:10 2019 -0700
+
+    Update README.md
+
+commit 1116fbf12d7da3b50ae515e78cb189c23762bdf3
+Author: Nicola Mussi <npmussi@gmail.com>
+Date:   Mon Jul 8 22:35:28 2019 -0700
+
+    Update README.md
+
+commit 769f203f330061464007a53dc65aedda68d689c5
+Author: Nicola Mussi <npmussi@gmail.com>
+Date:   Mon Jul 8 22:35:15 2019 -0700
+
+    Update README.md
+
+commit fbf97e6bdb809fd0942dd1adb65010c32b86c3f6
+Author: Nicola Mussi <npmussi@gmail.com>
+Date:   Mon Jul 8 22:30:54 2019 -0700
+
+    Update README.md
+
+commit 3d82c42fc90d07ffa551e1224bbb872c112e9e77
+Author: Nicola Mussi <npmussi@gmail.com>
+Date:   Mon Jul 8 22:25:43 2019 -0700
+
+    Added Nicola, and some introduction to the project
+
+commit 4090ff5644b6fad47fb26cb72ad1a3db2c56764b
+Author: Nicola Mussi <npmussi@gmail.com>
+Date:   Mon Jul 8 21:53:01 2019 -0700
+
+    Don't forget to read it for the basics
+
+commit b9df153ab79200641ec6a1871feb5ad754c29721
+Author: Kamal Sadek <kjsadek@ucdavis.edu>
+Date:   Mon Jul 8 20:35:13 2019 -0700
+
+    Add initial story mapping
+    
+    This is based off the Google doc that was created
+
+commit ff034c712ca10522004b0584cecd6f6ff0ecbd77
+Author: ahnaqvi <ahnaqvi@ucdavis.edu>
+Date:   Mon Jul 8 01:11:34 2019 -0700
+
+    Initial commit

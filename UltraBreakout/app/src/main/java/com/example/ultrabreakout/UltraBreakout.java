@@ -32,6 +32,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
     private Input input;
     private ArrayList<Brick> bricks;
     private Level level;
+    private int lives;
 
     // Keeps track whether the main thread should be running or not.
     // Volatile so that it is thread-safe.
@@ -65,6 +66,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         ball = new Ball(screenWidth - 500, 800, 450, -450);
         input = new Input(screenWidth, screenHeight);
         generateBricks();
+        lives = 1;
 
         fps = 0;
 
@@ -92,9 +94,32 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                 draw();
                 frameTimePrev = frameTimeNow;
             }
+            if (lives < 0){
+                gameOver();
+            }
         }
     }
+    public void gameOver(){
+        System.out.println("GAME OVER");
 
+        //gameView.setImageBitmap(blankBitmap);
+
+            // Wipe the screen with a red color
+        canvas.drawColor(Color.argb(255, 255, 0, 0));
+
+            // Draw some huge white text
+        paint.setColor(Color.argb(255, 255, 255, 255));
+        paint.setTextSize(screenWidth/2);
+
+        canvas.drawText("BOOM!", screenWidth/2,
+                    screenHeight/2, paint);
+
+        // Draw some text to prompt restarting
+        paint.setTextSize(screenHeight/2);
+        canvas.drawText("Take a shot to start again",
+                    screenWidth/2,
+                    screenHeight/2, paint);
+    }
     public void update() {
         // First update the paddle velocity based on user input.
         if (input.isPressLeft() && (paddle.hitbox.left > 0)) {
@@ -109,12 +134,13 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                 || (ball.hitbox.left < 0 && ball.velocity.x < 0)){
             ball.velocity.reverseX();
         }
-        if ((ball.hitbox.top > screenHeight && ball.velocity.y > 0)
-                || (ball.hitbox.top < 0 && ball.velocity.y < 0)){
+        if ((ball.hitbox.top > screenHeight- 100 && ball.velocity.y > 0)
+                || (ball.hitbox.bottom < 40 && ball.velocity.y < 0)){
             ball.velocity.reverseY();
+            //lives -= 1;
         }
         //checks if paddle hits the ball, and reflects it by the y axis if it does
-        if (RectF.intersects(paddle.hitbox,ball.hitbox)){
+        if (RectF.intersects(paddle.hitbox,ball.hitbox) && ball.velocity.y > 0){
             ball.velocity.reverseY();
         }
 

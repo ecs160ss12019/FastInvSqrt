@@ -93,7 +93,7 @@ public class LevelSelectPopUpScreen extends Activity {
     private void get_all_Levels(){
         AssetManager assetMgr = getResources().getAssets();
         try {
-            level_file_names = assetMgr.list("levels/");
+            level_file_names = assetMgr.list("levels");
         } catch (IOException e ){
             e.printStackTrace();
         }
