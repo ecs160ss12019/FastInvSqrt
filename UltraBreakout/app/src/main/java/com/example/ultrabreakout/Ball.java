@@ -18,7 +18,6 @@ class Ball extends Actor {
     public static final int BALL_HEIGHT = 40;
     public static final int BALL_WIDTH = 40;
 
-    boolean is_live;
 
     public Ball(float x_pos, float y_pos, float x_vel, float y_vel) {
         //FIXME: Come up with a standardized ball size

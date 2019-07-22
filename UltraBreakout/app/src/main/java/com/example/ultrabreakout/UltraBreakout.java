@@ -62,8 +62,8 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         bricks = new ArrayList<>();
 
         // Actors and functions related to the game.
-        paddle = new Paddle(500, 900);
-        ball = new Ball(screenWidth - 500, 800, 450, -450);
+        ball = new Ball(screenWidth/2 - ball.BALL_WIDTH/2, 900, 0, 0);
+        paddle = new Paddle((screenWidth/2) - paddle.PADDLE_WIDTH/2, 950);
         input = new Input(screenWidth, screenHeight);
         generateBricks();
         lives = 1;
@@ -94,7 +94,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                 draw();
                 frameTimePrev = frameTimeNow;
             }
-            if (lives < 0){
+            if (lives <= 0){
                 gameOver();
             }
         }
@@ -102,27 +102,38 @@ public class UltraBreakout extends SurfaceView implements Runnable {
     public void gameOver(){
         System.out.println("GAME OVER");
 
-        //gameView.setImageBitmap(blankBitmap);
+//        //gameView.setImageBitmap(blankBitmap);
+//
+//            // Wipe the screen with a red color
+//        canvas.drawColor(Color.argb(255, 255, 0, 0));
+//
+//            // Draw some huge white text
+//        paint.setColor(Color.argb(255, 255, 255, 255));
+//        paint.setTextSize(screenWidth/2);
+//
+//        canvas.drawText("BOOM!", screenWidth/2,
+//                    screenHeight/2, paint);
+//
+//        // Draw some text to prompt restarting
+//        paint.setTextSize(screenHeight/2);
+//        canvas.drawText("Take a shot to start again",
+//                    screenWidth/2,
+//                    screenHeight/2, paint);
 
-            // Wipe the screen with a red color
-        canvas.drawColor(Color.argb(255, 255, 0, 0));
 
-            // Draw some huge white text
-        paint.setColor(Color.argb(255, 255, 255, 255));
-        paint.setTextSize(screenWidth/2);
+        ball = new Ball(screenWidth/2 - ball.BALL_WIDTH/2, 900, 0, 0);
+        paddle = new Paddle((screenWidth/2) - paddle.PADDLE_WIDTH/2, 950);
+        input = new Input(screenWidth, screenHeight);
+        generateBricks();
+        lives = 1;
 
-        canvas.drawText("BOOM!", screenWidth/2,
-                    screenHeight/2, paint);
-
-        // Draw some text to prompt restarting
-        paint.setTextSize(screenHeight/2);
-        canvas.drawText("Take a shot to start again",
-                    screenWidth/2,
-                    screenHeight/2, paint);
     }
     public void update() {
         // First update the paddle velocity based on user input.
-        if (input.isPressLeft() && (paddle.hitbox.left > 0)) {
+        if ((input.isPressLeft() || input.isPressRight()) && (ball.velocity.y == 0) && (ball.velocity.y == 0)){
+            ball.velocity.y = -450;
+            ball.velocity.x = 450;
+        } else if (input.isPressLeft() && (paddle.hitbox.left > 0)) {
             paddle.velocity.setVelocity(-Paddle.PADDLE_SPEED, 0);
         } else if (input.isPressRight() && (paddle.hitbox.right < screenWidth)) {
             paddle.velocity.setVelocity(Paddle.PADDLE_SPEED, 0);
@@ -134,10 +145,12 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                 || (ball.hitbox.left < 0 && ball.velocity.x < 0)){
             ball.velocity.reverseX();
         }
-        if ((ball.hitbox.top > screenHeight- 100 && ball.velocity.y > 0)
-                || (ball.hitbox.bottom < 40 && ball.velocity.y < 0)){
+        if ((ball.hitbox.top < 0 && ball.velocity.y < 0)){
             ball.velocity.reverseY();
-            //lives -= 1;
+        }
+        if (ball.hitbox.bottom > screenHeight && ball.velocity.y > 0){
+            lives -= 1;
+            ball = new Ball(screenWidth/2, 900, 0, 0);
         }
         //checks if paddle hits the ball, and reflects it by the y axis if it does
         if (RectF.intersects(paddle.hitbox,ball.hitbox) && ball.velocity.y > 0){
@@ -212,7 +225,14 @@ public class UltraBreakout extends SurfaceView implements Runnable {
             paint.setColor(paddle.color);
             canvas.drawRect(paddle.hitbox, paint);
 
+            paint.setTextSize(50);
+            canvas.drawText("Lives: " + lives,
+                    screenWidth/2 - 870,
+                    screenHeight/2 + 450, paint);
+
             holder.unlockCanvasAndPost(canvas);
+
+
         }
     }
 
