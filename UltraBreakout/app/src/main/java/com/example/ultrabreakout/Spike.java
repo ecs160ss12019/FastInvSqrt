@@ -17,9 +17,9 @@ class Spike extends Actor {
 
 
     public Spike(float x_pos, float y_pos, Context context) {
-        //FIXME: Come up with a standardized ball size
         super(x_pos, y_pos,0, 0, SPIKE_WIDTH, SPIKE_HEIGHT,
                 Color.BLACK);
+        //TODO: BITMAP IMAGE TOO SMALL, NEED TO SIZE UP TO MATCH HITBOX
         this.sprite = BitmapFactory.decodeResource(context.getResources(),R.drawable.spike);
     }
 }

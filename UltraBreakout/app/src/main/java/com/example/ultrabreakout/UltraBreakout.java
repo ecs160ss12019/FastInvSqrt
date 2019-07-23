@@ -194,7 +194,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         for (int i = 0; i < level.NUM_ROWS; i++){
             for (int j = 0; j < level.NUM_COLUMNS; j++){
                 if (level.csv_file_data.get(i).get(j).equals("1")) {
-                    bricks.add(new Brick(Brick.BRICK_WIDTH * j, Brick.BRICK_HEIGHT * i));
+                    bricks.add(new Brick(Brick.BRICK_WIDTH * j, Brick.BRICK_HEIGHT * i, context));
                 }
                 if (level.csv_file_data.get(i).get(j).equals("2")) {
                     spikes.add(new Spike(Spike.SPIKE_WIDTH * j, Spike.SPIKE_HEIGHT * i, context));
@@ -206,8 +206,8 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 
     public void drawBricks() {
         for (Brick b : bricks) {
-            paint.setColor(b.color);
-            canvas.drawRect(b.hitbox, paint);
+
+            canvas.drawBitmap(b.sprite, null, b.hitbox, null);
         }
     }
     public void drawSpikes() {
