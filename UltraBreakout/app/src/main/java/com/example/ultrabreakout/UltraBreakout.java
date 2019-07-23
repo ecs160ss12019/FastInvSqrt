@@ -1,6 +1,7 @@
 package com.example.ultrabreakout;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -63,7 +64,8 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         bricks = new ArrayList<>();
         spikes = new ArrayList<>();
         // Actors and functions related to the game.
-        ball = new Ball(screenWidth/2 - ball.BALL_WIDTH/2, 900, 0, 0);
+        ball = new Ball(screenWidth/2 - ball.BALL_WIDTH/2, 900, 0, 0, context);
+        ball.sprite = BitmapFactory.decodeResource(getResources(),R.drawable.ball);
         paddle = new Paddle((screenWidth/2) - paddle.PADDLE_WIDTH/2, 950);
         input = new Input(screenWidth, screenHeight);
         generateBricks();
@@ -103,33 +105,17 @@ public class UltraBreakout extends SurfaceView implements Runnable {
     }
     public void gameOver(){
         System.out.println("GAME OVER");
-
-//        //gameView.setImageBitmap(blankBitmap);
-//
-//            // Wipe the screen with a red color
-//        canvas.drawColor(Color.argb(255, 255, 0, 0));
-//
-//            // Draw some huge white text
-//        paint.setColor(Color.argb(255, 255, 255, 255));
-//        paint.setTextSize(screenWidth/2);
-//
-//        canvas.drawText("BOOM!", screenWidth/2,
-//                    screenHeight/2, paint);
-//
-//        // Draw some text to prompt restarting
-//        paint.setTextSize(screenHeight/2);
-//        canvas.drawText("Take a shot to start again",
-//                    screenWidth/2,
-//                    screenHeight/2, paint);
+        restart();
+    }
 
 
-        ball = new Ball(screenWidth/2 - ball.BALL_WIDTH/2, 900, 0, 0);
-        paddle = new Paddle((screenWidth/2) - paddle.PADDLE_WIDTH/2, 950);
+    public void restart(){
+        ball.reset((screenWidth/2) - ball.BALL_WIDTH/2);
+        paddle.reset((screenWidth/2) - paddle.PADDLE_WIDTH/2);
         input = new Input(screenWidth, screenHeight);
         generateBricks();
         //generateSpikes();
         lives = 1;
-
     }
     public void update() {
         // First update the paddle velocity based on user input.
@@ -153,7 +139,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         }
         if (ball.hitbox.bottom > screenHeight && ball.velocity.y > 0){
             lives -= 1;
-            ball = new Ball(screenWidth/2, 900, 0, 0);
+            ball.reset((screenWidth/2) - ball.BALL_WIDTH/2);
         }
         //checks if paddle hits the ball, and reflects it by the y axis if it does
         if (RectF.intersects(paddle.hitbox,ball.hitbox) && ball.velocity.y > 0){
@@ -194,22 +180,8 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 
         for (int i = spikes.size() - 1; i >= 0; i--) {
             if (RectF.intersects(spikes.get(i).hitbox, ball.hitbox)) {
-                float vertical_dist = Math.min (
-                        Math.abs(spikes.get(i).hitbox.bottom - ball.hitbox.top),
-                        Math.abs(spikes.get(i).hitbox.top - ball.hitbox.bottom)
-                );
-                float horizontal_dist = Math.min (
-                        Math.abs(spikes.get(i).hitbox.left - ball.hitbox.right),
-                        Math.abs(spikes.get(i).hitbox.right - ball.hitbox.left)
-                );
-                if (vertical_dist >= horizontal_dist){
-                    ball.velocity.reverseX();
-                }
-                else{
-                    ball.velocity.reverseY();
-                }
                 lives -= 1;
-                ball = new Ball(screenWidth/2, 900, 0, 0);
+                ball.reset((screenWidth/2) - paddle.PADDLE_WIDTH/2);
                 break;
             }
         }
@@ -255,8 +227,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
             drawBricks();
             drawSpikes();
 
-            paint.setColor(ball.color);
-            canvas.drawRect(ball.hitbox, paint);
+            canvas.drawBitmap(ball.sprite, null, ball.hitbox,null);
 
             paint.setColor(paddle.color);
             canvas.drawRect(paddle.hitbox, paint);

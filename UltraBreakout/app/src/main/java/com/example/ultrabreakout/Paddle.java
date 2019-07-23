@@ -16,4 +16,13 @@ class Paddle extends Actor {
         super(x_pos, y_pos, 0, 0, PADDLE_WIDTH, PADDLE_HEIGHT,
                 Color.RED);
     }
+    public void reset(float xpos){
+        this.hitbox.left = xpos;
+        this.hitbox.top = 950;
+        this.hitbox.right = xpos + width;
+        this.hitbox.bottom = height;
+
+        this.velocity.x = 0;
+        this.velocity.y = 0;
+    }
 }

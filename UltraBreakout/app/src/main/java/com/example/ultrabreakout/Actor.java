@@ -1,8 +1,9 @@
 package com.example.ultrabreakout;
 
+import android.graphics.BitmapFactory;
 import android.graphics.RectF;
 import androidx.annotation.ColorInt;
-
+import android.graphics.Bitmap;
 /*
  * Superclass for all in-game objects.
  * They all have position, velocity, and images.
@@ -19,11 +20,6 @@ class Actor {
 
         float x;
         float y;
-
-        Velocity (){
-            x = 0;
-            y = 0;
-        }
 
         Velocity (float _x, float _y){
             x = _x;
@@ -59,7 +55,7 @@ class Actor {
     //Should be constant width/height
     float width;
     float height;
-
+    Bitmap sprite;
 
     Actor (float x_pos, float y_pos, float x_vel, float y_vel,
            float _width, float _height,
@@ -69,11 +65,9 @@ class Actor {
         hitbox = new RectF(x_pos,y_pos,x_pos + width,y_pos + height);
         velocity = new Velocity(x_vel, y_vel);
         color = _color;
+        sprite = null;
     }
 
-    Actor() {
-
-    }
 
     //Updates position of the Actor based on velocity.
     void update (float fps){
