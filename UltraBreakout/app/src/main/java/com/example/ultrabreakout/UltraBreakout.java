@@ -31,6 +31,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
     private Ball ball;
     private Input input;
     private ArrayList<Brick> bricks;
+    private ArrayList<Spike> spikes;
     private Level level;
     private int lives;
 
@@ -60,12 +61,13 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         holder = getHolder();
         paint = new Paint();
         bricks = new ArrayList<>();
-
+        spikes = new ArrayList<>();
         // Actors and functions related to the game.
         ball = new Ball(screenWidth/2 - ball.BALL_WIDTH/2, 900, 0, 0);
         paddle = new Paddle((screenWidth/2) - paddle.PADDLE_WIDTH/2, 950);
         input = new Input(screenWidth, screenHeight);
         generateBricks();
+        //generateSpikes();
         lives = 1;
 
         fps = 0;
@@ -125,6 +127,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         paddle = new Paddle((screenWidth/2) - paddle.PADDLE_WIDTH/2, 950);
         input = new Input(screenWidth, screenHeight);
         generateBricks();
+        //generateSpikes();
         lives = 1;
 
     }
@@ -189,6 +192,28 @@ public class UltraBreakout extends SurfaceView implements Runnable {
             }
         }
 
+        for (int i = spikes.size() - 1; i >= 0; i--) {
+            if (RectF.intersects(spikes.get(i).hitbox, ball.hitbox)) {
+                float vertical_dist = Math.min (
+                        Math.abs(spikes.get(i).hitbox.bottom - ball.hitbox.top),
+                        Math.abs(spikes.get(i).hitbox.top - ball.hitbox.bottom)
+                );
+                float horizontal_dist = Math.min (
+                        Math.abs(spikes.get(i).hitbox.left - ball.hitbox.right),
+                        Math.abs(spikes.get(i).hitbox.right - ball.hitbox.left)
+                );
+                if (vertical_dist >= horizontal_dist){
+                    ball.velocity.reverseX();
+                }
+                else{
+                    ball.velocity.reverseY();
+                }
+                lives -= 1;
+                ball = new Ball(screenWidth/2, 900, 0, 0);
+                break;
+            }
+        }
+
         // TODO: Update all actors
         // TODO: Check to see collisions between actors
     }
@@ -199,14 +224,24 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                 if (level.csv_file_data.get(i).get(j).equals("1")) {
                     bricks.add(new Brick(Brick.BRICK_WIDTH * j, Brick.BRICK_HEIGHT * i));
                 }
+                if (level.csv_file_data.get(i).get(j).equals("2")) {
+                    spikes.add(new Spike(Spike.SPIKE_WIDTH * j, Spike.SPIKE_HEIGHT * i));
+                }
             }
         }
     }
+
 
     public void drawBricks() {
         for (Brick b : bricks) {
             paint.setColor(b.color);
             canvas.drawRect(b.hitbox, paint);
+        }
+    }
+    public void drawSpikes() {
+        for (Spike s : spikes) {
+            paint.setColor(s.color);
+            canvas.drawRect(s.hitbox, paint);
         }
     }
 
@@ -218,6 +253,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
             canvas.drawColor(Color.rgb(255, 255, 255));
 
             drawBricks();
+            drawSpikes();
 
             paint.setColor(ball.color);
             canvas.drawRect(ball.hitbox, paint);
