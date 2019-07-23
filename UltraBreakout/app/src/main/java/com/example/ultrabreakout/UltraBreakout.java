@@ -66,7 +66,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         // Actors and functions related to the game.
         ball = new Ball(screenWidth/2 - ball.BALL_WIDTH/2, 900, 0, 0, context);
         ball.sprite = BitmapFactory.decodeResource(getResources(),R.drawable.ball);
-        paddle = new Paddle((screenWidth/2) - paddle.PADDLE_WIDTH/2, 950);
+        paddle = new Paddle((screenWidth/2) - paddle.PADDLE_WIDTH/2, 950, context);
         input = new Input(screenWidth, screenHeight);
         generateBricks(context);
         //generateSpikes();
@@ -225,11 +225,8 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 
             drawBricks();
             drawSpikes();
-
             canvas.drawBitmap(ball.sprite, null, ball.hitbox,null);
-
-            paint.setColor(paddle.color);
-            canvas.drawRect(paddle.hitbox, paint);
+            canvas.drawBitmap(paddle.sprite, null, paddle.hitbox,null);
 
             paint.setTextSize(50);
             canvas.drawText("Lives: " + lives,
