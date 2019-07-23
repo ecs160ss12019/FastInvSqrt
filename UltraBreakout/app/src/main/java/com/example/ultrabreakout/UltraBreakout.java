@@ -68,7 +68,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         ball.sprite = BitmapFactory.decodeResource(getResources(),R.drawable.ball);
         paddle = new Paddle((screenWidth/2) - paddle.PADDLE_WIDTH/2, 950);
         input = new Input(screenWidth, screenHeight);
-        generateBricks();
+        generateBricks(context);
         //generateSpikes();
         lives = 1;
 
@@ -99,13 +99,13 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                 frameTimePrev = frameTimeNow;
             }
             if (lives <= 0){
-                gameOver();
+                //gameOver();
             }
         }
     }
     public void gameOver(){
         System.out.println("GAME OVER");
-        restart();
+        //restart();
     }
 
 
@@ -113,7 +113,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         ball.reset((screenWidth/2) - ball.BALL_WIDTH/2);
         paddle.reset((screenWidth/2) - paddle.PADDLE_WIDTH/2);
         input = new Input(screenWidth, screenHeight);
-        generateBricks();
+        //generateBricks();
         //generateSpikes();
         lives = 1;
     }
@@ -190,14 +190,14 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         // TODO: Check to see collisions between actors
     }
 
-    public void generateBricks(){
+    public void generateBricks(Context context){
         for (int i = 0; i < level.NUM_ROWS; i++){
             for (int j = 0; j < level.NUM_COLUMNS; j++){
                 if (level.csv_file_data.get(i).get(j).equals("1")) {
                     bricks.add(new Brick(Brick.BRICK_WIDTH * j, Brick.BRICK_HEIGHT * i));
                 }
                 if (level.csv_file_data.get(i).get(j).equals("2")) {
-                    spikes.add(new Spike(Spike.SPIKE_WIDTH * j, Spike.SPIKE_HEIGHT * i));
+                    spikes.add(new Spike(Spike.SPIKE_WIDTH * j, Spike.SPIKE_HEIGHT * i, context));
                 }
             }
         }
@@ -212,8 +212,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
     }
     public void drawSpikes() {
         for (Spike s : spikes) {
-            paint.setColor(s.color);
-            canvas.drawRect(s.hitbox, paint);
+            canvas.drawBitmap(s.sprite, null, s.hitbox, null);
         }
     }
 

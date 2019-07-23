@@ -25,9 +25,6 @@ class Ball extends Actor {
         //FIXME: Come up with a standardized ball size
         super(x_pos, y_pos, x_vel, y_vel, BALL_WIDTH, BALL_HEIGHT,
                 Color.CYAN);
-
-        //Bitmap ballImg = BitmapFactory.decodeResource(context.getResources(),R.drawable.ball);
-        //this.sprite = Bitmap.createScaledBitmap(ballImg, BALL_WIDTH + 100, BALL_HEIGHT + 100, true);
         this.sprite = BitmapFactory.decodeResource(context.getResources(),R.drawable.ball);
     }
     public void reset(float xpos){
