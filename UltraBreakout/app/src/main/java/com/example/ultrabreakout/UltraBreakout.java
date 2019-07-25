@@ -171,14 +171,31 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         }
 
         // Check to see if ball is colliding with any bricks, and handle if so.
+        //this double forloop checks if the brick hits 2 bricks, and if it does it will reverse its velocity once
         for (int i = bricks.size() - 1; i >= 0; i--) {
-            Brick brick = bricks.get(i);
-            if (RectF.intersects(brick.hitbox, ball.hitbox)) {
-                handlePowerup(brick.powerup);
-                brick.Update(ball);
+            Brick brick1 = bricks.get(i);
+            for (int j = bricks.size() - 1; j >= 0; j--){
+                Brick brick2 = bricks.get(j);
+                if (i != j && RectF.intersects(brick1.hitbox, ball.hitbox) && RectF.intersects(brick2.hitbox, ball.hitbox)) {
+                    handlePowerup(brick1.powerup);
+                    handlePowerup(brick2.powerup);
+                    brick1.Update(ball);
+                    bricks.remove(i);
+                    bricks.remove(j);
+                }
+            }
+
+        }
+        // this for loop is for reversing the ball if it hits only one brick
+        for (int i = bricks.size() - 1; i >= 0; i--) {
+            Brick brick1 = bricks.get(i);
+            if (RectF.intersects(brick1.hitbox, ball.hitbox)) {
+                handlePowerup(brick1.powerup);
+                brick1.Update(ball);
                 bricks.remove(i);
             }
         }
+
 
         // Check to see if ball is colliding with spikes, and handle if so.
         for (int i = spikes.size() - 1; i >= 0; i--) {
