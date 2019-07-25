@@ -66,7 +66,7 @@ class Actor {
            @ColorInt int _color){
         width = _width;
         height = _height;
-        hitbox = new RectF(x_pos,y_pos + height,x_pos + width,y_pos);
+        hitbox = new RectF(x_pos,y_pos,x_pos + width,y_pos + height);
         velocity = new Velocity(x_vel, y_vel);
         color = _color;
     }
@@ -81,6 +81,5 @@ class Actor {
         hitbox.top += velocity.y / fps;
         hitbox.right = hitbox.left + width;
         hitbox.bottom = hitbox.top + height;
-
     }
 }

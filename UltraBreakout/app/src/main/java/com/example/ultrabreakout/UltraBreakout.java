@@ -10,6 +10,10 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import java.util.ArrayList;
+
+import static java.lang.Math.abs;
+
 public class UltraBreakout extends SurfaceView implements Runnable {
 
     private int screenWidth;
@@ -26,7 +30,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
     private Paddle paddle;
     private Ball ball;
     private Input input;
-    private Brick[][] bricks = new Brick[Level.NUM_COLUMNS][Level.NUM_ROWS];
+    private ArrayList<Brick> bricks;
     private Level level;
 
     // Keeps track whether the main thread should be running or not.
@@ -54,18 +58,18 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         // Initialize for drawing objects on screen.
         holder = getHolder();
         paint = new Paint();
-        bricks = new Brick[level.NUM_ROWS][level.NUM_COLUMNS];
+        bricks = new ArrayList<>();
 
         // Actors and functions related to the game.
-        paddle = new Paddle(500, 750);
-        ball = new Ball(1000, 1000, 100, 100);
+        paddle = new Paddle(500, 900);
+        ball = new Ball(screenWidth - 500, 800, 450, -450);
         input = new Input(screenWidth, screenHeight);
         generateBricks();
 
         fps = 0;
 
         // Initialize paused game.
-        paused = true;
+        paused = false;
         gameThread = null;
 
         frameTimeNow = frameTimePrev = System.currentTimeMillis();
@@ -77,12 +81,14 @@ public class UltraBreakout extends SurfaceView implements Runnable {
     public void run() {
         while(playing) {
             if (!paused) {
+                // Calculate the frame rate for physics purposes.
                 frameTimeNow = System.currentTimeMillis();
-                fps = 180 / ((float)(frameTimeNow - frameTimePrev));
+                fps = 1000 / ((float)(frameTimeNow - frameTimePrev));
 
                 if (fps > 0) {
                     update();
                 }
+
                 draw();
                 frameTimePrev = frameTimeNow;
             }
@@ -90,28 +96,59 @@ public class UltraBreakout extends SurfaceView implements Runnable {
     }
 
     public void update() {
+        // First update the paddle velocity based on user input.
         if (input.isPressLeft() && (paddle.hitbox.left > 0)) {
-            paddle.velocity.setVelocity(-100, 0);
+            paddle.velocity.setVelocity(-Paddle.PADDLE_SPEED, 0);
         } else if (input.isPressRight() && (paddle.hitbox.right < screenWidth)) {
-            paddle.velocity.setVelocity(100, 0);
+            paddle.velocity.setVelocity(Paddle.PADDLE_SPEED, 0);
         } else {
             paddle.velocity.setVelocity(0, 0);
         }
         //checks the bounds of the ball, and bounces back when it is about to go out of bounds
-        if (ball.hitbox.right > screenWidth || ball.hitbox.left < 0){
-            ball.velocity.x = -ball.velocity.x;
+        if ((ball.hitbox.right > screenWidth && ball.velocity.x > 0)
+                || (ball.hitbox.left < 0 && ball.velocity.x < 0)){
+            ball.velocity.reverseX();
         }
-        if (ball.hitbox.top > screenHeight || (ball.hitbox.bottom + ball.height) < 0){
-            ball.velocity.y = -ball.velocity.y;
+        if ((ball.hitbox.top > screenHeight && ball.velocity.y > 0)
+                || (ball.hitbox.top < 0 && ball.velocity.y < 0)){
+            ball.velocity.reverseY();
         }
         //checks if paddle hits the ball, and reflects it by the y axis if it does
         if (RectF.intersects(paddle.hitbox,ball.hitbox)){
-            ball.velocity.y = -ball.velocity.y;
+            ball.velocity.reverseY();
         }
-        checkBrickIntersection();
+
         ball.update(fps);
         paddle.update(fps);
 
+        for (int i = bricks.size() - 1; i >= 0; i--) {
+            if (RectF.intersects(bricks.get(i).hitbox, ball.hitbox)) {
+                //Calculate which side of the brick the ball hit more
+                //There's only vertical and horizontal hits; we always
+                    //reverse y if we hit either top or bottom regardless
+                //Take the min because we won't intersect more than halfway
+                /*FIXME: Ball can hit middle of two bricks and reverseX twice
+                 * when ascending, need to make check for if ball is "colliding"
+                 * with side of brick it's moving away from
+                 */
+                float vertical_dist = Math.min (
+                        Math.abs(bricks.get(i).hitbox.bottom - ball.hitbox.top),
+                        Math.abs(bricks.get(i).hitbox.top - ball.hitbox.bottom)
+                        );
+                float horizontal_dist = Math.min (
+                        Math.abs(bricks.get(i).hitbox.left - ball.hitbox.right),
+                        Math.abs(bricks.get(i).hitbox.right - ball.hitbox.left)
+                        );
+                if (vertical_dist >= horizontal_dist){
+                    ball.velocity.reverseX();
+                }
+                else{
+                    ball.velocity.reverseY();
+                }
+                bricks.remove(bricks.get(i));
+                break;
+            }
+        }
 
         // TODO: Update all actors
         // TODO: Check to see collisions between actors
@@ -120,36 +157,17 @@ public class UltraBreakout extends SurfaceView implements Runnable {
     public void generateBricks(){
         for (int i = 0; i < level.NUM_ROWS; i++){
             for (int j = 0; j < level.NUM_COLUMNS; j++){
-                if (level.csv_file_data.get(i).get(j).equals( "1")) {
-                    bricks[i][j] = new Brick(j, i);
+                if (level.csv_file_data.get(i).get(j).equals("1")) {
+                    bricks.add(new Brick(Brick.BRICK_WIDTH * j, Brick.BRICK_HEIGHT * i));
                 }
             }
         }
     }
 
-    public void drawBricks(){
-        for (int i = 0; i < level.NUM_ROWS; i++){
-            for (int j = 0; j < level.NUM_COLUMNS; j++){
-                if (bricks[i][j] != null) {
-                    paint.setColor(bricks[i][j].color);
-                    canvas.drawRect(bricks[i][j].hitbox.left, bricks[i][j].hitbox.top, bricks[i][j].hitbox.right, bricks[i][j].hitbox.bottom, paint);
-                }
-            }
-        }
-    }
-
-    public void checkBrickIntersection(){
-        for (int i = 0; i < level.NUM_ROWS; i++){
-            for (int j = 0; j < level.NUM_COLUMNS; j++){
-                if (bricks[i][j] != null){
-                    bricks[i][j].update(fps);
-                    if (RectF.intersects(bricks[i][j].hitbox,ball.hitbox)){//never returns true
-                        Log.d("DEBUGGING", "Intersecting");
-                        ball.velocity.y = -ball.velocity.y;
-                        bricks[i][j] = null;
-                    }
-                }
-            }
+    public void drawBricks() {
+        for (Brick b : bricks) {
+            paint.setColor(b.color);
+            canvas.drawRect(b.hitbox, paint);
         }
     }
 
@@ -160,13 +178,13 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 
             canvas.drawColor(Color.rgb(255, 255, 255));
 
+            drawBricks();
+
             paint.setColor(ball.color);
-            canvas.drawRect(ball.hitbox.left, ball.hitbox.top, ball.hitbox.right, ball.hitbox.bottom, paint);
+            canvas.drawRect(ball.hitbox, paint);
 
             paint.setColor(paddle.color);
-            canvas.drawRect(paddle.hitbox.left, paddle.hitbox.top, paddle.hitbox.right, paddle.hitbox.bottom, paint);
-
-            drawBricks();
+            canvas.drawRect(paddle.hitbox, paint);
 
             holder.unlockCanvasAndPost(canvas);
         }
@@ -197,7 +215,6 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 
     public void resume() {
         playing = true;
-        paused = false;
         gameThread = new Thread(this);
         gameThread.start();
     }
