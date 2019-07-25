@@ -11,11 +11,15 @@ import android.widget.Button;
 
 public class Title extends AppCompatActivity {
 
+    Sound sound;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         configureFullScreen();
         configureLevelsButton();
+
+        sound = new Sound(getApplicationContext());
     }
 
     //makes activity FullScreen and sets contentView
@@ -38,4 +42,26 @@ public class Title extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        sound.resume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        sound.pause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        System.out.println("DESTROY");
+
+        sound.cleanup();
+    }
 }
