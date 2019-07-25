@@ -12,12 +12,12 @@ import android.graphics.BitmapFactory;
 
 
 class Brick extends Actor {
-    public static int BRICK_WIDTH = 100;
-    public static int BRICK_HEIGHT = 100;
+    public static int BRICK_WIDTH;
+    public static int BRICK_HEIGHT;
 
     public Brick(float x_pos, float y_pos) {
         super(x_pos, y_pos, 0, 0, BRICK_WIDTH, BRICK_HEIGHT,
-                BitmapFactory.decodeResource(sprites,R.drawable.brick));
+                BitmapFactory.decodeResource(sprites,R.drawable.brick2));
     }
 
     //Updates the Brick

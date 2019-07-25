@@ -18,13 +18,13 @@ import android.graphics.Bitmap;
 //
 
 class Ball extends Actor {
-    public static final int BALL_HEIGHT = 40;
-    public static final int BALL_WIDTH = 40;
+    public static final int BALL_HEIGHT = 64;
+    public static final int BALL_WIDTH = 64;
 
     public Ball(float x_pos, float y_pos, float x_vel, float y_vel) {
         //FIXME: Come up with a standardized ball size
         super(x_pos, y_pos, x_vel, y_vel, BALL_WIDTH, BALL_HEIGHT,
-                BitmapFactory.decodeResource(sprites,R.drawable.ball));
+                BitmapFactory.decodeResource(sprites,R.drawable.ball3));
     }
 
     public void update (float fps, float screenWidth){
