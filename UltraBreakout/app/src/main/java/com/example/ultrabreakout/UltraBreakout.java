@@ -201,7 +201,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                     // A random chance to generate a powerup block.
                     if (Math.random() > 0.9) {
                         Brick brick = new Brick(Brick.BRICK_WIDTH * j, Brick.BRICK_HEIGHT * i * 2, Brick.PowerUpType.PADDLE_WIDTH_INCREASE);
-                        brick.setSprite(BitmapFactory.decodeResource(sprites,R.drawable.brick_paddle_width_increase));
+                        brick.setSprite(BitmapFactory.decodeResource(sprites,R.drawable.breakout_tiles_48));
                         bricks.add(brick);
                     } else {
                         Brick brick = new Brick(Brick.BRICK_WIDTH * j, Brick.BRICK_HEIGHT * i * 2, Brick.PowerUpType.NONE);
@@ -233,7 +233,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
             // Lock the canvas, so we can start drawing.
             canvas = holder.lockCanvas();
 
-            canvas.drawColor(Color.rgb(255, 255, 255));
+            canvas.drawColor(Color.rgb(0, 0, 0));
 
             drawBricks();
             drawSpikes();

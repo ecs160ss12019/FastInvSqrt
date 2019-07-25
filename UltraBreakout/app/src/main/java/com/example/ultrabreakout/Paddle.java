@@ -21,7 +21,7 @@ class Paddle extends Actor {
 
     public Paddle(float x_pos, float y_pos) {
         super(x_pos, y_pos, 0, 0, PADDLE_WIDTH, PADDLE_HEIGHT,
-                BitmapFactory.decodeResource(sprites,R.drawable.paddle2));
+                BitmapFactory.decodeResource(sprites,R.drawable.breakout_tiles_56));
 
         // Initialize handler and callback for paddle width powerup. Handler is to reset
         // the paddle width after a certain amount of time.

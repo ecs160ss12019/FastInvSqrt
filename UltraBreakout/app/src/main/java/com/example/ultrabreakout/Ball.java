@@ -28,7 +28,7 @@ class Ball extends Actor {
     public Ball(float x_pos, float y_pos, float x_vel, float y_vel) {
         //FIXME: Come up with a standardized ball size
         super(x_pos, y_pos, x_vel, y_vel, BALL_WIDTH, BALL_HEIGHT,
-                BitmapFactory.decodeResource(sprites,R.drawable.ball3));
+                BitmapFactory.decodeResource(sprites,R.drawable.breakout_tiles_58));
     }
 
     public void update (float fps, float screenWidth){

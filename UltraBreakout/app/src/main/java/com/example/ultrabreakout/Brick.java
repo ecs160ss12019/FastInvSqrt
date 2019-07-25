@@ -10,6 +10,8 @@ package com.example.ultrabreakout;
 
 import android.graphics.BitmapFactory;
 
+import java.util.Random;
+
 class Brick extends Actor {
 
     // The powerup types that a block can hold.
@@ -19,6 +21,12 @@ class Brick extends Actor {
         NUM_POWERUP_TYPES,
     }
 
+    private static final int[] BRICK_SPRITES = new int[]{
+            R.drawable.breakout_tiles_01, R.drawable.breakout_tiles_03, R.drawable.breakout_tiles_05,
+            R.drawable.breakout_tiles_07, R.drawable.breakout_tiles_09, R.drawable.breakout_tiles_11,
+            R.drawable.breakout_tiles_13, R.drawable.breakout_tiles_15, R.drawable.breakout_tiles_17,
+            R.drawable.breakout_tiles_19 };
+
     public static int BRICK_WIDTH;
     public static int BRICK_HEIGHT;
 
@@ -27,7 +35,8 @@ class Brick extends Actor {
 
     public Brick(float x_pos, float y_pos, PowerUpType powerup) {
         super(x_pos, y_pos, 0, 0, BRICK_WIDTH, BRICK_HEIGHT,
-                BitmapFactory.decodeResource(sprites,R.drawable.brick2));
+                BitmapFactory.decodeResource(sprites,
+                        BRICK_SPRITES[new Random().nextInt(BRICK_SPRITES.length)]));
         this.powerup = powerup;
     }
 
