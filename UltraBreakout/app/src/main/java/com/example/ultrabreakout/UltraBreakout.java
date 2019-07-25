@@ -138,8 +138,8 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 
         // First update the paddle velocity based on user input.
         if (ball.velocity.x == 0 && ball.velocity.y == 0 && (input.isPressLeft() || input.isPressRight())){
-            ball.velocity.y = -450;
-            ball.velocity.x = 450;
+            ball.velocity.y = -Ball.Y_VELOCITY;
+            ball.velocity.x = Ball.X_VELOCITY;
         }
         //checks the bounds of the ball, and bounces back when it is about to go out of bounds
         if (ball.hasFallen(screenHeight)){
@@ -155,6 +155,13 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 
         //checks if paddle hits the ball, and reflects it by the y axis if it does
         if (RectF.intersects(paddle.hitbox,ball.hitbox) && ball.velocity.y > 0){
+            // Change the x velocity based on where the ball hit the paddle.
+            // Ex if the ball hits on the left side of the paddle, it will
+            // move to the left side of the screen.
+            float x_diff = ball.hitbox.centerX() - paddle.hitbox.centerX();
+            float x_velocity = (x_diff / (paddle.width / 2)) * Ball.X_VELOCITY;
+            ball.velocity.setVelocity(x_velocity, ball.velocity.y);
+
             ball.velocity.reverseY();
         }
 

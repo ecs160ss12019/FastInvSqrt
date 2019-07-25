@@ -21,6 +21,10 @@ class Ball extends Actor {
     public static final int BALL_HEIGHT = 64;
     public static final int BALL_WIDTH = 64;
 
+    // The maximum velocities for the ball in the x and y components.
+    public static final int X_VELOCITY = 450;
+    public static final int Y_VELOCITY = 450;
+
     public Ball(float x_pos, float y_pos, float x_vel, float y_vel) {
         //FIXME: Come up with a standardized ball size
         super(x_pos, y_pos, x_vel, y_vel, BALL_WIDTH, BALL_HEIGHT,
