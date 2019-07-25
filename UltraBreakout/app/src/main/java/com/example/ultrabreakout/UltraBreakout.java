@@ -57,7 +57,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         this.level = level;
 
         Brick.BRICK_WIDTH = screenWidth/Level.NUM_COLUMNS;
-        Brick.BRICK_HEIGHT = screenHeight/Level.NUM_ROWS;
+        Brick.BRICK_HEIGHT = screenHeight / (Level.NUM_ROWS * 2);
 
         // Initialize for drawing objects on screen.
         holder = getHolder();
@@ -68,7 +68,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         stats = new Stats();
         ball = new Ball(screenWidth/2 - ball.BALL_WIDTH/2, 900, 0, 0);
         ball.sprite = BitmapFactory.decodeResource(getResources(),R.drawable.ball);
-        paddle = new Paddle((screenWidth/2) - paddle.PADDLE_WIDTH/2, 950);
+        paddle = new Paddle((screenWidth/2) - paddle.PADDLE_WIDTH/2, screenHeight - paddle.PADDLE_HEIGHT * 4);
         input = new Input(screenWidth, screenHeight);
         generateBricks(context);
         //generateSpikes();
@@ -122,8 +122,9 @@ public class UltraBreakout extends SurfaceView implements Runnable {
     
     public void update() {
         stats.updatetime();
+
         // First update the paddle velocity based on user input.
-        if (ball.velocity.y == 0 && ball.velocity.y == 0 && (input.isPressLeft() || input.isPressRight())){
+        if (ball.velocity.x == 0 && ball.velocity.y == 0 && (input.isPressLeft() || input.isPressRight())){
             ball.velocity.y = -450;
             ball.velocity.x = 450;
         }
@@ -168,7 +169,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         for (int i = 0; i < level.NUM_ROWS; i++){
             for (int j = 0; j < level.NUM_COLUMNS; j++){
                 if (level.csv_file_data.get(i).get(j).equals("1")) {
-                    bricks.add(new Brick(Brick.BRICK_WIDTH * j, Brick.BRICK_HEIGHT * i));
+                    bricks.add(new Brick(Brick.BRICK_WIDTH * j, Brick.BRICK_HEIGHT * i * 2));
                 }
                 if (level.csv_file_data.get(i).get(j).equals("2")) {
                     spikes.add(new Spike(Spike.SPIKE_WIDTH * j, Spike.SPIKE_HEIGHT * i));
@@ -220,12 +221,18 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 
     @Override
     public boolean onTouchEvent(MotionEvent motionEvent) {
-        switch (motionEvent.getAction()) {
+        int index = motionEvent.getActionIndex();
+        float x = motionEvent.getX(index);
+        float y = motionEvent.getY(index);
+
+        switch (motionEvent.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
-                input.touchDownEvent(motionEvent.getX(), motionEvent.getY());
+            case MotionEvent.ACTION_POINTER_DOWN:
+                input.touchDownEvent(x, y);
                 break;
             case MotionEvent.ACTION_UP:
-                input.touchUpEvent(motionEvent.getX(), motionEvent.getY());
+            case MotionEvent.ACTION_POINTER_UP:
+                input.touchUpEvent(x, y);
                 break;
         }
 
