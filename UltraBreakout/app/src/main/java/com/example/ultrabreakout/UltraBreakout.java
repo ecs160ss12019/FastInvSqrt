@@ -6,14 +6,12 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import java.util.ArrayList;
 
-import static java.lang.Math.abs;
 
 public class UltraBreakout extends SurfaceView implements Runnable {
 
@@ -50,6 +48,8 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 
     public UltraBreakout(Context context, int screenWidth, int screenHeight, Level level) {
         super(context);
+
+
 
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
