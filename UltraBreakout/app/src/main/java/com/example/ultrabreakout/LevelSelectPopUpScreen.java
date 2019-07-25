@@ -30,6 +30,7 @@ public class LevelSelectPopUpScreen extends Activity {
     //array storing resource id's of previous button so we can layout the next button right below it
     List<Integer> r_ids = new ArrayList<Integer>();
 
+    Sound sound;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,9 @@ public class LevelSelectPopUpScreen extends Activity {
         set_pop_up_screen_size();
         get_all_Levels();
         setUpLevelSelectButtons();
+
+        sound = Sound.getInstance(getApplicationContext());
+        sound.resume();
     }
 
     private void set_pop_up_screen_size(){
@@ -97,5 +101,24 @@ public class LevelSelectPopUpScreen extends Activity {
         } catch (IOException e ){
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        sound.resume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        sound.pause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

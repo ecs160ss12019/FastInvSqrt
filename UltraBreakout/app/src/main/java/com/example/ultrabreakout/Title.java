@@ -2,6 +2,7 @@ package com.example.ultrabreakout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -19,7 +20,7 @@ public class Title extends AppCompatActivity {
         configureFullScreen();
         configureLevelsButton();
 
-        sound = new Sound(getApplicationContext());
+        sound = Sound.getInstance(getApplicationContext());
     }
 
     //makes activity FullScreen and sets contentView
@@ -59,9 +60,5 @@ public class Title extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
-        System.out.println("DESTROY");
-
-        sound.cleanup();
     }
 }
