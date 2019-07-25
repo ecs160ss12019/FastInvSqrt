@@ -6,6 +6,7 @@ import android.content.res.AssetManager;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
+import android.net.Uri;
 import android.util.Log;
 
 import java.io.IOException;
@@ -27,6 +28,8 @@ public class Sound {
 
     private int resourceId;
 
+    private boolean prepared;
+
     private Sound() {
         AudioAttributes audioAttributes = new AudioAttributes.Builder()
                 .setUsage(AudioAttributes.USAGE_MEDIA)
@@ -38,6 +41,7 @@ public class Sound {
                 .build();
 
         resourceId = 0;
+        prepared = false;
 
         /*mediaPlayer = MediaPlayer.create(context, R.raw.background_1);
         mediaPlayer.setLooping(true);
@@ -47,16 +51,37 @@ public class Sound {
     public void play_background(Context context, int background_music_id) {
         resourceId = background_music_id;
         if (mediaPlayer != null && resourceId == background_music_id) {
-            mediaPlayer.start();
+            if (prepared) {
+                mediaPlayer.start();
+            }
             return;
         }
 
         if (mediaPlayer != null) {
             mediaPlayer.release();
         }
-        mediaPlayer = MediaPlayer.create(context, background_music_id);
+
+        AssetFileDescriptor afd = context.getResources().openRawResourceFd(resourceId);
+        prepared = false;
+        mediaPlayer = new MediaPlayer();
+        try {
+            mediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+        } catch (IOException e) {
+            Log.e("Error", e.toString());
+        }
         mediaPlayer.setLooping(true);
-        mediaPlayer.start();
+        mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mediaPlayer) {
+                mediaPlayer.start();
+                prepared = true;
+            }
+        });
+        mediaPlayer.prepareAsync();
+    }
+
+    private void play_media() {
+
     }
 
     public static Sound getInstance() {
@@ -67,11 +92,15 @@ public class Sound {
     }
 
     public void resume() {
-        mediaPlayer.start();
+        if (prepared) {
+            mediaPlayer.start();
+        }
     }
 
     public void pause() {
-        mediaPlayer.pause();
+        if (prepared) {
+            mediaPlayer.pause();
+        }
     }
 
     public void cleanup() {
