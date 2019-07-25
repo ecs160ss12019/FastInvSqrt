@@ -12,6 +12,13 @@ package com.example.ultrabreakout;
 class Stats {
   private int bricksRemaining;
   private int score;
-  private int turns;
   private float timePlayed;
+  int lives;
+
+  public Stats () {
+    score = 0;
+    timePlayed = 0;
+    lives = 3;
+
+  }
 }

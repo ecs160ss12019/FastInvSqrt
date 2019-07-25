@@ -35,6 +35,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
     private ArrayList<Spike> spikes;
     private Level level;
     private int lives;
+    private Stats stats;
 
     // Keeps track whether the main thread should be running or not.
     // Volatile so that it is thread-safe.
@@ -64,13 +65,14 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         bricks = new ArrayList<>();
         spikes = new ArrayList<>();
         // Actors and functions related to the game.
+        stats = new Stats();
         ball = new Ball(screenWidth/2 - ball.BALL_WIDTH/2, 900, 0, 0, context);
         ball.sprite = BitmapFactory.decodeResource(getResources(),R.drawable.ball);
         paddle = new Paddle((screenWidth/2) - paddle.PADDLE_WIDTH/2, 950, context);
         input = new Input(screenWidth, screenHeight);
         generateBricks(context);
         //generateSpikes();
-        lives = 1;
+        //lives = 1;
 
         fps = 0;
 
@@ -98,7 +100,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                 draw();
                 frameTimePrev = frameTimeNow;
             }
-            if (lives <= 0){
+            if (stats.lives <= 0){
                 //gameOver();
             }
         }
@@ -115,7 +117,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         input = new Input(screenWidth, screenHeight);
         //generateBricks();
         //generateSpikes();
-        lives = 1;
+        stats.lives = 1;
     }
     public void update() {
         // First update the paddle velocity based on user input.
@@ -138,7 +140,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
             ball.velocity.reverseY();
         }
         if (ball.hitbox.bottom > screenHeight && ball.velocity.y > 0){
-            lives -= 1;
+            stats.lives -= 1;
             ball.reset((screenWidth/2) - ball.BALL_WIDTH/2);
         }
         //checks if paddle hits the ball, and reflects it by the y axis if it does
@@ -174,13 +176,14 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                     ball.velocity.reverseY();
                 }
                 bricks.remove(bricks.get(i));
+                Item dropped = new Item(bricks.get(i).hitbox.right,bricks.get(i).hitbox.bottom, 0, 5);
                 break;
             }
         }
 
         for (int i = spikes.size() - 1; i >= 0; i--) {
             if (RectF.intersects(spikes.get(i).hitbox, ball.hitbox)) {
-                lives -= 1;
+                stats.lives -= 1;
                 ball.reset((screenWidth/2) - paddle.PADDLE_WIDTH/2);
                 break;
             }
@@ -228,8 +231,9 @@ public class UltraBreakout extends SurfaceView implements Runnable {
             canvas.drawBitmap(ball.sprite, null, ball.hitbox,null);
             canvas.drawBitmap(paddle.sprite, null, paddle.hitbox,null);
 
+
             paint.setTextSize(50);
-            canvas.drawText("Lives: " + lives,
+            canvas.drawText("Lives: " + stats.lives,
                     screenWidth/2 - 870,
                     screenHeight/2 + 450, paint);
 
