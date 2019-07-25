@@ -66,7 +66,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         spikes = new ArrayList<>();
         // Actors and functions related to the game.
         stats = new Stats();
-        ball = new Ball(screenWidth/2 - ball.BALL_WIDTH/2, 900, 0, 0);
+        ball = new Ball(screenWidth/2 - ball.BALL_WIDTH/2, screenHeight - paddle.PADDLE_HEIGHT * 8, 0, 0);
         ball.sprite = BitmapFactory.decodeResource(getResources(),R.drawable.ball);
         paddle = new Paddle((screenWidth/2) - paddle.PADDLE_WIDTH/2, screenHeight - paddle.PADDLE_HEIGHT * 4);
         input = new Input(screenWidth, screenHeight);
@@ -119,7 +119,15 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         //generateSpikes();
         stats.lives = 1;
     }
-    
+
+    public void handlePowerup(Brick.PowerUpType powerup) {
+        switch (powerup) {
+            case PADDLE_WIDTH_INCREASE:
+                paddle.paddleWidthIncrease();
+                break;
+        }
+    }
+
     public void update() {
         stats.updatetime();
 
@@ -133,7 +141,11 @@ public class UltraBreakout extends SurfaceView implements Runnable {
             stats.lives -= 1;
             ball.reposition(screenWidth/2 - paddle.PADDLE_WIDTH/2, paddle.hitbox.top);
             ball.velocity.setSpeed(0);
-            //paddle.reset((screenWidth/2) - paddle.PADDLE_WIDTH/2);
+            //paddle.reset((screenWidth/2) - paddle.PADD
+            //
+            //
+            //
+            // LE_WIDTH/2);
         }
 
         //checks if paddle hits the ball, and reflects it by the y axis if it does
@@ -142,9 +154,11 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         }
 
         for (int i = bricks.size() - 1; i >= 0; i--) {
-            if (RectF.intersects(bricks.get(i).hitbox, ball.hitbox)) {
-                bricks.get(i).Update(ball);
-                bricks.remove(bricks.get(i));
+            Brick brick = bricks.get(i);
+            if (RectF.intersects(brick.hitbox, ball.hitbox)) {
+                handlePowerup(brick.powerup);
+                brick.Update(ball);
+                bricks.remove(i);
             }
         }
 
@@ -169,7 +183,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         for (int i = 0; i < level.NUM_ROWS; i++){
             for (int j = 0; j < level.NUM_COLUMNS; j++){
                 if (level.csv_file_data.get(i).get(j).equals("1")) {
-                    bricks.add(new Brick(Brick.BRICK_WIDTH * j, Brick.BRICK_HEIGHT * i * 2));
+                    bricks.add(new Brick(Brick.BRICK_WIDTH * j, Brick.BRICK_HEIGHT * i * 2, Brick.PowerUpType.PADDLE_WIDTH_INCREASE));
                 }
                 if (level.csv_file_data.get(i).get(j).equals("2")) {
                     spikes.add(new Spike(Spike.SPIKE_WIDTH * j, Spike.SPIKE_HEIGHT * i));

@@ -10,14 +10,24 @@ package com.example.ultrabreakout;
 
 import android.graphics.BitmapFactory;
 
-
 class Brick extends Actor {
+
+    // The powerup types that a block can hold.
+    public enum PowerUpType {
+        NONE,                   // Normal block.
+        PADDLE_WIDTH_INCREASE,  // Increase the width of the paddle.
+        NUM_POWERUP_TYPES,
+    }
+
     public static int BRICK_WIDTH;
     public static int BRICK_HEIGHT;
 
-    public Brick(float x_pos, float y_pos) {
+    public PowerUpType powerup;
+
+    public Brick(float x_pos, float y_pos, PowerUpType powerup) {
         super(x_pos, y_pos, 0, 0, BRICK_WIDTH, BRICK_HEIGHT,
                 BitmapFactory.decodeResource(sprites,R.drawable.brick2));
+        this.powerup = powerup;
     }
 
     //Updates the Brick

@@ -6,16 +6,29 @@ package com.example.ultrabreakout;
  */
 
 import android.graphics.BitmapFactory;
-
+import android.os.Handler;
+import android.os.Looper;
 
 class Paddle extends Actor {
     public static final int PADDLE_WIDTH = 160;
     public static final int PADDLE_HEIGHT = 40;
     public static final int PADDLE_SPEED = 600;
+    public static final int PADDLE_POWERUP_TIME = 1000;
+
+    public Handler paddleWidthTimer;
+    private Runnable paddleWidthCallback;
 
     public Paddle(float x_pos, float y_pos) {
         super(x_pos, y_pos, 0, 0, PADDLE_WIDTH, PADDLE_HEIGHT,
                 BitmapFactory.decodeResource(sprites,R.drawable.paddle2));
+
+        paddleWidthTimer = new Handler();
+        paddleWidthCallback = new Runnable() {
+            @Override
+            public void run() {
+                paddleWidthDecrease();
+            }
+        };
     }
 
     public void update(float fps, Input input, float screenWidth){
@@ -37,5 +50,29 @@ class Paddle extends Actor {
 
         this.velocity.x = 0;
         this.velocity.y = 0;
+    }
+
+    /* Increases the paddle width on powerup pickup.
+     *
+     */
+    public void paddleWidthIncrease() {
+        paddleWidthTimer.removeCallbacks(paddleWidthCallback);
+        paddleWidthTimer.postDelayed(paddleWidthCallback, PADDLE_POWERUP_TIME);
+
+        // Set the new coordinates and size for the paddle if not already bigger.
+        if (width == PADDLE_WIDTH) {
+            hitbox.right += 0.5 * PADDLE_WIDTH;
+            hitbox.left -= 0.5 * width;
+            width = PADDLE_WIDTH * 2;
+        }
+    }
+
+    /* Reset the paddle back to original width after powerup ends.
+     *
+     */
+    public void paddleWidthDecrease() {
+        width = PADDLE_WIDTH;
+        hitbox.left += 0.5 * width;
+        hitbox.right -= 0.5 * width;
     }
 }
