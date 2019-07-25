@@ -39,8 +39,8 @@ public class LevelSelectPopUpScreen extends Activity {
         get_all_Levels();
         setUpLevelSelectButtons();
 
-        sound = Sound.getInstance(getApplicationContext());
-        sound.resume();
+        sound = Sound.getInstance();
+        sound.play_background(getApplicationContext(), R.raw.background_1);
     }
 
     private void set_pop_up_screen_size(){

@@ -79,4 +79,8 @@ class Paddle extends Actor {
         hitbox.left += 0.5 * width;
         hitbox.right -= 0.5 * width;
     }
+
+    public void destroy() {
+        paddleWidthTimer.removeCallbacks(paddleWidthCallback);
+    }
 }

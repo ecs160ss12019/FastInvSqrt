@@ -42,17 +42,21 @@ public class UltraBreakoutActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
         ultraBreakout.resume();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+
         ultraBreakout.pause();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
+        ultraBreakout.destroy();
     }
 }

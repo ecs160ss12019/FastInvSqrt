@@ -25,10 +25,9 @@ public class Sound {
     private MediaPlayer mediaPlayer;
     private SoundPool soundPool;
 
-    // Ids for all the different sounds.
-    public int background_1 = -1;
+    private int resourceId;
 
-    private Sound(Context context) {
+    private Sound() {
         AudioAttributes audioAttributes = new AudioAttributes.Builder()
                 .setUsage(AudioAttributes.USAGE_MEDIA)
                 .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
@@ -38,14 +37,31 @@ public class Sound {
                 .setAudioAttributes(audioAttributes)
                 .build();
 
-        mediaPlayer = MediaPlayer.create(context, R.raw.background_1);
+        resourceId = 0;
+
+        /*mediaPlayer = MediaPlayer.create(context, R.raw.background_1);
         mediaPlayer.setLooping(true);
-        mediaPlayer.start();;
+        mediaPlayer.start();*/
     }
 
-    public static Sound getInstance(Context context) {
+    public void play_background(Context context, int background_music_id) {
+        resourceId = background_music_id;
+        if (mediaPlayer != null && resourceId == background_music_id) {
+            mediaPlayer.start();
+            return;
+        }
+
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+        }
+        mediaPlayer = MediaPlayer.create(context, background_music_id);
+        mediaPlayer.setLooping(true);
+        mediaPlayer.start();
+    }
+
+    public static Sound getInstance() {
         if (instance == null) {
-            instance = new Sound(context);
+            instance = new Sound();
         }
         return instance;
     }

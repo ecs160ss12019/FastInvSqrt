@@ -290,4 +290,8 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         gameThread = new Thread(this);
         gameThread.start();
     }
+
+    public void destroy() {
+        paddle.destroy();
+    }
 }

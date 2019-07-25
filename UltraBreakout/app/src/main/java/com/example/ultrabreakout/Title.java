@@ -20,7 +20,8 @@ public class Title extends AppCompatActivity {
         configureFullScreen();
         configureLevelsButton();
 
-        sound = Sound.getInstance(getApplicationContext());
+        sound = Sound.getInstance();
+        sound.play_background(getApplicationContext(), R.raw.background_1);
     }
 
     //makes activity FullScreen and sets contentView
