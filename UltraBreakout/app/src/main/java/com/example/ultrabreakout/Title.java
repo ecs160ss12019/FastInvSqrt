@@ -10,7 +10,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 
-public class Title extends AppCompatActivity {
+public class Title extends ScreenActivity {
 
     Sound sound;
 
@@ -18,6 +18,7 @@ public class Title extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         configureFullScreen();
+        setContentView(R.layout.activity_ultra_breakout__title_screen);
         configureLevelsButton();
 
         sound = Sound.getInstance();
@@ -25,12 +26,8 @@ public class Title extends AppCompatActivity {
     }
 
     //makes activity FullScreen and sets contentView
-    private void configureFullScreen(){
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_ultra_breakout__title_screen);
-    }
+
+
 
     //Sets up On Click for Levels Button
     private void configureLevelsButton() {

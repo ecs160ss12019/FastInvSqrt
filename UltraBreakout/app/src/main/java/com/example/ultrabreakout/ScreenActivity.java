@@ -6,7 +6,7 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class GameActivity extends AppCompatActivity{
+public class ScreenActivity extends AppCompatActivity{
 
     public void configureFullScreen(){
         View decorView = getWindow().getDecorView();

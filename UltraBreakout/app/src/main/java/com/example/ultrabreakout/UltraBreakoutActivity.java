@@ -8,7 +8,7 @@ import android.view.Display;
 /* Main activity for project, simply sets up app and sends it to UltraBreakout
  * class.
  */
-public class UltraBreakoutActivity extends GameActivity {
+public class UltraBreakoutActivity extends ScreenActivity {
 
     // Class that contains all the main logic for the game.
     private UltraBreakout ultraBreakout;
