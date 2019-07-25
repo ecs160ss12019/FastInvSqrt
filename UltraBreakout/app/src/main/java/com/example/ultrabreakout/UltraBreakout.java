@@ -37,6 +37,8 @@ public class UltraBreakout extends SurfaceView implements Runnable {
     private int lives;
     private Stats stats;
 
+    private Sound sound;
+
     // Keeps track whether the main thread should be running or not.
     // Volatile so that it is thread-safe.
     private volatile boolean playing;
@@ -74,6 +76,9 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         generateBricks(context);
         //generateSpikes();
         //lives = 1;
+
+        sound = Sound.getInstance();
+        sound.play_background(context, R.raw.background_2);
 
         fps = 0;
 
@@ -144,7 +149,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         //checks the bounds of the ball, and bounces back when it is about to go out of bounds
         if (ball.hasFallen(screenHeight)){
             stats.lives -= 1;
-            ball.reposition(screenWidth/2 - paddle.PADDLE_WIDTH/2, paddle.hitbox.top);
+            ball.reposition(screenWidth/2 - paddle.PADDLE_WIDTH/2, paddle.hitbox.top - paddle.hitbox.height() * 2);
             ball.velocity.setSpeed(0);
             //paddle.reset((screenWidth/2) - paddle.PADD
             //
@@ -277,6 +282,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
     }
 
     public void pause() {
+        sound.pause();
         playing = false;
         try {
             gameThread.join();
@@ -286,6 +292,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
     }
 
     public void resume() {
+        sound.resume();
         playing = true;
         gameThread = new Thread(this);
         gameThread.start();

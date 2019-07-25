@@ -61,13 +61,14 @@ public class Sound {
     public void play_background(Context context, int background_music_id) {
         // Check to see if we're already playing the specified audio file.
         // If so, just continue playing it.
-        resourceId = background_music_id;
         if (mediaPlayer != null && resourceId == background_music_id) {
             if (prepared) {
                 mediaPlayer.start();
             }
             return;
         }
+
+        resourceId = background_music_id;
 
         if (mediaPlayer != null) {
             mediaPlayer.release();
