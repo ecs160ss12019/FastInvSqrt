@@ -1,13 +1,9 @@
 package com.example.ultrabreakout;
 
-import android.app.ActionBar;
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
 
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +20,7 @@ import java.util.List;
  * the choice to the UltraBreakoutActivity.
  */
 
-public class LevelSelectPopUpScreen extends Activity {
+public class LevelSelectMenu extends PopUpScreen {
     //array storing the names of all files in the level folder
     String[] level_file_names;
     //array storing resource id's of previous button so we can layout the next button right below it
@@ -35,26 +31,15 @@ public class LevelSelectPopUpScreen extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        set_pop_up_screen_size();
+        configurePopUpScreen();
         get_all_Levels();
         setUpLevelSelectButtons();
-
         sound = Sound.getInstance();
         sound.play_background(getApplicationContext(), R.raw.background_1);
     }
 
-    private void set_pop_up_screen_size(){
-        setContentView(R.layout.level_popup_window);
-        DisplayMetrics dm = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(dm);
-        int width = dm.widthPixels;
-        int height = dm.heightPixels;
-        getWindow().setLayout((int)(0.8 * width),(int)(0.8* height));
-    }
 
     //Set up the Level selection
-    //Currently Only 1 button
-    //TODO: dynamically generate buttons based on number of csv files.
     private void configureButton(final int level){
         RelativeLayout rl = (RelativeLayout)findViewById(R.id.popup_window);
         Button button = new Button(this);
@@ -74,7 +59,7 @@ public class LevelSelectPopUpScreen extends Activity {
         button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                Intent i = new Intent(LevelSelectPopUpScreen.this, UltraBreakoutActivity.class);
+                Intent i = new Intent(LevelSelectMenu.this, UltraBreakoutActivity.class);
                 i.putExtra("csv_file",level_file_names[level]); //Sends level file name to activity
                 startActivity(i);
             }

@@ -1,13 +1,8 @@
 package com.example.ultrabreakout;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 
 public class Title extends ScreenActivity {
@@ -17,7 +12,7 @@ public class Title extends ScreenActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        configureFullScreen();
+        configureScreen();
         setContentView(R.layout.activity_ultra_breakout__title_screen);
         configureLevelsButton();
 
@@ -35,7 +30,7 @@ public class Title extends ScreenActivity {
         Levels_button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                startActivity(new Intent(Title.this, LevelSelectPopUpScreen.class));
+                startActivity(new Intent(Title.this, LevelSelectMenu.class));
             }
         });
 

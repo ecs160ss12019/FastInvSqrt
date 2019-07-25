@@ -8,7 +8,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class ScreenActivity extends AppCompatActivity{
 
-    public void configureFullScreen(){
+    //Make full screen, removes navigation bar, title bar, and status bar
+    public void configureScreen(){
         View decorView = getWindow().getDecorView();
         decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION

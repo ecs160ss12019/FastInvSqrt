@@ -31,7 +31,7 @@ public class UltraBreakoutActivity extends ScreenActivity {
         }
         level = new Level(level_file, this);
 
-        configureFullScreen();
+        configureScreen();
         size = obtainScreenSize();
 
         ultraBreakout = new UltraBreakout(this, size.x, size.y, level);
