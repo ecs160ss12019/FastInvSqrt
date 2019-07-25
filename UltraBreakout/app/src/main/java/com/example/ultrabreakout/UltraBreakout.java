@@ -121,6 +121,10 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         stats.lives = 1;
     }
 
+    /* On collision with a special brick, handle any powerup drops.
+     *
+     * The different powerup types are documented in the Paddle class.
+     */
     public void handlePowerup(Brick.PowerUpType powerup) {
         switch (powerup) {
             case PADDLE_WIDTH_INCREASE:
@@ -154,6 +158,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
             ball.velocity.reverseY();
         }
 
+        // Check to see if ball is colliding with any bricks, and handle if so.
         for (int i = bricks.size() - 1; i >= 0; i--) {
             Brick brick = bricks.get(i);
             if (RectF.intersects(brick.hitbox, ball.hitbox)) {
@@ -163,6 +168,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
             }
         }
 
+        // Check to see if ball is colliding with spikes, and handle if so.
         for (int i = spikes.size() - 1; i >= 0; i--) {
             if (RectF.intersects(spikes.get(i).hitbox, ball.hitbox)) {
                 stats.lives -= 1;

@@ -22,6 +22,7 @@ class Brick extends Actor {
     public static int BRICK_WIDTH;
     public static int BRICK_HEIGHT;
 
+    // The powerup types that the brick holds.
     public PowerUpType powerup;
 
     public Brick(float x_pos, float y_pos, PowerUpType powerup) {

@@ -15,6 +15,7 @@ class Paddle extends Actor {
     public static final int PADDLE_SPEED = 600;
     public static final int PADDLE_POWERUP_TIME = 1000;
 
+    // Timer and handler to implement paddle width powerup object.
     public Handler paddleWidthTimer;
     private Runnable paddleWidthCallback;
 
@@ -22,6 +23,8 @@ class Paddle extends Actor {
         super(x_pos, y_pos, 0, 0, PADDLE_WIDTH, PADDLE_HEIGHT,
                 BitmapFactory.decodeResource(sprites,R.drawable.paddle2));
 
+        // Initialize handler and callback for paddle width powerup. Handler is to reset
+        // the paddle width after a certain amount of time.
         paddleWidthTimer = new Handler();
         paddleWidthCallback = new Runnable() {
             @Override
@@ -56,6 +59,7 @@ class Paddle extends Actor {
      *
      */
     public void paddleWidthIncrease() {
+        // Reset any current timer for the paddle width powerup.
         paddleWidthTimer.removeCallbacks(paddleWidthCallback);
         paddleWidthTimer.postDelayed(paddleWidthCallback, PADDLE_POWERUP_TIME);
 
