@@ -51,6 +51,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 
     public UltraBreakout(Context context, int screenWidth, int screenHeight, Level level) {
         super(context);
+        Actor.sprites = getResources();
 
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
@@ -66,9 +67,9 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         spikes = new ArrayList<>();
         // Actors and functions related to the game.
         stats = new Stats();
-        ball = new Ball(screenWidth/2 - ball.BALL_WIDTH/2, 900, 0, 0, context);
+        ball = new Ball(screenWidth/2 - ball.BALL_WIDTH/2, 900, 0, 0);
         ball.sprite = BitmapFactory.decodeResource(getResources(),R.drawable.ball);
-        paddle = new Paddle((screenWidth/2) - paddle.PADDLE_WIDTH/2, 950, context);
+        paddle = new Paddle((screenWidth/2) - paddle.PADDLE_WIDTH/2, 950);
         input = new Input(screenWidth, screenHeight);
         generateBricks(context);
         //generateSpikes();
@@ -144,8 +145,8 @@ public class UltraBreakout extends SurfaceView implements Runnable {
             stats.lives -= 1;
             ball.reset((screenWidth/2) - ball.BALL_WIDTH/2);
             paddle.reset((screenWidth/2) - paddle.PADDLE_WIDTH/2);
-
         }
+
         //checks if paddle hits the ball, and reflects it by the y axis if it does
         if (RectF.intersects(paddle.hitbox,ball.hitbox) && ball.velocity.y > 0){
             ball.velocity.reverseY();
@@ -179,7 +180,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                     ball.velocity.reverseY();
                 }
                 bricks.remove(bricks.get(i));
-                Item dropped = new Item(bricks.get(i).hitbox.right,bricks.get(i).hitbox.bottom, 0, 5);
+                //Item dropped = new Item(bricks.get(i).hitbox.right,bricks.get(i).hitbox.bottom, 0, 5);
                 break;
             }
         }
@@ -200,10 +201,10 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         for (int i = 0; i < level.NUM_ROWS; i++){
             for (int j = 0; j < level.NUM_COLUMNS; j++){
                 if (level.csv_file_data.get(i).get(j).equals("1")) {
-                    bricks.add(new Brick(Brick.BRICK_WIDTH * j, Brick.BRICK_HEIGHT * i, context));
+                    bricks.add(new Brick(Brick.BRICK_WIDTH * j, Brick.BRICK_HEIGHT * i));
                 }
                 if (level.csv_file_data.get(i).get(j).equals("2")) {
-                    spikes.add(new Spike(Spike.SPIKE_WIDTH * j, Spike.SPIKE_HEIGHT * i, context));
+                    spikes.add(new Spike(Spike.SPIKE_WIDTH * j, Spike.SPIKE_HEIGHT * i));
                 }
             }
         }

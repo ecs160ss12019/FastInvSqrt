@@ -9,6 +9,7 @@ package com.example.ultrabreakout;
  * the collision event.
  */
 
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 
 class Wormhole extends Actor {
@@ -17,6 +18,6 @@ class Wormhole extends Actor {
 
     public Wormhole(float x_pos, float y_pos) {
         super(x_pos, y_pos, 0, 0, PADDLE_WIDTH, PADDLE_HEIGHT,
-                Color.BLUE);
+                BitmapFactory.decodeResource(sprites,R.drawable.ball));
     }
 }
