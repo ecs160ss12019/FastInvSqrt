@@ -13,7 +13,7 @@ class Paddle extends Actor {
     public static final int PADDLE_WIDTH = 160;
     public static final int PADDLE_HEIGHT = 40;
     public static final int PADDLE_SPEED = 600;
-    public static final int PADDLE_POWERUP_TIME = 1000;
+    public static final int PADDLE_POWERUP_TIME = 10000;
 
     // Timer and handler to implement paddle width powerup object.
     public Handler paddleWidthTimer;
