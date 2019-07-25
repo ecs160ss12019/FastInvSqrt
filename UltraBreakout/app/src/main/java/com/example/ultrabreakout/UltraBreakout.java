@@ -12,6 +12,7 @@ import android.view.SurfaceView;
 
 import java.util.ArrayList;
 
+import static com.example.ultrabreakout.Actor.sprites;
 import static java.lang.Math.abs;
 
 public class UltraBreakout extends SurfaceView implements Runnable {
@@ -50,7 +51,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 
     public UltraBreakout(Context context, int screenWidth, int screenHeight, Level level) {
         super(context);
-        Actor.sprites = getResources();
+        sprites = getResources();
 
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
@@ -183,7 +184,16 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         for (int i = 0; i < level.NUM_ROWS; i++){
             for (int j = 0; j < level.NUM_COLUMNS; j++){
                 if (level.csv_file_data.get(i).get(j).equals("1")) {
-                    bricks.add(new Brick(Brick.BRICK_WIDTH * j, Brick.BRICK_HEIGHT * i * 2, Brick.PowerUpType.PADDLE_WIDTH_INCREASE));
+
+                    // A random chance to generate a powerup block.
+                    if (Math.random() > 0.9) {
+                        Brick brick = new Brick(Brick.BRICK_WIDTH * j, Brick.BRICK_HEIGHT * i * 2, Brick.PowerUpType.PADDLE_WIDTH_INCREASE);
+                        brick.setSprite(BitmapFactory.decodeResource(sprites,R.drawable.brick_paddle_width_increase));
+                        bricks.add(brick);
+                    } else {
+                        Brick brick = new Brick(Brick.BRICK_WIDTH * j, Brick.BRICK_HEIGHT * i * 2, Brick.PowerUpType.NONE);
+                        bricks.add(brick);
+                    }
                 }
                 if (level.csv_file_data.get(i).get(j).equals("2")) {
                     spikes.add(new Spike(Spike.SPIKE_WIDTH * j, Spike.SPIKE_HEIGHT * i));

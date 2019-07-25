@@ -69,6 +69,10 @@ class Actor {
         sprite = _sprite;
     }
 
+    public void setSprite(Bitmap sprite) {
+        this.sprite = sprite;
+    }
+
     //Puts the actor in another position
     public void reposition (float x_pos, float y_pos){
         this.hitbox.left = x_pos;
