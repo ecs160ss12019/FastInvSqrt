@@ -143,6 +143,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         if (ball.hitbox.bottom > screenHeight && ball.velocity.y > 0){
             stats.lives -= 1;
             ball.reset((screenWidth/2) - ball.BALL_WIDTH/2);
+            paddle.reset((screenWidth/2) - paddle.PADDLE_WIDTH/2);
 
         }
         //checks if paddle hits the ball, and reflects it by the y axis if it does
