@@ -6,8 +6,7 @@ package com.example.ultrabreakout;
  */
 
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.content.Context;
+
 
 class Paddle extends Actor {
     public static final int PADDLE_WIDTH = 160;
@@ -18,6 +17,18 @@ class Paddle extends Actor {
         super(x_pos, y_pos, 0, 0, PADDLE_WIDTH, PADDLE_HEIGHT,
                 BitmapFactory.decodeResource(sprites,R.drawable.paddle));
     }
+
+    public void update(float fps, Input input, float screenWidth){
+        if (input.isPressLeft() && (hitbox.left > 0)){
+            velocity.x = -PADDLE_SPEED;
+        } else if (input.isPressRight() && (hitbox.right < screenWidth)){
+            velocity.x = PADDLE_SPEED;
+        } else {
+            velocity.x = 0;
+        }
+        updatePos(fps);
+    }
+
     public void reset(float xpos){
         this.hitbox.left = xpos;
         this.hitbox.top = 950;

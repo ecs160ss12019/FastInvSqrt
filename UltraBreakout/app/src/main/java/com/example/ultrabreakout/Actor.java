@@ -69,9 +69,16 @@ class Actor {
         sprite = _sprite;
     }
 
+    //Puts the actor in another position
+    public void reposition (float x_pos, float y_pos){
+        this.hitbox.left = x_pos;
+        this.hitbox.top = y_pos;
+        this.hitbox.right = x_pos + width;
+        this.hitbox.bottom = y_pos + height;
+    }
 
-    //Updates position of the Actor based on velocity.
-    void update (float fps){
+    //Updates pos based on velocity, shouldn't need to be called outside
+    public void updatePos (float fps){
         hitbox.left += velocity.x / fps;
         hitbox.top += velocity.y / fps;
         hitbox.right = hitbox.left + width;

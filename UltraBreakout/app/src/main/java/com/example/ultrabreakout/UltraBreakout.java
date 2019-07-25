@@ -6,7 +6,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -93,11 +92,9 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                 // Calculate the frame rate for physics purposes.
                 frameTimeNow = System.currentTimeMillis();
                 fps = 1000 / ((float)(frameTimeNow - frameTimePrev));
-
                 if (fps > 0) {
                     update();
                 }
-
                 draw();
                 frameTimePrev = frameTimeNow;
             }
@@ -113,38 +110,29 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 
 
     public void restart(){
-        ball.reset((screenWidth/2) - ball.BALL_WIDTH/2);
-        paddle.reset((screenWidth/2) - paddle.PADDLE_WIDTH/2);
+        paddle.reposition((screenWidth/2) - paddle.PADDLE_WIDTH/2, paddle.hitbox.top);
+        paddle.velocity.setSpeed(0);
+        ball.reposition(paddle.hitbox.right - paddle.PADDLE_WIDTH/2, paddle.hitbox.top);
+        ball.velocity.setSpeed(0);
         input = new Input(screenWidth, screenHeight);
         //generateBricks();
         //generateSpikes();
         stats.lives = 1;
     }
+    
     public void update() {
         stats.updatetime();
         // First update the paddle velocity based on user input.
-        if ((input.isPressLeft() || input.isPressRight()) && (ball.velocity.y == 0) && (ball.velocity.y == 0)){
+        if (ball.velocity.y == 0 && ball.velocity.y == 0 && (input.isPressLeft() || input.isPressRight())){
             ball.velocity.y = -450;
             ball.velocity.x = 450;
-        } else if (input.isPressLeft() && (paddle.hitbox.left > 0)) {
-            paddle.velocity.setVelocity(-Paddle.PADDLE_SPEED, 0);
-        } else if (input.isPressRight() && (paddle.hitbox.right < screenWidth)) {
-            paddle.velocity.setVelocity(Paddle.PADDLE_SPEED, 0);
-        } else {
-            paddle.velocity.setVelocity(0, 0);
         }
         //checks the bounds of the ball, and bounces back when it is about to go out of bounds
-        if ((ball.hitbox.right > screenWidth && ball.velocity.x > 0)
-                || (ball.hitbox.left < 0 && ball.velocity.x < 0)){
-            ball.velocity.reverseX();
-        }
-        if ((ball.hitbox.top < 0 && ball.velocity.y < 0)){
-            ball.velocity.reverseY();
-        }
-        if (ball.hitbox.bottom > screenHeight && ball.velocity.y > 0){
+        if (ball.hasFallen(screenHeight)){
             stats.lives -= 1;
-            ball.reset((screenWidth/2) - ball.BALL_WIDTH/2);
-            paddle.reset((screenWidth/2) - paddle.PADDLE_WIDTH/2);
+            ball.reposition(screenWidth/2 - paddle.PADDLE_WIDTH/2, paddle.hitbox.top);
+            ball.velocity.setSpeed(0);
+            //paddle.reset((screenWidth/2) - paddle.PADDLE_WIDTH/2);
         }
 
         //checks if paddle hits the ball, and reflects it by the y axis if it does
@@ -152,46 +140,25 @@ public class UltraBreakout extends SurfaceView implements Runnable {
             ball.velocity.reverseY();
         }
 
-        ball.update(fps);
-        paddle.update(fps);
-
         for (int i = bricks.size() - 1; i >= 0; i--) {
             if (RectF.intersects(bricks.get(i).hitbox, ball.hitbox)) {
-                //Calculate which side of the brick the ball hit more
-                //There's only vertical and horizontal hits; we always
-                    //reverse y if we hit either top or bottom regardless
-                //Take the min because we won't intersect more than halfway
-                /*FIXME: Ball can hit middle of two bricks and reverseX twice
-                 * when ascending, need to make check for if ball is "colliding"
-                 * with side of brick it's moving away from
-                 */
-                float vertical_dist = Math.min (
-                        Math.abs(bricks.get(i).hitbox.bottom - ball.hitbox.top),
-                        Math.abs(bricks.get(i).hitbox.top - ball.hitbox.bottom)
-                        );
-                float horizontal_dist = Math.min (
-                        Math.abs(bricks.get(i).hitbox.left - ball.hitbox.right),
-                        Math.abs(bricks.get(i).hitbox.right - ball.hitbox.left)
-                        );
-                if (vertical_dist >= horizontal_dist){
-                    ball.velocity.reverseX();
-                }
-                else{
-                    ball.velocity.reverseY();
-                }
+                bricks.get(i).Update(ball);
                 bricks.remove(bricks.get(i));
-                //Item dropped = new Item(bricks.get(i).hitbox.right,bricks.get(i).hitbox.bottom, 0, 5);
-                break;
             }
         }
 
         for (int i = spikes.size() - 1; i >= 0; i--) {
             if (RectF.intersects(spikes.get(i).hitbox, ball.hitbox)) {
                 stats.lives -= 1;
-                ball.reset((screenWidth/2) - paddle.PADDLE_WIDTH/2);
+                ball.reposition(screenWidth/2 - paddle.PADDLE_WIDTH/2, paddle.hitbox.top);
+                ball.velocity.setSpeed(0);
                 break;
             }
         }
+
+        ball.update(fps, screenWidth);
+        paddle.update(fps, input, screenWidth);
+
 
         // TODO: Update all actors
         // TODO: Check to see collisions between actors

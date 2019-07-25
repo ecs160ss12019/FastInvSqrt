@@ -26,13 +26,24 @@ class Ball extends Actor {
         super(x_pos, y_pos, x_vel, y_vel, BALL_WIDTH, BALL_HEIGHT,
                 BitmapFactory.decodeResource(sprites,R.drawable.ball));
     }
-    public void reset(float xpos){
-        this.hitbox.left = xpos;
-        this.hitbox.top = 900;
-        this.hitbox.right = xpos + width;
-        this.hitbox.bottom = height;
 
-        this.velocity.x = 0;
-        this.velocity.y = 0;
+    public void update (float fps, float screenWidth){
+        if ((hitbox.right > screenWidth && velocity.x > 0)
+                || (hitbox.left < 0 && velocity.x < 0)){
+            velocity.reverseX();
+        }
+        if ((hitbox.top < 0 && velocity.y < 0)){
+            velocity.reverseY();
+        }
+        updatePos(fps);
     }
+
+    //Returns true if the ball has fallen down off the screen
+    public boolean hasFallen (int screenHeight){
+        if (hitbox.bottom > screenHeight && velocity.y > 0){
+            return true;
+        }
+        return false;
+    }
+
 }
