@@ -12,13 +12,26 @@ package com.example.ultrabreakout;
 class Stats {
   private int bricksRemaining;
   private int score;
-  private float timePlayed;
+  float timestart;
   int lives;
+  float timeelpased;
+
 
   public Stats () {
     score = 0;
-    timePlayed = 0;
+    //timePlayed = 0;
     lives = 3;
+    timeelpased = 0;
+    timestart = System.currentTimeMillis();
+  }
+
+  public void updatetime() {
+
+    this.timeelpased = (this.timeelpased + (System.currentTimeMillis() - this.timestart));
+
 
   }
+
+
+
 }

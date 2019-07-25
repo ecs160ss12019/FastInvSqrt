@@ -120,6 +120,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         stats.lives = 1;
     }
     public void update() {
+        stats.updatetime();
         // First update the paddle velocity based on user input.
         if ((input.isPressLeft() || input.isPressRight()) && (ball.velocity.y == 0) && (ball.velocity.y == 0)){
             ball.velocity.y = -450;
@@ -142,6 +143,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         if (ball.hitbox.bottom > screenHeight && ball.velocity.y > 0){
             stats.lives -= 1;
             ball.reset((screenWidth/2) - ball.BALL_WIDTH/2);
+
         }
         //checks if paddle hits the ball, and reflects it by the y axis if it does
         if (RectF.intersects(paddle.hitbox,ball.hitbox) && ball.velocity.y > 0){
@@ -234,6 +236,10 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 
             paint.setTextSize(50);
             canvas.drawText("Lives: " + stats.lives,
+                    screenWidth/2 - 870,
+                    screenHeight/2 + 450, paint);
+
+            canvas.drawText("TimeElapsed: " + stats.timeelpased,
                     screenWidth/2 - 870,
                     screenHeight/2 + 450, paint);
 
