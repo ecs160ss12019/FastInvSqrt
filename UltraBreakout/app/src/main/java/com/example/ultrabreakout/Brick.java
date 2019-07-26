@@ -30,6 +30,7 @@ class Brick extends Actor {
 
     public static int BRICK_WIDTH;
     public static int BRICK_HEIGHT;
+    private int health;
 
     // The powerup types that the brick holds.
     public PowerUpType powerup;
@@ -39,6 +40,7 @@ class Brick extends Actor {
                 BitmapFactory.decodeResource(sprites,
                         BRICK_SPRITES[new Random().nextInt(BRICK_SPRITES.length)]));
         this.powerup = powerup;
+        this.health = 2;
     }
 
     public Brick(float x_pos, float y_pos, PowerUpType powerup, int sprite_num) {
