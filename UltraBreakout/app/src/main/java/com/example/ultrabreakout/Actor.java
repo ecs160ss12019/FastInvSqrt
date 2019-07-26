@@ -73,6 +73,11 @@ class Actor {
         this.sprite = sprite;
     }
 
+    //Returns if this actor collides with another one.
+    public boolean intersects (Actor actor){
+        return RectF.intersects(this.hitbox, actor.hitbox);
+    }
+
     //Puts the actor in another position
     public void reposition (float x_pos, float y_pos){
         this.hitbox.left = x_pos;

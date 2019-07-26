@@ -118,8 +118,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
     public void restart(){
         paddle.reposition((screenWidth/2) - paddle.PADDLE_WIDTH/2, paddle.hitbox.top);
         paddle.velocity.setSpeed(0);
-        ball.reposition(paddle.hitbox.right - paddle.PADDLE_WIDTH/2, paddle.hitbox.top);
-        ball.velocity.setSpeed(0);
+        ball.reset(paddle, screenWidth);
         input = new Input(screenWidth, screenHeight);
         //generateBricks();
         //generateSpikes();
@@ -143,23 +142,16 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 
         // First update the paddle velocity based on user input.
         if (ball.velocity.x == 0 && ball.velocity.y == 0 && (input.isPressLeft() || input.isPressRight())){
-            ball.velocity.y = -Ball.Y_VELOCITY;
-            ball.velocity.x = Ball.X_VELOCITY;
+            ball.velocity.setVelocity(Ball.X_VELOCITY, -Ball.Y_VELOCITY);
         }
         //checks the bounds of the ball, and bounces back when it is about to go out of bounds
         if (ball.hasFallen(screenHeight)){
             stats.lives -= 1;
-            ball.reposition(screenWidth/2 - paddle.PADDLE_WIDTH/2, paddle.hitbox.top - paddle.hitbox.height() * 2);
-            ball.velocity.setSpeed(0);
-            //paddle.reset((screenWidth/2) - paddle.PADD
-            //
-            //
-            //
-            // LE_WIDTH/2);
+            ball.reset(paddle, screenWidth);
         }
 
         //checks if paddle hits the ball, and reflects it by the y axis if it does
-        if (RectF.intersects(paddle.hitbox,ball.hitbox) && ball.velocity.y > 0){
+        if (paddle.intersects(ball) && ball.velocity.y > 0){
             // Change the x velocity based on where the ball hit the paddle.
             // Ex if the ball hits on the left side of the paddle, it will
             // move to the left side of the screen.
@@ -172,37 +164,36 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 
         // Check to see if ball is colliding with any bricks, and handle if so.
         //this double forloop checks if the brick hits 2 bricks, and if it does it will reverse its velocity once
-        for (int i = bricks.size() - 1; i >= 0; i--) {
+        for (int i = 0; i < bricks.size(); i++) {
             Brick brick1 = bricks.get(i);
-            for (int j = bricks.size() - 1; j >= 0; j--){
+            for (int j = 0; j < bricks.size(); j++){
                 Brick brick2 = bricks.get(j);
-                if (i != j && RectF.intersects(brick1.hitbox, ball.hitbox) && RectF.intersects(brick2.hitbox, ball.hitbox)) {
+                if (i != j && brick1.intersects(ball)
+                        && brick2.intersects(ball)) {
                     handlePowerup(brick1.powerup);
                     handlePowerup(brick2.powerup);
                     brick1.Update(ball);
                     bricks.remove(i);
                     bricks.remove(j);
+                    break;
+                } else if (brick1.intersects(ball)) {
+                    handlePowerup(brick1.powerup);
+                    brick1.Update(ball);
+                    bricks.remove(i);
+                    break;
+                } else {
+                    break;
                 }
+
             }
 
         }
-        // this for loop is for reversing the ball if it hits only one brick
-        for (int i = bricks.size() - 1; i >= 0; i--) {
-            Brick brick1 = bricks.get(i);
-            if (RectF.intersects(brick1.hitbox, ball.hitbox)) {
-                handlePowerup(brick1.powerup);
-                brick1.Update(ball);
-                bricks.remove(i);
-            }
-        }
-
 
         // Check to see if ball is colliding with spikes, and handle if so.
-        for (int i = spikes.size() - 1; i >= 0; i--) {
-            if (RectF.intersects(spikes.get(i).hitbox, ball.hitbox)) {
+        for (int i = 0; i < spikes.size(); i++) {
+            if (spikes.get(i).intersects(ball)) {
                 stats.lives -= 1;
-                ball.reposition(screenWidth/2 - paddle.PADDLE_WIDTH/2, paddle.hitbox.top);
-                ball.velocity.setSpeed(0);
+                ball.reset(paddle, screenWidth);
                 break;
             }
         }
