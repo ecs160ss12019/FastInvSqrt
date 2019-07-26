@@ -13,8 +13,8 @@ class Wormhole extends Actor {
     private static final int WORMHOLE_WIDTH = 160;
     private static final int WORMHOLE_HEIGHT = 40;
 
-    public float x_teleport;
-    public float y_teleport;
+    private float x_teleport;
+    private float y_teleport;
 
     public Wormhole(float x_pos, float y_pos,
                     float x_teleport, float y_teleport) {
@@ -25,6 +25,6 @@ class Wormhole extends Actor {
     }
 
     public void collide (Ball ball){
-        //TODO Should the wormhole disappear?
+        ball.reposition(x_teleport, y_teleport);
     }
 }

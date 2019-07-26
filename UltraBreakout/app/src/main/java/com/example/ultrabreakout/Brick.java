@@ -11,6 +11,7 @@ package com.example.ultrabreakout;
 import android.graphics.BitmapFactory;
 import android.graphics.Bitmap;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 class Brick extends Actor {
@@ -61,12 +62,29 @@ class Brick extends Actor {
 
     //Colliding event with ball
     //Either reduces its HP if it has any, or drops a powerup.
-    public void collide (Ball ball, Paddle paddle){
+    public void collide (Ball ball, ArrayList<Paddle> paddles){
+        float vertical_dist = Math.min (
+                Math.abs(hitbox.bottom - ball.hitbox.top),
+                Math.abs(hitbox.top - ball.hitbox.bottom)
+        );
+        float horizontal_dist = Math.min (
+                Math.abs(hitbox.left - ball.hitbox.right),
+                Math.abs(hitbox.right - ball.hitbox.left)
+        );
+        if (vertical_dist >= horizontal_dist){
+            ball.velocity.reverseX();
+        }
+        else {
+            ball.velocity.reverseY();
+        }
+
         //If HP>1, reduce HP
         //Else, do the following powerup code
         switch (powerup) {
             case PADDLE_WIDTH_INCREASE:
-                paddle.paddleWidthIncrease();
+                for (Paddle paddle : paddles){
+                    paddle.paddleWidthIncrease();
+                }
                 break;
         }
     }
