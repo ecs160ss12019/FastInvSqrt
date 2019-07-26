@@ -52,8 +52,8 @@ class Paddle extends Actor {
     public void powerup(Item item){
         switch (item.powerup) {
             case PADDLE_WIDTH_INCREASE:
-
                 this.paddleWidthIncrease();
+//            case GOLDEN_BALL:
 
                 break;
         }

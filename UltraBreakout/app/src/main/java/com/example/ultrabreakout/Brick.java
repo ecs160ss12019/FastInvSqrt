@@ -21,6 +21,7 @@ class Brick extends Actor {
         NONE,                   // Normal block.
         PADDLE_WIDTH_INCREASE,  // Increase the width of the paddle.
         NUM_POWERUP_TYPES,
+        GOLDEN_BALL,
     }
 
     private static final int[] BRICK_SPRITES = new int[]{

@@ -123,7 +123,6 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 
     public void update() {
         stats.updatetime();
-
         for (int i = balls.size() - 1; i >= 0; i--){
             // First update the paddle velocity based on user input.
             if (balls.get(i).velocity.x == 0 && balls.get(i).velocity.y == 0 && (input.isPressLeft() || input.isPressRight())){
@@ -164,6 +163,9 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                         if (brick1.powerup == Brick.PowerUpType.PADDLE_WIDTH_INCREASE){
                             items.add(new Item(ball.hitbox.left,ball.hitbox.top,0,450,Item.PowerUpType.PADDLE_WIDTH_INCREASE));
                         }
+//                        else{
+//                            items.add(new Item(ball.hitbox.left,ball.hitbox.top,0,450,Item.PowerUpType.NONE));
+//                        }
                         bricks.remove(i);
                     }
                     break;
@@ -203,6 +205,9 @@ public class UltraBreakout extends SurfaceView implements Runnable {
             for (int i = items.size() - 1; i >= 0; i--){
                 if (paddle.intersects(items.get(i))){
                     paddle.powerup(items.get(i));
+                    items.remove(i);
+                }
+                else if(items.get(i).hasFallen(screenHeight)){
                     items.remove(i);
                 }
             }
