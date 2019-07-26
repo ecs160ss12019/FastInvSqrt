@@ -31,12 +31,12 @@ class Ball extends Actor {
                 BitmapFactory.decodeResource(sprites,R.drawable.breakout_tiles_58));
     }
 
-    public void update (float fps, float screenWidth){
+    public void update (float fps, float screenWidth, int offset){
         if ((hitbox.right > screenWidth && velocity.x > 0)
                 || (hitbox.left < 0 && velocity.x < 0)){
             velocity.reverseX();
         }
-        if ((hitbox.top < 0 && velocity.y < 0)){
+        if ((hitbox.top < offset && velocity.y < 0)){
             velocity.reverseY();
         }
         updatePos(fps);

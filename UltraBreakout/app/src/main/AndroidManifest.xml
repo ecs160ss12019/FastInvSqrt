@@ -27,6 +27,10 @@
         <activity android:name = ".LevelSelectMenu"
             android:theme="@style/AppTheme.CustomTheme">
         </activity>
+        <activity android:name = ".game"
+            android:theme="@style/AppTheme.CustomTheme">
+        </activity>
+
     </application>
 
 </manifest>

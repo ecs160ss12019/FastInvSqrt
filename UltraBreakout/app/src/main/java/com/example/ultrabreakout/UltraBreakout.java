@@ -36,6 +36,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
     private Level level;
     private int lives;
     private Stats stats;
+    private int offset; //offset from top of screen, space for bar.
 
     private Sound sound;
 
@@ -56,7 +57,8 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         sprites = getResources();
 
         this.screenWidth = screenWidth;
-        this.screenHeight = screenHeight;
+        this.screenHeight = screenHeight*9/10;
+        this.offset = screenHeight/10;
         this.level = level;
 
         Brick.BRICK_WIDTH = screenWidth/Level.NUM_COLUMNS;
@@ -69,9 +71,9 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         spikes = new ArrayList<>();
         // Actors and functions related to the game.
         stats = new Stats();
-        ball = new Ball(screenWidth/2 - ball.BALL_WIDTH/2, screenHeight - paddle.PADDLE_HEIGHT * 8, 0, 0);
+        ball = new Ball(screenWidth/2 - ball.BALL_WIDTH/2, screenHeight - paddle.PADDLE_HEIGHT * 8 + offset, 0, 0);
         ball.sprite = BitmapFactory.decodeResource(getResources(),R.drawable.ball);
-        paddle = new Paddle((screenWidth/2) - paddle.PADDLE_WIDTH/2, screenHeight - paddle.PADDLE_HEIGHT * 4);
+        paddle = new Paddle((screenWidth/2) - paddle.PADDLE_WIDTH/2, screenHeight - paddle.PADDLE_HEIGHT * 4 + offset);
         input = new Input(screenWidth, screenHeight);
         generateBricks(context);
         //generateSpikes();
@@ -147,7 +149,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
             ball.velocity.x = Ball.X_VELOCITY;
         }
         //checks the bounds of the ball, and bounces back when it is about to go out of bounds
-        if (ball.hasFallen(screenHeight)){
+        if (ball.hasFallen(screenHeight + offset)){
             stats.lives -= 1;
             ball.reposition(screenWidth/2 - paddle.PADDLE_WIDTH/2, paddle.hitbox.top - paddle.hitbox.height() * 2);
             ball.velocity.setSpeed(0);
@@ -190,7 +192,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
             }
         }
 
-        ball.update(fps, screenWidth);
+        ball.update(fps, screenWidth, offset);
         paddle.update(fps, input, screenWidth);
 
 
@@ -205,16 +207,16 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 
                     // A random chance to generate a powerup block.
                     if (Math.random() > 0.9) {
-                        Brick brick = new Brick(Brick.BRICK_WIDTH * j, Brick.BRICK_HEIGHT * i * 2, Brick.PowerUpType.PADDLE_WIDTH_INCREASE);
+                        Brick brick = new Brick(Brick.BRICK_WIDTH * j, Brick.BRICK_HEIGHT * i * 2 + offset, Brick.PowerUpType.PADDLE_WIDTH_INCREASE);
                         brick.setSprite(BitmapFactory.decodeResource(sprites,R.drawable.breakout_tiles_48));
                         bricks.add(brick);
                     } else {
-                        Brick brick = new Brick(Brick.BRICK_WIDTH * j, Brick.BRICK_HEIGHT * i * 2, Brick.PowerUpType.NONE);
+                        Brick brick = new Brick(Brick.BRICK_WIDTH * j, Brick.BRICK_HEIGHT * i * 2 + offset, Brick.PowerUpType.NONE);
                         bricks.add(brick);
                     }
                 }
                 if (level.csv_file_data.get(i).get(j).equals("2")) {
-                    spikes.add(new Spike(Spike.SPIKE_WIDTH * j, Spike.SPIKE_HEIGHT * i));
+                    spikes.add(new Spike(Spike.SPIKE_WIDTH * j, Spike.SPIKE_HEIGHT * i + offset));
                 }
             }
         }
@@ -245,15 +247,24 @@ public class UltraBreakout extends SurfaceView implements Runnable {
             canvas.drawBitmap(ball.sprite, null, ball.hitbox,null);
             canvas.drawBitmap(paddle.sprite, null, paddle.hitbox,null);
 
+            paint.setARGB(255,255, 0,0);
+
+            canvas.drawRect(screenWidth-offset,0,screenWidth,offset, paint);
+
+            paint.setARGB(255,0, 0,0);
+
 
             paint.setTextSize(50);
             canvas.drawText("Lives: " + stats.lives,
                     screenWidth/2 - 870,
-                    screenHeight/2 + 450, paint);
+                    offset-10, paint);
 
             canvas.drawText("TimeElapsed: " + stats.timeelpased,
-                    screenWidth/2 - 870,
-                    screenHeight/2 + 450, paint);
+                    screenWidth/2 - 400,
+                    offset-10, paint);
+
+
+
 
             holder.unlockCanvasAndPost(canvas);
 

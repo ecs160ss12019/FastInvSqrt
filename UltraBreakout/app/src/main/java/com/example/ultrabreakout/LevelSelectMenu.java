@@ -20,7 +20,7 @@ import java.util.List;
  * the choice to the UltraBreakoutActivity.
  */
 
-public class LevelSelectMenu extends PopUpScreen {
+public class LevelSelectMenu extends PopUpMenu {
     //array storing the names of all files in the level folder
     String[] level_file_names;
     //array storing resource id's of previous button so we can layout the next button right below it

@@ -3,7 +3,7 @@ package com.example.ultrabreakout;
 import android.graphics.Point;
 import android.util.DisplayMetrics;
 
-public class PopUpScreen extends ScreenActivity {
+public class PopUpMenu extends ScreenActivity {
 
     public void configurePopUpScreen(){
         setContentView(R.layout.level_popup_window);
