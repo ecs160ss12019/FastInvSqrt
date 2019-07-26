@@ -23,7 +23,7 @@ class Ball extends Actor {
     public Ball(float x_pos, float y_pos, float x_vel, float y_vel) {
         //FIXME: Come up with a standardized ball size
         super(x_pos, y_pos, x_vel, y_vel, BALL_WIDTH, BALL_HEIGHT,
-                BitmapFactory.decodeResource(sprites,R.drawable.breakout_tiles_58));
+                BitmapFactory.decodeResource(sprites,R.drawable.ball));
     }
 
     public void collide (Ball ball){
@@ -80,9 +80,19 @@ class Ball extends Actor {
         return false;
     }
 
-    public void reset (Paddle paddle){
-        reposition(paddle.hitbox.centerX(),
-                paddle.hitbox.top - paddle.hitbox.height() * 2);
+    //Kills the ball. What happens depends on if it's ball_zero.
+    public void die (Paddle paddle_zero, int num_balls){
+        if (num_balls == 1){
+            reset (paddle_zero);
+        }
+        velocity.setSpeed(0);
+        //FIXME: Anything else to set?
+    }
+
+    //Resets the ball to on top of the original paddle.
+    public void reset (Paddle paddle_zero){
+        reposition(paddle_zero.hitbox.centerX(),
+                paddle_zero.hitbox.top - paddle_zero.hitbox.height() * 2);
         velocity.setSpeed(0);
     }
 
