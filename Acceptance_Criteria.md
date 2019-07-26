@@ -28,3 +28,11 @@ Should include a title menu, so I can select level and difficulty (stage level).
 After selecting level and difficulty, I should be able to start playing.  
 After losing all of my lives, a retry button should show up, resetting my score for current level.  
 
+# Sound Effects: As the sounds affects, I play music in the background of the game, I play specfic sound effects when things occur such as hitting power up. 
+When the game starts, background music should begin playing.
+When the a power up is contacted, a sound effect will play. When a brick is broken or destroyed a broken sound effect should be played. 
+
+
+# Power-Ups: As a power-up I should add additional feautures and functionality that makes the game more challenging and interesting. 
+When the ball comes into contact with specfic bricks that contains "power-ups", a specfic functionality should appear. 
+If the ball hits a brick, a power-up that adds speed to the ball may appear, a power-up that adds two additonal balls, drops spikes, or a wormhole.
