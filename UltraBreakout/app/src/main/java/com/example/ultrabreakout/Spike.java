@@ -12,8 +12,8 @@ import android.graphics.Color;
 import android.content.Context;
 
 class Spike extends Actor {
-    public static final int SPIKE_HEIGHT = 40;
-    public static final int SPIKE_WIDTH = 40;
+    public static int SPIKE_HEIGHT;
+    public static int SPIKE_WIDTH;
 
 
     public Spike(float x_pos, float y_pos) {

@@ -61,7 +61,8 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 
         Brick.BRICK_WIDTH = screenWidth/Level.NUM_COLUMNS;
         Brick.BRICK_HEIGHT = screenHeight / (Level.NUM_ROWS * 2);
-
+        Spike.SPIKE_WIDTH = screenWidth/Level.NUM_COLUMNS;
+        Spike.SPIKE_HEIGHT = (screenHeight * 4) / (Level.NUM_ROWS * 2);
         // Initialize for drawing objects on screen.
         holder = getHolder();
         paint = new Paint();
@@ -73,9 +74,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         ball.sprite = BitmapFactory.decodeResource(getResources(),R.drawable.ball);
         paddle = new Paddle((screenWidth/2) - paddle.PADDLE_WIDTH/2, screenHeight - paddle.PADDLE_HEIGHT * 4);
         input = new Input(screenWidth, screenHeight);
-        generateBricks(context);
-        //generateSpikes();
-        //lives = 1;
+        generateBricks();
 
         sound = Sound.getInstance();
         sound.play_background(context, R.raw.background_2);
@@ -105,13 +104,13 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                 frameTimePrev = frameTimeNow;
             }
             if (stats.lives <= 0){
-                //gameOver();
+                gameOver();
             }
         }
     }
     public void gameOver(){
         System.out.println("GAME OVER");
-        //restart();
+        restart();
     }
 
 
@@ -120,9 +119,8 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         paddle.velocity.setSpeed(0);
         ball.reset(paddle);
         input = new Input(screenWidth, screenHeight);
-        //generateBricks();
-        //generateSpikes();
-        stats.lives = 1;
+        generateBricks();
+        stats = new Stats();
     }
 
     public void update() {
@@ -188,7 +186,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         // TODO: Check to see collisions between actors
     }
 
-    public void generateBricks(Context context){
+    public void generateBricks(){
         for (int i = 0; i < level.NUM_ROWS; i++){
             for (int j = 0; j < level.NUM_COLUMNS; j++){
                 if (level.csv_file_data.get(i).get(j).equals("1")) {
@@ -213,7 +211,6 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 
     public void drawBricks() {
         for (Brick b : bricks) {
-
             canvas.drawBitmap(b.sprite, null, b.hitbox, null);
         }
     }
@@ -235,15 +232,15 @@ public class UltraBreakout extends SurfaceView implements Runnable {
             canvas.drawBitmap(ball.sprite, null, ball.hitbox,null);
             canvas.drawBitmap(paddle.sprite, null, paddle.hitbox,null);
 
-
+            paint.setColor(Color.WHITE);
             paint.setTextSize(50);
             canvas.drawText("Lives: " + stats.lives,
                     screenWidth/2 - 870,
                     screenHeight/2 + 450, paint);
 
-            canvas.drawText("TimeElapsed: " + stats.timeelpased,
-                    screenWidth/2 - 870,
-                    screenHeight/2 + 450, paint);
+//            canvas.drawText("TimeElapsed: " + stats.timeelpased,
+//                    screenWidth/2 - 870,
+//                    screenHeight/2 + 450, paint);
 
             holder.unlockCanvasAndPost(canvas);
 
