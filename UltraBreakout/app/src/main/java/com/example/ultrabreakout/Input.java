@@ -1,5 +1,7 @@
 package com.example.ultrabreakout;
 
+import android.graphics.RectF;
+
 /* Handles the logic for user input.
  *
  * Deals with converting raw user input (ex location on screen pressed)
@@ -14,6 +16,7 @@ public class Input {
     // Keep track of last user state.
     private boolean pressedRight;
     private boolean pressedLeft;
+    private boolean pressedPause;
 
     // Variables for internal logic.
     private int screenWidth;
@@ -25,13 +28,16 @@ public class Input {
 
         pressedRight = false;
         pressedLeft = false;
+        pressedPause = false;
     }
 
     /* Handle logic for user click on screen.
      *
      */
-    public void touchDownEvent(float x, float y) {
-        if (x <= screenWidth / 2) {
+    public void touchDownEvent(float x, float y, RectF pauseButton) {
+        if (x <= pauseButton.right && x >= pauseButton.left && y >= pauseButton.top && y <= pauseButton.bottom ){
+            pressedPause = true;
+        } else if (x <= screenWidth / 2) {
             pressedLeft = true;
         } else if (x > screenWidth / 2) {
             pressedRight = true;
@@ -52,4 +58,5 @@ public class Input {
     // Getters for user input.
     public boolean isPressRight() { return pressedRight && !pressedLeft; }
     public boolean isPressLeft() { return pressedLeft && !pressedRight; }
+    public boolean isPressPaused() {return pressedPause; }
 }

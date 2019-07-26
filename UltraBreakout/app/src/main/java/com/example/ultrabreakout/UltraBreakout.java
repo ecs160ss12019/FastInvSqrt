@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -38,6 +39,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
     private int lives;
     private Stats stats;
     private int offset; //offset from top of screen, space for bar.
+    private RectF pauseButton;
 
     private Sound sound;
 
@@ -57,8 +59,6 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         super(context);
         sprites = getResources();
 
-
-
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight*9/10;
         this.offset = screenHeight/10;
@@ -72,6 +72,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         paint = new Paint();
         bricks = new ArrayList<>();
         spikes = new ArrayList<>();
+        this.pauseButton = new RectF(screenWidth - offset + 5, 5, screenWidth - 5, offset - 5);
         // Actors and functions related to the game.
         stats = new Stats();
         ball = new Ball(screenWidth/2 - ball.BALL_WIDTH/2, screenHeight - paddle.PADDLE_HEIGHT * 8 + offset, 0, 0);
@@ -146,6 +147,13 @@ public class UltraBreakout extends SurfaceView implements Runnable {
     public void update() {
         stats.updatetime();
 
+        if (input.isPressPaused()){
+            paused = true;
+            Log.d("Pause", "Pause pressed");
+            pause();
+        } else {
+            Log.d("Pause", "Pause not Pressed");
+        }
         // First update the paddle velocity based on user input.
         if (ball.velocity.x == 0 && ball.velocity.y == 0 && (input.isPressLeft() || input.isPressRight())){
             ball.velocity.y = -Ball.Y_VELOCITY;
@@ -252,9 +260,9 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 
             paint.setARGB(255,255, 0,0);
 
-            canvas.drawRect(screenWidth-offset,0,screenWidth,offset, paint);
+            canvas.drawRect(pauseButton, paint);
 
-            paint.setARGB(255,0, 0,0);
+            paint.setARGB(255,255, 255,0);
 
 
             paint.setTextSize(50);
@@ -284,7 +292,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         switch (motionEvent.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_POINTER_DOWN:
-                input.touchDownEvent(x, y);
+                input.touchDownEvent(x, y, pauseButton);
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_POINTER_UP:
