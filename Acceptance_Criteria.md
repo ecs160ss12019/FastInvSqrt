@@ -32,3 +32,7 @@ After losing all of my lives, a retry button should show up, resetting my score 
 When the game starts, background music should begin playing.
 When the a power up is contacted, a sound effect will play. When a brick is broken or destroyed a broken sound effect should be played. 
 
+
+# Power-Ups: As a power-up I should add additional feautures and functionality that makes the game more challenging and interesting. 
+When the ball comes into contact with specfic bricks that contains "power-ups", a specfic functionality should appear. 
+If the ball hits a brick, a power-up that adds speed to the ball may appear, a power-up that adds two additonal balls, drops spikes, or a wormhole.
