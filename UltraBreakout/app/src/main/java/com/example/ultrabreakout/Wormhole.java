@@ -5,19 +5,26 @@ package com.example.ultrabreakout;
  * other locations.
  *
  * TODO
- * Doubt there's much to do here if the ball handles
- * the collision event.
+ * Graphics for it
  */
-
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 
 class Wormhole extends Actor {
-    private static final int PADDLE_WIDTH = 160;
-    private static final int PADDLE_HEIGHT = 40;
+    private static final int WORMHOLE_WIDTH = 160;
+    private static final int WORMHOLE_HEIGHT = 40;
 
-    public Wormhole(float x_pos, float y_pos) {
-        super(x_pos, y_pos, 0, 0, PADDLE_WIDTH, PADDLE_HEIGHT,
+    public float x_teleport;
+    public float y_teleport;
+
+    public Wormhole(float x_pos, float y_pos,
+                    float x_teleport, float y_teleport) {
+        super(x_pos, y_pos, 0, 0, WORMHOLE_WIDTH, WORMHOLE_HEIGHT,
                 BitmapFactory.decodeResource(sprites,R.drawable.ball));
+        this.x_teleport = x_teleport;
+        this.y_teleport = y_teleport;
+    }
+
+    public void collide (Ball ball){
+        //TODO Should the wormhole disappear?
     }
 }

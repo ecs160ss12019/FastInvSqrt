@@ -1,9 +1,7 @@
 package com.example.ultrabreakout;
 
 import android.content.res.Resources;
-import android.graphics.BitmapFactory;
 import android.graphics.RectF;
-import androidx.annotation.ColorInt;
 import android.graphics.Bitmap;
 /*
  * Superclass for all in-game objects.
@@ -11,7 +9,7 @@ import android.graphics.Bitmap;
  * Everything is a rectangle, by the way.
  *
  * TODO
- * Graphics support! Must be done ASAP.
+ * Nothing I can think of -Nicola
  *
  */
 

@@ -1,10 +1,6 @@
 package com.example.ultrabreakout;
 
 import android.graphics.BitmapFactory;
-import android.graphics.RectF;
-import android.graphics.Color;
-import android.content.Context;
-import android.graphics.Bitmap;
 
 /*
  * Handles the ball(s).
@@ -12,8 +8,7 @@ import android.graphics.Bitmap;
  * (intersected) with anything after bouncing off the paddle.
  *
  * TODO
- * See "Ball.java" from Ch. 11
- * THE BALL HANDLES CHECKING WHEN AND WHERE IT HIT(S).
+ *
  */
 //
 
@@ -29,6 +24,10 @@ class Ball extends Actor {
         //FIXME: Come up with a standardized ball size
         super(x_pos, y_pos, x_vel, y_vel, BALL_WIDTH, BALL_HEIGHT,
                 BitmapFactory.decodeResource(sprites,R.drawable.breakout_tiles_58));
+    }
+
+    public void collide (Ball ball){
+        //FIXME idk what happens here
     }
 
     //Handles ball response to collisions with a paddle
@@ -56,6 +55,10 @@ class Ball extends Actor {
         else{
             velocity.reverseY();
         }
+    }
+
+    public void collide (Wormhole wormhole){
+        reposition(wormhole.x_teleport, wormhole.y_teleport);
     }
 
     public void update (float fps, float screenWidth){

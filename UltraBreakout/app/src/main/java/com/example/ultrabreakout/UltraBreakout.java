@@ -147,7 +147,13 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         //this double forloop checks if the brick hits 2 bricks, and if it does it will reverse its velocity once
         for (int i = 0; i < bricks.size(); i++) {
             Brick brick1 = bricks.get(i);
-            for (int j = 0; j < bricks.size(); j++){
+            if (brick1.intersects(ball)){
+                brick1.collide(ball, paddle);
+                ball.collide(brick1);
+                bricks.remove(i);
+                break;
+            }
+            /*for (int j = 0; j < bricks.size(); j++){
                 Brick brick2 = bricks.get(j);
                 if (i != j && brick1.intersects(ball)
                         && brick2.intersects(ball)) {
@@ -163,7 +169,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                     bricks.remove(i);
                     break;
                 }
-            }
+            }*/
 
         }
 
