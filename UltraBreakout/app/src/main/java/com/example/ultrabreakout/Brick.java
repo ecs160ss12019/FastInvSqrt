@@ -28,9 +28,17 @@ class Brick extends Actor {
             R.drawable.breakout_tiles_13, R.drawable.breakout_tiles_15, R.drawable.breakout_tiles_17,
             R.drawable.breakout_tiles_19 };
 
+    private static final int[] BRICK_BROKEN_SPRITES = new int[]{
+            R.drawable.breakout_tiles_02, R.drawable.breakout_tiles_04, R.drawable.breakout_tiles_06,
+            R.drawable.breakout_tiles_08, R.drawable.breakout_tiles_10, R.drawable.breakout_tiles_12,
+            R.drawable.breakout_tiles_14, R.drawable.breakout_tiles_16, R.drawable.breakout_tiles_18,
+            R.drawable.breakout_tiles_20 };
+
     public static int BRICK_WIDTH;
     public static int BRICK_HEIGHT;
     private int health;
+    private int brick_index;
+
 
     // The powerup types that the brick holds.
     public PowerUpType powerup;
@@ -38,7 +46,9 @@ class Brick extends Actor {
     public Brick(float x_pos, float y_pos, PowerUpType powerup) {
         super(x_pos, y_pos, 0, 0, BRICK_WIDTH, BRICK_HEIGHT,
                 BitmapFactory.decodeResource(sprites,
-                        BRICK_SPRITES[new Random().nextInt(BRICK_SPRITES.length)]));
+                        BRICK_SPRITES[0]));
+        brick_index = new Random().nextInt(BRICK_SPRITES.length);
+        setSprite(BitmapFactory.decodeResource(sprites, BRICK_SPRITES[brick_index]));
         this.powerup = powerup;
         this.health = 2;
     }
@@ -60,6 +70,26 @@ class Brick extends Actor {
                 break;
         }
     }
+    public void decrementHealth() {
+            health --;
+
+    }
+
+    public int returnHealth() {
+
+        return health;
+    }
+
+
+    public void setBrokenSprite() {
+        setSprite(BitmapFactory.decodeResource(sprites, BRICK_BROKEN_SPRITES[brick_index]));
+    }
+
+
+
+
+
+
 
     //Updates the Brick
     public void Update (float fps){
