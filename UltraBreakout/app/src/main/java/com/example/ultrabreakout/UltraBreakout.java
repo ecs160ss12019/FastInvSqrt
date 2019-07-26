@@ -146,7 +146,6 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                     // Ex if the ball hits on the left side of the paddle, it will
                     // move to the left side of the screen.
                     paddle.collide(ball);
-                    ball.collide(paddle);
                 }
             }
         }
@@ -158,7 +157,6 @@ public class UltraBreakout extends SurfaceView implements Runnable {
             for (Ball ball : balls)
             if (brick1.intersects(ball)){
                 brick1.collide(ball, paddles);
-                ball.collide(brick1);
                 bricks.remove(i);
                 break;
             }
@@ -205,9 +203,9 @@ public class UltraBreakout extends SurfaceView implements Runnable {
     }
 
     public void checkCollisions(ArrayList<? extends Actor> actor_list){
-        for (Actor a : actor_list){
-            for (Ball ball: balls){
-                if (a.intersects(ball)){
+        for (int i = actor_list.size(); i >= 0; i--){
+            for (int j = balls.size(); j >= 0; j--){
+                if (actor_list.get(i).intersects(balls.get(i))){
                     //FIXME Have balls use funct to figure out which
                     //       type of Actor
                 }

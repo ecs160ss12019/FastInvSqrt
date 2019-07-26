@@ -34,7 +34,9 @@ class Paddle extends Actor {
     }
 
     public void collide (Ball ball){
-        //Nothing planned to happen to paddle atm after collisions
+        float x_diff = ball.hitbox.centerX() - hitbox.centerX();
+        float x_velocity = (x_diff / (width / 2)) * Ball.X_VELOCITY;
+        ball.velocity.setVelocity(x_velocity, -ball.velocity.y);
     }
 
     public void update(float fps, Input input, float screenWidth){

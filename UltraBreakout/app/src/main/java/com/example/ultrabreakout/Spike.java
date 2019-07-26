@@ -21,4 +21,8 @@ class Spike extends Actor {
                 BitmapFactory.decodeResource(sprites,R.drawable.spike));
         //TODO: BITMAP IMAGE TOO SMALL, NEED TO SIZE UP TO MATCH HITBOX
     }
+
+    public void collide (Ball ball){
+        
+    }
 }

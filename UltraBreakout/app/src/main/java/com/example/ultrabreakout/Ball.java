@@ -30,36 +30,6 @@ class Ball extends Actor {
         //FIXME idk what happens here
     }
 
-    //Handles ball response to collisions with a paddle
-    public void collide (Paddle paddle){
-        float x_diff = hitbox.centerX() - paddle.hitbox.centerX();
-        float x_velocity = (x_diff / (paddle.width / 2)) * Ball.X_VELOCITY;
-        velocity.setVelocity(x_velocity, velocity.y);
-
-        velocity.reverseY();
-    }
-
-    //Handles ball response to collisions with a brick
-    public void collide (Brick brick){
-        float vertical_dist = Math.min (
-                Math.abs(brick.hitbox.bottom - hitbox.top),
-                Math.abs(brick.hitbox.top - hitbox.bottom)
-        );
-        float horizontal_dist = Math.min (
-                Math.abs(brick.hitbox.left - hitbox.right),
-                Math.abs(brick.hitbox.right - hitbox.left)
-        );
-        if (vertical_dist >= horizontal_dist){
-            velocity.reverseX();
-        }
-        else{
-            velocity.reverseY();
-        }
-    }
-
-    public void collide (Wormhole wormhole){
-        reposition(wormhole.x_teleport, wormhole.y_teleport);
-    }
 
     public void update (float fps, float screenWidth){
         if ((hitbox.right > screenWidth && velocity.x > 0)
