@@ -7,7 +7,6 @@ package com.example.ultrabreakout;
 
 import android.graphics.BitmapFactory;
 import android.os.Handler;
-import android.os.Looper;
 
 class Paddle extends Actor {
     public static final int PADDLE_WIDTH = 160;

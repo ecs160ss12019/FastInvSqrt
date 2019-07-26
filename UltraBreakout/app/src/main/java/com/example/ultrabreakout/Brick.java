@@ -5,10 +5,11 @@ package com.example.ultrabreakout;
  * Each has its own HP.
  *
  * TODO
- * Decide how to put x_pos and y_pos in csv file for Level
+ * Decide which constructor to use, I guess
  */
 
 import android.graphics.BitmapFactory;
+import android.graphics.Bitmap;
 
 import java.util.Random;
 
@@ -40,10 +41,16 @@ class Brick extends Actor {
         this.powerup = powerup;
     }
 
+    public Brick(float x_pos, float y_pos, PowerUpType powerup, int sprite_num) {
+        super(x_pos, y_pos, 0, 0, BRICK_WIDTH, BRICK_HEIGHT,
+                BitmapFactory.decodeResource(sprites,sprite_num));
+        this.powerup = powerup;
+    }
+
     //Colliding event with ball
     //Either reduces its HP if it has any, or drops a powerup.
     public void collide (Ball ball, Paddle paddle){
-        //If HP>1, reduce HP and keep there
+        //If HP>1, reduce HP
         //Else, do the following powerup code
         switch (powerup) {
             case PADDLE_WIDTH_INCREASE:
@@ -54,6 +61,6 @@ class Brick extends Actor {
 
     //Updates the Brick
     public void Update (float fps){
-            updatePos(fps);
+        updatePos(fps);
     }
 }

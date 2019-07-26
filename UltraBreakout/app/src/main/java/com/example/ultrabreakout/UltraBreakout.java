@@ -186,7 +186,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         paddle.update(fps, input, screenWidth);
 
 
-        // TODO: Update all actors
+        // TODO: Update all actors more easily
         // TODO: Check to see collisions between actors
     }
 
@@ -200,11 +200,17 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 
                     // A random chance to generate a powerup block.
                     if (Math.random() > 0.9) {
-                        Brick brick = new Brick(Brick.BRICK_WIDTH * j, Brick.BRICK_HEIGHT * i * 2, Brick.PowerUpType.PADDLE_WIDTH_INCREASE);
-                        brick.setSprite(BitmapFactory.decodeResource(sprites,R.drawable.breakout_tiles_48));
+                        Brick brick = new Brick(
+                                Brick.BRICK_WIDTH * j,
+                                Brick.BRICK_HEIGHT * i * 2,
+                                Brick.PowerUpType.PADDLE_WIDTH_INCREASE,
+                                R.drawable.breakout_tiles_48);
                         bricks.add(brick);
                     } else {
-                        Brick brick = new Brick(Brick.BRICK_WIDTH * j, Brick.BRICK_HEIGHT * i * 2, Brick.PowerUpType.NONE);
+                        Brick brick = new Brick(
+                                Brick.BRICK_WIDTH * j,
+                                Brick.BRICK_HEIGHT * i * 2,
+                                Brick.PowerUpType.NONE);
                         bricks.add(brick);
                     }
                 }
@@ -215,15 +221,10 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         }
     }
 
-
-    public void drawBricks() {
-        for (Brick b : bricks) {
-            canvas.drawBitmap(b.sprite, null, b.hitbox, null);
-        }
-    }
-    public void drawSpikes() {
-        for (Spike s : spikes) {
-            canvas.drawBitmap(s.sprite, null, s.hitbox, null);
+    //Draws any actor, note the wildcard ?
+    public void drawActorList(ArrayList<? extends Actor> actor_list) {
+        for (Actor a : actor_list){
+            canvas.drawBitmap(a.sprite, null, a.hitbox, null);
         }
     }
 
@@ -234,8 +235,8 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 
             canvas.drawColor(Color.rgb(0, 0, 0));
 
-            drawBricks();
-            drawSpikes();
+            drawActorList(bricks);
+            drawActorList(spikes);
             canvas.drawBitmap(ball.sprite, null, ball.hitbox,null);
             canvas.drawBitmap(paddle.sprite, null, paddle.hitbox,null);
 
