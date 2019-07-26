@@ -125,18 +125,6 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         stats.lives = 1;
     }
 
-    /* On collision with a special brick, handle any powerup drops.
-     *
-     * The different powerup types are documented in the Paddle class.
-     */
-    public void handlePowerup(Brick.PowerUpType powerup) {
-        switch (powerup) {
-            case PADDLE_WIDTH_INCREASE:
-                paddle.paddleWidthIncrease();
-                break;
-        }
-    }
-
     public void update() {
         stats.updatetime();
 
@@ -155,11 +143,8 @@ public class UltraBreakout extends SurfaceView implements Runnable {
             // Change the x velocity based on where the ball hit the paddle.
             // Ex if the ball hits on the left side of the paddle, it will
             // move to the left side of the screen.
-            float x_diff = ball.hitbox.centerX() - paddle.hitbox.centerX();
-            float x_velocity = (x_diff / (paddle.width / 2)) * Ball.X_VELOCITY;
-            ball.velocity.setVelocity(x_velocity, ball.velocity.y);
-
-            ball.velocity.reverseY();
+            paddle.collide(ball);
+            ball.collide(paddle);
         }
 
         // Check to see if ball is colliding with any bricks, and handle if so.
@@ -170,21 +155,16 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                 Brick brick2 = bricks.get(j);
                 if (i != j && brick1.intersects(ball)
                         && brick2.intersects(ball)) {
-                    handlePowerup(brick1.powerup);
-                    handlePowerup(brick2.powerup);
-                    brick1.Update(ball);
+                    brick1.collide(ball, paddle);
+                    brick2.collide(ball, paddle);
                     bricks.remove(i);
                     bricks.remove(j);
                     break;
                 } else if (brick1.intersects(ball)) {
-                    handlePowerup(brick1.powerup);
-                    brick1.Update(ball);
+                    brick1.collide(ball,paddle);
                     bricks.remove(i);
                     break;
-                } else {
-                    break;
                 }
-
             }
 
         }

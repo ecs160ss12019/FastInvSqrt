@@ -34,6 +34,10 @@ class Paddle extends Actor {
         };
     }
 
+    public void collide (Ball ball){
+        //Nothing planned to happen to paddle atm after collisions
+    }
+
     public void update(float fps, Input input, float screenWidth){
         if (input.isPressLeft() && (hitbox.left > 0)){
             velocity.x = -PADDLE_SPEED;
