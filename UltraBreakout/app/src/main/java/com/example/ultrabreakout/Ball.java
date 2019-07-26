@@ -18,22 +18,36 @@ import android.graphics.Bitmap;
 //
 
 class Ball extends Actor {
-    public static final int BALL_HEIGHT = 40;
-    public static final int BALL_WIDTH = 40;
+    public static final int BALL_HEIGHT = 64;
+    public static final int BALL_WIDTH = 64;
 
-    public Ball(float x_pos, float y_pos, float x_vel, float y_vel, Context context) {
+    // The maximum velocities for the ball in the x and y components.
+    public static final int X_VELOCITY = 450;
+    public static final int Y_VELOCITY = 450;
+
+    public Ball(float x_pos, float y_pos, float x_vel, float y_vel) {
         //FIXME: Come up with a standardized ball size
         super(x_pos, y_pos, x_vel, y_vel, BALL_WIDTH, BALL_HEIGHT,
-                Color.CYAN);
-        this.sprite = BitmapFactory.decodeResource(context.getResources(),R.drawable.ball);
+                BitmapFactory.decodeResource(sprites,R.drawable.breakout_tiles_58));
     }
-    public void reset(float xpos){
-        this.hitbox.left = xpos;
-        this.hitbox.top = 900;
-        this.hitbox.right = xpos + width;
-        this.hitbox.bottom = height;
 
-        this.velocity.x = 0;
-        this.velocity.y = 0;
+    public void update (float fps, float screenWidth, int offset){
+        if ((hitbox.right > screenWidth && velocity.x > 0)
+                || (hitbox.left < 0 && velocity.x < 0)){
+            velocity.reverseX();
+        }
+        if ((hitbox.top < offset && velocity.y < 0)){
+            velocity.reverseY();
+        }
+        updatePos(fps);
     }
+
+    //Returns true if the ball has fallen down off the screen
+    public boolean hasFallen (int screenHeight){
+        if (hitbox.bottom > screenHeight && velocity.y > 0){
+            return true;
+        }
+        return false;
+    }
+
 }

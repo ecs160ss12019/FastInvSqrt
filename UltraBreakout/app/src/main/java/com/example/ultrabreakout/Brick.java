@@ -9,17 +9,61 @@ package com.example.ultrabreakout;
  */
 
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.content.Context;
+
+import java.util.Random;
 
 class Brick extends Actor {
-    public static int BRICK_WIDTH = 100;
-    public static int BRICK_HEIGHT = 100;
 
-    public Brick(float x_pos, float y_pos, Context context) {
+    // The powerup types that a block can hold.
+    public enum PowerUpType {
+        NONE,                   // Normal block.
+        PADDLE_WIDTH_INCREASE,  // Increase the width of the paddle.
+        NUM_POWERUP_TYPES,
+    }
+
+    private static final int[] BRICK_SPRITES = new int[]{
+            R.drawable.breakout_tiles_01, R.drawable.breakout_tiles_03, R.drawable.breakout_tiles_05,
+            R.drawable.breakout_tiles_07, R.drawable.breakout_tiles_09, R.drawable.breakout_tiles_11,
+            R.drawable.breakout_tiles_13, R.drawable.breakout_tiles_15, R.drawable.breakout_tiles_17,
+            R.drawable.breakout_tiles_19 };
+
+    public static int BRICK_WIDTH;
+    public static int BRICK_HEIGHT;
+
+    // The powerup types that the brick holds.
+    public PowerUpType powerup;
+
+    public Brick(float x_pos, float y_pos, PowerUpType powerup) {
         super(x_pos, y_pos, 0, 0, BRICK_WIDTH, BRICK_HEIGHT,
-                Color.GREEN);
-        //TODO: NEED TO SCALE BITMAP IMAGE TO HITBOX SIZE
-        this.sprite = BitmapFactory.decodeResource(context.getResources(),R.drawable.brick);
+                BitmapFactory.decodeResource(sprites,
+                        BRICK_SPRITES[new Random().nextInt(BRICK_SPRITES.length)]));
+        this.powerup = powerup;
+    }
+
+    //Updates the Brick
+    public void Update (Ball ball){
+            //Calculate which side of the brick the ball hit more
+            //There's only vertical and horizontal hits; we always
+            //reverse y if we hit either top or bottom regardless
+            //Take the min because we won't intersect more than halfway
+            /*FIXME: Ball can hit middle of two bricks and reverseX twice
+             * when ascending, need to make check for if ball is "colliding"
+             * with side of brick it's moving away from
+             */
+            float vertical_dist = Math.min (
+                    Math.abs(hitbox.bottom - ball.hitbox.top),
+                    Math.abs(hitbox.top - ball.hitbox.bottom)
+            );
+            float horizontal_dist = Math.min (
+                    Math.abs(hitbox.left - ball.hitbox.right),
+                    Math.abs(hitbox.right - ball.hitbox.left)
+            );
+            if (vertical_dist >= horizontal_dist){
+                ball.velocity.reverseX();
+            }
+            else{
+                ball.velocity.reverseY();
+            }
+            //Item dropped = new Item(bricks.get(i).hitbox.right,bricks.get(i).hitbox.bottom, 0, 5);
     }
 }

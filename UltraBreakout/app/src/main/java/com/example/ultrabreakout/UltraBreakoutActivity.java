@@ -1,27 +1,18 @@
 package com.example.ultrabreakout;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Point;
-import android.graphics.Rect;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Display;
 import android.view.View;
-import android.view.Window;
 
-import static android.view.View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
-import static android.view.View.SYSTEM_UI_FLAG_IMMERSIVE;
-import static android.view.View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
-import static android.view.View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
-import static android.view.View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+
 
 /* Main activity for project, simply sets up app and sends it to UltraBreakout
  * class.
  */
-public class UltraBreakoutActivity extends AppCompatActivity {
+public class UltraBreakoutActivity extends ScreenActivity {
 
     // Class that contains all the main logic for the game.
     private UltraBreakout ultraBreakout;
@@ -45,6 +36,7 @@ public class UltraBreakoutActivity extends AppCompatActivity {
         Point size = new Point();
         display.getRealSize(size);
 
+
         // Read in level file
         String level_file = null;
         Intent intent = getIntent();
@@ -55,19 +47,31 @@ public class UltraBreakoutActivity extends AppCompatActivity {
         level = new Level(level_file, this);
 
 
-        ultraBreakout = new UltraBreakout(this, size.x, size.y, level);
+        configureScreen();
+        size = obtainScreenSize();
+
+        ultraBreakout = new UltraBreakout(this, size.x, size.y , level);
         setContentView(ultraBreakout);
     }
 
     @Override
-    public void onResume() {
+    protected void onResume() {
         super.onResume();
+
         ultraBreakout.resume();
     }
 
     @Override
-    public void onPause() {
+    protected void onPause() {
         super.onPause();
+
         ultraBreakout.pause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        ultraBreakout.destroy();
     }
 }

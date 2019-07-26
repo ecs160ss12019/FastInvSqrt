@@ -1,5 +1,6 @@
 package com.example.ultrabreakout;
 
+import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.graphics.RectF;
 import androidx.annotation.ColorInt;
@@ -47,30 +48,41 @@ class Actor {
         }
 
     }
+    public static Resources sprites;
+        //FIXME Is this really a good idea, to have Actor store the resources as essentially global?
 
     RectF hitbox;
     Velocity velocity;
-    @ColorInt int color;
 
-    //Should be constant width/height
+    //Should be constant width/height, unless size is increased
     float width;
     float height;
     Bitmap sprite;
 
     Actor (float x_pos, float y_pos, float x_vel, float y_vel,
            float _width, float _height,
-           @ColorInt int _color){
+           Bitmap _sprite){
         width = _width;
         height = _height;
         hitbox = new RectF(x_pos,y_pos,x_pos + width,y_pos + height);
         velocity = new Velocity(x_vel, y_vel);
-        color = _color;
-        sprite = null;
+        sprite = _sprite;
     }
 
+    public void setSprite(Bitmap sprite) {
+        this.sprite = sprite;
+    }
 
-    //Updates position of the Actor based on velocity.
-    void update (float fps){
+    //Puts the actor in another position
+    public void reposition (float x_pos, float y_pos){
+        this.hitbox.left = x_pos;
+        this.hitbox.top = y_pos;
+        this.hitbox.right = x_pos + width;
+        this.hitbox.bottom = y_pos + height;
+    }
+
+    //Updates pos based on velocity, shouldn't need to be called outside
+    public void updatePos (float fps){
         hitbox.left += velocity.x / fps;
         hitbox.top += velocity.y / fps;
         hitbox.right = hitbox.left + width;
