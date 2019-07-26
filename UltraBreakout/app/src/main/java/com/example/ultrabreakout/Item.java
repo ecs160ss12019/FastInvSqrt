@@ -17,12 +17,19 @@ import android.graphics.Color;
 class Item extends Actor {
     private static final int ITEM_WIDTH = 64;
     private static final int ITEM_HEIGHT = 64;
-
-    public Item(float x_pos, float y_pos, float x_vel, float y_vel) {
+    public enum PowerUpType {
+        NONE,                   // Normal block.
+        PADDLE_WIDTH_INCREASE,  // Increase the width of the paddle.
+        NUM_POWERUP_TYPES,
+    }
+    public PowerUpType powerup;
+    public Item(float x_pos, float y_pos, float x_vel, float y_vel, PowerUpType powerup) {
         //FIXME: Come up with a standardized ball size
         super(x_pos, y_pos, x_vel, y_vel, ITEM_WIDTH, ITEM_HEIGHT,
                 BitmapFactory.decodeResource(sprites,R.drawable.spike));
+        this.powerup = powerup;
     }
+
     public void update(float fps){
         velocity.x = 0;
         velocity.y = 450;

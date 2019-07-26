@@ -49,6 +49,15 @@ class Paddle extends Actor {
         }
         updatePos(fps);
     }
+    public void powerup(Item item){
+        switch (item.powerup) {
+            case PADDLE_WIDTH_INCREASE:
+
+                this.paddleWidthIncrease();
+
+                break;
+        }
+    }
 
     public void reset(float xpos){
         this.hitbox.left = xpos;
