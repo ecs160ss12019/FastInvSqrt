@@ -118,7 +118,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
     public void restart(){
         paddle.reposition((screenWidth/2) - paddle.PADDLE_WIDTH/2, paddle.hitbox.top);
         paddle.velocity.setSpeed(0);
-        ball.reset(paddle, screenWidth);
+        ball.reset(paddle);
         input = new Input(screenWidth, screenHeight);
         //generateBricks();
         //generateSpikes();
@@ -147,7 +147,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         //checks the bounds of the ball, and bounces back when it is about to go out of bounds
         if (ball.hasFallen(screenHeight)){
             stats.lives -= 1;
-            ball.reset(paddle, screenWidth);
+            ball.reset(paddle);
         }
 
         //checks if paddle hits the ball, and reflects it by the y axis if it does
@@ -193,7 +193,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         for (int i = 0; i < spikes.size(); i++) {
             if (spikes.get(i).intersects(ball)) {
                 stats.lives -= 1;
-                ball.reset(paddle, screenWidth);
+                ball.reset(paddle);
                 break;
             }
         }

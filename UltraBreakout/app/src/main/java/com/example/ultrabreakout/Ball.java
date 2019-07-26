@@ -50,8 +50,8 @@ class Ball extends Actor {
         return false;
     }
 
-    public void reset (Paddle paddle, float screenWidth){
-        reposition(screenWidth/2 - paddle.PADDLE_WIDTH/2,
+    public void reset (Paddle paddle){
+        reposition(paddle.hitbox.centerX(),
                 paddle.hitbox.top - paddle.hitbox.height() * 2);
         velocity.setSpeed(0);
     }
