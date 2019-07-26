@@ -62,7 +62,7 @@ class Brick extends Actor {
 
     //Colliding event with ball
     //Either reduces its HP if it has any, or drops a powerup.
-    public void collide (Ball ball, ArrayList<Paddle> paddles){
+    public void collide (Ball ball, ArrayList<Paddle> paddles,ArrayList<Item> items ){
         float vertical_dist = Math.min (
                 Math.abs(hitbox.bottom - ball.hitbox.top),
                 Math.abs(hitbox.top - ball.hitbox.bottom)
@@ -85,6 +85,8 @@ class Brick extends Actor {
                 for (Paddle paddle : paddles){
                     paddle.paddleWidthIncrease();
                 }
+            case NONE:
+                items.add(new Item(ball.hitbox.right,ball.hitbox.top,0,450));
                 break;
         }
     }

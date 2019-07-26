@@ -34,10 +34,10 @@ public class UltraBreakout extends SurfaceView implements Runnable {
     private ArrayList<Ball> balls;
     private ArrayList<Brick> bricks;
     private ArrayList<Spike> spikes;
+    private ArrayList<Item> items;
     private Level level;
     private int lives;
     private Stats stats;
-
     private Sound sound;
 
     // Keeps track whether the main thread should be running or not.
@@ -124,8 +124,6 @@ public class UltraBreakout extends SurfaceView implements Runnable {
     public void update() {
         stats.updatetime();
 
-
-
         for (int i = balls.size() - 1; i >= 0; i--){
             // First update the paddle velocity based on user input.
             if (balls.get(i).velocity.x == 0 && balls.get(i).velocity.y == 0 && (input.isPressLeft() || input.isPressRight())){
@@ -154,19 +152,19 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         //this double forloop checks if the brick hits 2 bricks, and if it does it will reverse its velocity once
         for (int i = bricks.size() - 1; i >= 0; i--) {
             Brick brick1 = bricks.get(i);
-            for (Ball ball : balls)
-            if (brick1.intersects(ball)){
-                brick1.collide(ball, paddle);
-                ball.collide(brick1);
-                brick1.decrementHealth();
-                if (brick1.returnHealth() == 1) {
-                    brick1.setBrokenSprite();
-
+            for (Ball ball : balls){
+                if (brick1.intersects(ball)){
+                    brick1.collide(ball, paddles,items);
+                    //ball.collide(brick1);
+                    brick1.decrementHealth();
+                    if (brick1.returnHealth() == 1) {
+                        brick1.setBrokenSprite();
+                    }
+                    else if(brick1.returnHealth() <= 0) {
+                        bricks.remove(i);
+                    }
+                    break;
                 }
-                else if(brick1.returnHealth() <= 0) {
-                    bricks.remove(i);
-                }
-                break;
             }
             /*for (int j = 0; j < bricks.size(); j++){
                 Brick brick2 = bricks.get(j);
@@ -206,7 +204,9 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         for (Paddle paddle : paddles) {
             paddle.update(fps, input, screenWidth);
         }
-
+        for (Item item : items) {
+            item.update(fps);
+        }
         // TODO: Figure out how to replace all this with checkCollisions
     }
 
@@ -231,6 +231,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         paddles = new ArrayList<>();
         bricks = new ArrayList<>();
         spikes = new ArrayList<>();
+        items = new ArrayList<>();
         for (int i = 0; i < level.NUM_ROWS; i++){
             for (int j = 0; j < level.NUM_COLUMNS; j++){
                 if (level.csv_file_data.get(i).get(j).equals("1")) {
@@ -294,6 +295,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
             drawActorList(paddles);
             drawActorList(bricks);
             drawActorList(spikes);
+            drawActorList(items);
 
             paint.setColor(Color.WHITE);
             paint.setTextSize(50);
