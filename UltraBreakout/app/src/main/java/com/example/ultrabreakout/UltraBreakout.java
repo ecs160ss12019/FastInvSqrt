@@ -154,13 +154,14 @@ public class UltraBreakout extends SurfaceView implements Runnable {
             Brick brick1 = bricks.get(i);
             for (Ball ball : balls){
                 if (brick1.intersects(ball)){
-                    brick1.collide(ball, paddles,items);
+                    brick1.collide(ball, paddles);
                     //ball.collide(brick1);
                     brick1.decrementHealth();
                     if (brick1.returnHealth() == 1) {
                         brick1.setBrokenSprite();
                     }
                     else if(brick1.returnHealth() <= 0) {
+                        items.add(new Item(ball.hitbox.left,ball.hitbox.top,0,450));
                         bricks.remove(i);
                     }
                     break;
