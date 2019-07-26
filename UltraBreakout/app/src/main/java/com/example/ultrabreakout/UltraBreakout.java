@@ -126,7 +126,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 
 
 
-        for (int i = balls.size(); i >= 0; i--){
+        for (int i = balls.size() - 1; i >= 0; i--){
             // First update the paddle velocity based on user input.
             if (balls.get(i).velocity.x == 0 && balls.get(i).velocity.y == 0 && (input.isPressLeft() || input.isPressRight())){
                 balls.get(i).velocity.setVelocity(Ball.X_VELOCITY, -Ball.Y_VELOCITY);
@@ -182,7 +182,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 
         // Check to see if ball is colliding with spikes, and handle if so.
         for (Spike spike : spikes) {
-            for (int i = balls.size(); i >= 0; i--){
+            for (int i = balls.size() - 1; i >= 0; i--){
                 if (spike.intersects(balls.get(i))) {
                     stats.decrementLives();
                     balls.get(i).die(paddles.get(0), balls.size());
@@ -203,8 +203,8 @@ public class UltraBreakout extends SurfaceView implements Runnable {
     }
 
     public void checkCollisions(ArrayList<? extends Actor> actor_list){
-        for (int i = actor_list.size(); i >= 0; i--){
-            for (int j = balls.size(); j >= 0; j--){
+        for (int i = actor_list.size() - 1; i >= 0; i--){
+            for (int j = balls.size() - 1; j >= 0; j--){
                 if (actor_list.get(i).intersects(balls.get(i))){
                     //FIXME It would be nice if we could get this to work
                     // Maybe use an interface or something?
