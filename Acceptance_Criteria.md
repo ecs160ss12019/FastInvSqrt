@@ -28,3 +28,7 @@ Should include a title menu, so I can select level and difficulty (stage level).
 After selecting level and difficulty, I should be able to start playing.  
 After losing all of my lives, a retry button should show up, resetting my score for current level.  
 
+# Sound Effects: As the sounds affects, I play music in the background of the game, I play specfic sound effects when things occur such as hitting power up. 
+When the game starts, background music should begin playing.
+When the a power up is contacted, a sound effect will play. When a brick is broken or destroyed a broken sound effect should be played. 
+
