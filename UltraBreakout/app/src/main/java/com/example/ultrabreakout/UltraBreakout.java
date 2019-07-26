@@ -126,15 +126,15 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 
 
 
-        for (Ball ball : balls){
+        for (int i = balls.size(); i >= 0; i--){
             // First update the paddle velocity based on user input.
-            if (ball.velocity.x == 0 && ball.velocity.y == 0 && (input.isPressLeft() || input.isPressRight())){
-                ball.velocity.setVelocity(Ball.X_VELOCITY, -Ball.Y_VELOCITY);
+            if (balls.get(i).velocity.x == 0 && balls.get(i).velocity.y == 0 && (input.isPressLeft() || input.isPressRight())){
+                balls.get(i).velocity.setVelocity(Ball.X_VELOCITY, -Ball.Y_VELOCITY);
             }
             //checks the bounds of the ball, dies if below the screen
-            if (ball.hasFallen(screenHeight)){
+            if (balls.get(i).hasFallen(screenHeight)){
                 stats.decrementLives();
-                ball.die(paddles.get(0), balls.size());
+                balls.get(i).die(paddles.get(0), balls.size());
             }
         }
 
@@ -182,10 +182,10 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 
         // Check to see if ball is colliding with spikes, and handle if so.
         for (Spike spike : spikes) {
-            for (Ball ball : balls){
-                if (spike.intersects(ball)) {
+            for (int i = balls.size(); i >= 0; i--){
+                if (spike.intersects(balls.get(i))) {
                     stats.decrementLives();
-                    ball.die(paddles.get(0), balls.size());
+                    balls.get(i).die(paddles.get(0), balls.size());
                     break;
                 }
             }
@@ -206,8 +206,9 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         for (int i = actor_list.size(); i >= 0; i--){
             for (int j = balls.size(); j >= 0; j--){
                 if (actor_list.get(i).intersects(balls.get(i))){
-                    //FIXME Have balls use funct to figure out which
-                    //       type of Actor
+                    //FIXME It would be nice if we could get this to work
+                    // Maybe use an interface or something?
+                    //actor_list.collide(balls.get(i))
                 }
             }
         }
