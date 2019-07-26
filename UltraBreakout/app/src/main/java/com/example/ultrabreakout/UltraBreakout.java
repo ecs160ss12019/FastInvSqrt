@@ -66,15 +66,13 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         // Initialize for drawing objects on screen.
         holder = getHolder();
         paint = new Paint();
-        bricks = new ArrayList<>();
-        spikes = new ArrayList<>();
         // Actors and functions related to the game.
         stats = new Stats();
         ball = new Ball(screenWidth/2 - ball.BALL_WIDTH/2, screenHeight - paddle.PADDLE_HEIGHT * 8, 0, 0);
         ball.sprite = BitmapFactory.decodeResource(getResources(),R.drawable.ball);
         paddle = new Paddle((screenWidth/2) - paddle.PADDLE_WIDTH/2, screenHeight - paddle.PADDLE_HEIGHT * 4);
         input = new Input(screenWidth, screenHeight);
-        generateBricks();
+        generateObstacles();
 
         sound = Sound.getInstance();
         sound.play_background(context, R.raw.background_2);
@@ -119,7 +117,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         paddle.velocity.setSpeed(0);
         ball.reset(paddle);
         input = new Input(screenWidth, screenHeight);
-        generateBricks();
+        generateObstacles();
         stats = new Stats();
     }
 
@@ -130,9 +128,9 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         if (ball.velocity.x == 0 && ball.velocity.y == 0 && (input.isPressLeft() || input.isPressRight())){
             ball.velocity.setVelocity(Ball.X_VELOCITY, -Ball.Y_VELOCITY);
         }
-        //checks the bounds of the ball, and bounces back when it is about to go out of bounds
+        //checks the bounds of the ball, dies if below the screen
         if (ball.hasFallen(screenHeight)){
-            stats.lives -= 1;
+            stats.decrementLives();
             ball.reset(paddle);
         }
 
@@ -172,7 +170,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         // Check to see if ball is colliding with spikes, and handle if so.
         for (int i = 0; i < spikes.size(); i++) {
             if (spikes.get(i).intersects(ball)) {
-                stats.lives -= 1;
+                stats.decrementLives();
                 ball.reset(paddle);
                 break;
             }
@@ -186,7 +184,10 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         // TODO: Check to see collisions between actors
     }
 
-    public void generateBricks(){
+    //Generates the obstacles for the ball to hit from a .csv
+    public void generateObstacles(){
+        bricks = new ArrayList<>();
+        spikes = new ArrayList<>();
         for (int i = 0; i < level.NUM_ROWS; i++){
             for (int j = 0; j < level.NUM_COLUMNS; j++){
                 if (level.csv_file_data.get(i).get(j).equals("1")) {

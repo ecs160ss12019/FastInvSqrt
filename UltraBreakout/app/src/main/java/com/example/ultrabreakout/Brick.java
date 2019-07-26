@@ -40,7 +40,11 @@ class Brick extends Actor {
         this.powerup = powerup;
     }
 
+    //Colliding event with ball
+    //Either reduces its HP if it has any, or drops a powerup.
     public void collide (Ball ball, Paddle paddle){
+        //If HP>1, reduce HP and keep there
+        //Else, do the following powerup code
         switch (powerup) {
             case PADDLE_WIDTH_INCREASE:
                 paddle.paddleWidthIncrease();

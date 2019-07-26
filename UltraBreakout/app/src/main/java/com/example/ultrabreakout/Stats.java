@@ -26,12 +26,15 @@ class Stats {
   }
 
   public void updatetime() {
-
     this.timeelpased = (this.timeelpased + (System.currentTimeMillis() - this.timestart));
-
-
   }
 
+  public void incrementLives(){
+    lives++;
+  }
 
+  public void decrementLives(){
+    lives--;
+  }
 
 }

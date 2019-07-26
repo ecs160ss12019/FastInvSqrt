@@ -31,6 +31,7 @@ class Ball extends Actor {
                 BitmapFactory.decodeResource(sprites,R.drawable.breakout_tiles_58));
     }
 
+    //Handles ball response to collisions with a paddle
     public void collide (Paddle paddle){
         float x_diff = hitbox.centerX() - paddle.hitbox.centerX();
         float x_velocity = (x_diff / (paddle.width / 2)) * Ball.X_VELOCITY;
@@ -39,6 +40,7 @@ class Ball extends Actor {
         velocity.reverseY();
     }
 
+    //Handles ball response to collisions with a brick
     public void collide (Brick brick){
         float vertical_dist = Math.min (
                 Math.abs(brick.hitbox.bottom - hitbox.top),
