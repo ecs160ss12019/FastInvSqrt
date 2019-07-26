@@ -54,6 +54,7 @@ public class UltraBreakoutActivity extends ScreenActivity {
         setContentView(ultraBreakout);
     }
 
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -64,7 +65,6 @@ public class UltraBreakoutActivity extends ScreenActivity {
     @Override
     protected void onPause() {
         super.onPause();
-
         ultraBreakout.pause();
     }
 

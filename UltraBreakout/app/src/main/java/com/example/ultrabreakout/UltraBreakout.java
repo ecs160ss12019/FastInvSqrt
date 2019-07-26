@@ -1,6 +1,10 @@
 package com.example.ultrabreakout;
 
+import android.app.Activity;
+import android.app.ActivityManager;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -11,9 +15,12 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.ArrayList;
 
 
+import static androidx.core.content.ContextCompat.startActivity;
 import static com.example.ultrabreakout.Actor.sprites;
 
 
@@ -40,8 +47,9 @@ public class UltraBreakout extends SurfaceView implements Runnable {
     private Stats stats;
     private int offset; //offset from top of screen, space for bar.
     private RectF pauseButton;
-
+    private PauseMenu pauseMenu;
     private Sound sound;
+    private UltraBreakoutActivity context;
 
     // Keeps track whether the main thread should be running or not.
     // Volatile so that it is thread-safe.
@@ -55,14 +63,18 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 
     long frameTimeNow, frameTimePrev;
 
-    public UltraBreakout(Context context, int screenWidth, int screenHeight, Level level) {
+    public UltraBreakout(UltraBreakoutActivity context, int screenWidth, int screenHeight, Level level) {
         super(context);
+        this.context = context;
+
         sprites = getResources();
 
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight*9/10;
         this.offset = screenHeight/10;
         this.level = level;
+
+        this.pauseMenu = new PauseMenu(screenHeight, screenWidth);
 
         Brick.BRICK_WIDTH = screenWidth/Level.NUM_COLUMNS;
         Brick.BRICK_HEIGHT = screenHeight / (Level.NUM_ROWS * 2);
@@ -79,7 +91,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         ball.sprite = BitmapFactory.decodeResource(getResources(),R.drawable.ball);
         paddle = new Paddle((screenWidth/2) - paddle.PADDLE_WIDTH/2, screenHeight - paddle.PADDLE_HEIGHT * 4 + offset);
         input = new Input(screenWidth, screenHeight);
-        generateBricks(context);
+        generateBricks();
         //generateSpikes();
         //lives = 1;
 
@@ -111,11 +123,12 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                 frameTimePrev = frameTimeNow;
             }
             if (stats.lives <= 0){
-                //gameOver();
+                gameOver();
             }
         }
     }
     public void gameOver(){
+        //pause();
         System.out.println("GAME OVER");
         //restart();
     }
@@ -127,8 +140,6 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         ball.reposition(paddle.hitbox.right - paddle.PADDLE_WIDTH/2, paddle.hitbox.top);
         ball.velocity.setSpeed(0);
         input = new Input(screenWidth, screenHeight);
-        //generateBricks();
-        //generateSpikes();
         stats.lives = 1;
     }
 
@@ -144,6 +155,8 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         }
     }
 
+
+
     public void update() {
         stats.updatetime();
 
@@ -151,9 +164,10 @@ public class UltraBreakout extends SurfaceView implements Runnable {
             paused = true;
             Log.d("Pause", "Pause pressed");
             pause();
-        } else {
-            Log.d("Pause", "Pause not Pressed");
+            draw();
         }
+
+
         // First update the paddle velocity based on user input.
         if (ball.velocity.x == 0 && ball.velocity.y == 0 && (input.isPressLeft() || input.isPressRight())){
             ball.velocity.y = -Ball.Y_VELOCITY;
@@ -211,7 +225,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         // TODO: Check to see collisions between actors
     }
 
-    public void generateBricks(Context context){
+    public void generateBricks(){
         for (int i = 0; i < level.NUM_ROWS; i++){
             for (int j = 0; j < level.NUM_COLUMNS; j++){
                 if (level.csv_file_data.get(i).get(j).equals("1")) {
@@ -246,6 +260,11 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         }
     }
 
+    public void drawPauseMenu(){
+        paint.setARGB(255,0, 0,255);
+        canvas.drawRect(pauseMenu.Area, paint);
+    }
+
     void draw() {
         if (holder.getSurface().isValid()) {
             // Lock the canvas, so we can start drawing.
@@ -262,6 +281,8 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 
             canvas.drawRect(pauseButton, paint);
 
+
+
             paint.setARGB(255,255, 255,0);
 
 
@@ -276,6 +297,10 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 
 
 
+            if (paused == true){
+                Log.d("lol", "draw: drawit please");
+                drawPauseMenu();
+            }
 
             holder.unlockCanvasAndPost(canvas);
 
