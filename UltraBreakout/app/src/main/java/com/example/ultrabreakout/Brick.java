@@ -72,11 +72,13 @@ class Brick extends Actor {
                 Math.abs(hitbox.left - ball.hitbox.right),
                 Math.abs(hitbox.right - ball.hitbox.left)
         );
-        if (vertical_dist >= horizontal_dist){
-            ball.velocity.reverseX();
-        }
-        else {
-            ball.velocity.reverseY();
+        if (!ball.golden){
+            if (vertical_dist >= horizontal_dist){
+                ball.velocity.reverseX();
+            }
+            else {
+                ball.velocity.reverseY();
+            }
         }
 
         //If HP>1, reduce HP

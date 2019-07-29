@@ -163,9 +163,9 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                         if (brick1.powerup == Brick.PowerUpType.PADDLE_WIDTH_INCREASE){
                             items.add(new Item(ball.hitbox.left,ball.hitbox.top,0,450,Item.PowerUpType.PADDLE_WIDTH_INCREASE));
                         }
-//                        else{
-//                            items.add(new Item(ball.hitbox.left,ball.hitbox.top,0,450,Item.PowerUpType.NONE));
-//                        }
+                        else if (brick1.powerup == Brick.PowerUpType.NONE){
+                            items.add(new Item(ball.hitbox.left,ball.hitbox.top,0,450,Item.PowerUpType.NONE));
+                        }
                         bricks.remove(i);
                     }
                     break;
@@ -204,7 +204,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         for (Paddle paddle : paddles){
             for (int i = items.size() - 1; i >= 0; i--){
                 if (paddle.intersects(items.get(i))){
-                    paddle.powerup(items.get(i));
+                    paddle.powerup(items.get(i), balls.get(0));
                     items.remove(i);
                 }
                 else if(items.get(i).hasFallen(screenHeight)){

@@ -1,6 +1,7 @@
 package com.example.ultrabreakout;
 
 import android.graphics.BitmapFactory;
+import android.os.Handler;
 
 /*
  * Handles the ball(s).
@@ -19,17 +20,36 @@ class Ball extends Actor {
     // The maximum velocities for the ball in the x and y components.
     public static final int X_VELOCITY = 450;
     public static final int Y_VELOCITY = 450;
+    public static final int BALL_POWERUP_TIME = 1000;
+    public Handler ballTimer;
+    private Runnable ballCallback;
+    // Timer and handler to implement paddle width powerup object.
+    public boolean golden = false;
 
     public Ball(float x_pos, float y_pos, float x_vel, float y_vel) {
         //FIXME: Come up with a standardized ball size
         super(x_pos, y_pos, x_vel, y_vel, BALL_WIDTH, BALL_HEIGHT,
-                BitmapFactory.decodeResource(sprites,R.drawable.ball));
+                BitmapFactory.decodeResource(sprites,R.drawable.ball3));
+        ballTimer = new Handler();
+        ballCallback = new Runnable() {
+            @Override
+            public void run() {
+                notGoldenBall();
+            }
+        };
     }
 
     public void collide (Ball ball){
         //FIXME idk what happens here
     }
-
+    public void setGoldenBall(){
+        ballTimer.removeCallbacks(ballCallback);
+        ballTimer.postDelayed(ballCallback, BALL_POWERUP_TIME);
+        this.golden = true;
+    }
+    public void notGoldenBall(){
+        this.golden = false;
+    }
 
     public void update (float fps, float screenWidth){
         if ((hitbox.right > screenWidth && velocity.x > 0)
