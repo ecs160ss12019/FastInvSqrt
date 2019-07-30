@@ -22,7 +22,7 @@ class Ball extends Actor {
     // The maximum velocities for the ball in the x and y components.
     public static final int X_VELOCITY = 450;
     public static final int Y_VELOCITY = 450;
-    public static final int BALL_POWERUP_TIME = 1000;
+    public static final int BALL_POWERUP_TIME = 10000;
     public Handler ballTimer;
     private Runnable ballCallback;
     // Timer and handler to implement paddle width powerup object.
@@ -45,8 +45,10 @@ class Ball extends Actor {
         ballTimer.removeCallbacks(ballCallback);
         ballTimer.postDelayed(ballCallback, BALL_POWERUP_TIME);
         this.golden = true;
+        this.setSprite(BitmapFactory.decodeResource(sprites,R.drawable.goldenball));
     }
     public void notGoldenBall(){
+        setSprite(BitmapFactory.decodeResource(sprites,R.drawable.ball3));
         this.golden = false;
     }
 
@@ -73,6 +75,8 @@ class Ball extends Actor {
     public void die (Paddle paddle_zero, int num_balls){
         if (num_balls == 1){
             reset (paddle_zero);
+            notGoldenBall();
+            paddle_zero.paddleWidthDecrease();
         }
         velocity.setSpeed(0);
         //FIXME: Anything else to set?

@@ -53,6 +53,7 @@ class Paddle extends Actor {
         switch (item.powerup) {
             case PADDLE_WIDTH_INCREASE:
                 this.paddleWidthIncrease();
+                break;
             case NONE:
                 ball.setGoldenBall();
                 break;
