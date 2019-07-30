@@ -3,6 +3,8 @@ package com.example.ultrabreakout;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
 
+import java.util.ArrayList;
+
 /*
  * Handles the ball(s).
  * When the game updates, check if the ball has collided
@@ -39,9 +41,6 @@ class Ball extends Actor {
         };
     }
 
-    public void collide (Ball ball){
-        //FIXME idk what happens here
-    }
     public void setGoldenBall(){
         ballTimer.removeCallbacks(ballCallback);
         ballTimer.postDelayed(ballCallback, BALL_POWERUP_TIME);

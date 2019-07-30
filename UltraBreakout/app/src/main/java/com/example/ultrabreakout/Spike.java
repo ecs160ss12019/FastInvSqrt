@@ -18,7 +18,7 @@ class Spike extends Actor {
 
     public Spike(float x_pos, float y_pos) {
         super(x_pos, y_pos,0, 0, SPIKE_WIDTH, SPIKE_HEIGHT,
-                BitmapFactory.decodeResource(sprites,R.drawable.spike));
+                BitmapFactory.decodeResource(sprites,R.drawable.spike5));
         //TODO: BITMAP IMAGE TOO SMALL, NEED TO SIZE UP TO MATCH HITBOX
     }
 

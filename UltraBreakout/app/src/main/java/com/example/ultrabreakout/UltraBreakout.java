@@ -35,6 +35,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
     private ArrayList<Brick> bricks;
     private ArrayList<Spike> spikes;
     private ArrayList<Item> items;
+    private ArrayList<Actor> actors;
     private Level level;
     private int lives;
     private Stats stats;
@@ -123,22 +124,22 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 
     public void update() {
         stats.updatetime();
-        for (int i = balls.size() - 1; i >= 0; i--){
+        for (int i = balls.size() - 1; i >= 0; i--) {
             // First update the paddle velocity based on user input.
-            if (balls.get(i).velocity.x == 0 && balls.get(i).velocity.y == 0 && (input.isPressLeft() || input.isPressRight())){
+            if (balls.get(i).velocity.x == 0 && balls.get(i).velocity.y == 0 && (input.isPressLeft() || input.isPressRight())) {
                 balls.get(i).velocity.setVelocity(Ball.X_VELOCITY, -Ball.Y_VELOCITY);
             }
             //checks the bounds of the ball, dies if below the screen
-            if (balls.get(i).hasFallen(screenHeight)){
+            if (balls.get(i).hasFallen(screenHeight)) {
                 stats.decrementLives();
                 balls.get(i).die(paddles.get(0), balls.size());
             }
         }
 
-        for (Paddle paddle : paddles){
-            for (Ball ball : balls){
+        for (Paddle paddle : paddles) {
+            for (Ball ball : balls) {
                 //checks if paddle hits the ball, and reflects it by the y axis if it does
-                if (paddle.intersects(ball) && ball.velocity.y > 0){
+                if (paddle.intersects(ball) && ball.velocity.y > 0) {
                     // Change the x velocity based on where the ball hit the paddle.
                     // Ex if the ball hits on the left side of the paddle, it will
                     // move to the left side of the screen.
@@ -147,72 +148,63 @@ public class UltraBreakout extends SurfaceView implements Runnable {
             }
         }
 
-        // Check to see if ball is colliding with any bricks, and handle if so.
-        //this double forloop checks if the brick hits 2 bricks, and if it does it will reverse its velocity once
-        for (int i = bricks.size() - 1; i >= 0; i--) {
-            Brick brick1 = bricks.get(i);
-            for (Ball ball : balls){
-                if (brick1.intersects(ball)){
-                    brick1.collide(ball, paddles);
-                    //ball.collide(brick1);
-                    brick1.decrementHealth();
-                    if (brick1.returnHealth() == 1) {
-                        brick1.setBrokenSprite();
+        // checkCollisions checks to see if ball is colliding with any bricks, and handle if so.
+        //it also checks if the paddle hits an item, so you can get a powerup
+        checkCollisions(actors);
+    }
+
+    public void checkCollisions(ArrayList<? extends Actor> actor_list){
+        for (int i = actor_list.size() - 1; i >= 0; i--){
+            Actor curActor = actor_list.get(i);
+            for (int j = balls.size() - 1; j >= 0; j--){
+                Ball ball = balls.get(j);
+                if (curActor.intersects(ball)){
+                    switch (curActor.getClass().getSimpleName()){
+                        case("Brick"):
+                            Brick curBrick = ((Brick)curActor);
+                            curBrick.collide(ball);
+                            curBrick.decrementHealth();
+                            if (curBrick.returnHealth() == 1) {
+                                curBrick.setBrokenSprite();
+                            }
+                            else if(curBrick.returnHealth() <= 0) {
+                                if (curBrick.powerup == Brick.PowerUpType.PADDLE_WIDTH_INCREASE){
+                                    actors.add(new Item(ball.hitbox.left,ball.hitbox.top,0,450,Item.PowerUpType.PADDLE_WIDTH_INCREASE));
+                                }
+                                else if (curBrick.powerup == Brick.PowerUpType.NONE){
+                                    actors.add(new Item(ball.hitbox.left,ball.hitbox.top,0,450,Item.PowerUpType.NONE));
+                                }
+                                actors.remove(i);
+                            }
+                            break;
+                        case ("Spike"):
+                            Spike curSpike = ((Spike)curActor);
+                            if (curSpike.intersects(ball)) {
+                                stats.decrementLives();
+                                ball.die(paddles.get(0), balls.size());
+                            }
+                            break;
                     }
-                    else if(brick1.returnHealth() <= 0) {
-                        if (brick1.powerup == Brick.PowerUpType.PADDLE_WIDTH_INCREASE){
-                            items.add(new Item(ball.hitbox.left,ball.hitbox.top,0,450,Item.PowerUpType.PADDLE_WIDTH_INCREASE));
-                        }
-                        else if (brick1.powerup == Brick.PowerUpType.NONE){
-                            items.add(new Item(ball.hitbox.left,ball.hitbox.top,0,450,Item.PowerUpType.NONE));
-                        }
-                        bricks.remove(i);
+
+                }
+            }
+            for (int k = paddles.size() - 1; k >= 0; k--){
+                Paddle paddle = paddles.get(k);
+                if (curActor.intersects(paddle)) {
+                    switch (curActor.getClass().getSimpleName()) {
+                        case ("Item"):
+                            if (paddle.intersects(actor_list.get(i))){
+                                paddle.powerup(((Item)curActor), balls.get(0));
+                                actors.remove(i);
+                            }
+                            else if(((Item)curActor).hasFallen(screenHeight)){
+                                actors.remove(i);
+                            }
                     }
-                    break;
                 }
             }
-            /*for (int j = 0; j < bricks.size(); j++){
-                Brick brick2 = bricks.get(j);
-                if (i != j && brick1.intersects(ball)
-                        && brick2.intersects(ball)) {
-                    brick1.collide(ball, paddle);
-                    brick2.collide(ball, paddle);
-                    ball.collide(brick1);
-                    bricks.remove(i);
-                    bricks.remove(j);
-                    break;
-                } else if (brick1.intersects(ball)) {
-                    brick1.collide(ball,paddle);
-                    ball.collide(brick1);
-                    bricks.remove(i);
-                    break;
-                }
-            }*/
 
         }
-
-        // Check to see if ball is colliding with spikes, and handle if so.
-        for (Spike spike : spikes) {
-            for (int i = balls.size() - 1; i >= 0; i--){
-                if (spike.intersects(balls.get(i))) {
-                    stats.decrementLives();
-                    balls.get(i).die(paddles.get(0), balls.size());
-                    break;
-                }
-            }
-        }
-        for (Paddle paddle : paddles){
-            for (int i = items.size() - 1; i >= 0; i--){
-                if (paddle.intersects(items.get(i))){
-                    paddle.powerup(items.get(i), balls.get(0));
-                    items.remove(i);
-                }
-                else if(items.get(i).hasFallen(screenHeight)){
-                    items.remove(i);
-                }
-            }
-        }
-
         for (Ball ball : balls){
             ball.update(fps, screenWidth);
         }
@@ -220,21 +212,12 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         for (Paddle paddle : paddles) {
             paddle.update(fps, input, screenWidth);
         }
-        for (Item item : items) {
-            item.update(fps);
-        }
-        // TODO: Figure out how to replace all this with checkCollisions
-    }
-
-    public void checkCollisions(ArrayList<? extends Actor> actor_list){
-        for (int i = actor_list.size() - 1; i >= 0; i--){
-            for (int j = balls.size() - 1; j >= 0; j--){
-                if (actor_list.get(i).intersects(balls.get(i))){
-                    //FIXME It would be nice if we could get this to work
-                    // Maybe use an interface or something?
-                    //actor_list.collide(balls.get(i))
-                }
+        for (Actor actor: actors) {
+            switch (actor.getClass().getSimpleName()){
+                case("Item"):
+                    ((Item)actor).update(fps);
             }
+
         }
     }
 
@@ -245,16 +228,15 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         //FIXME
         balls = new ArrayList<>();
         paddles = new ArrayList<>();
-        bricks = new ArrayList<>();
-        spikes = new ArrayList<>();
-        items = new ArrayList<>();
+        //items = new ArrayList<>();
+        actors= new ArrayList<>();
         for (int i = 0; i < level.NUM_ROWS; i++){
             for (int j = 0; j < level.NUM_COLUMNS; j++){
                 if (level.csv_file_data.get(i).get(j).equals("1")) {
                     //FIXME: Add Balls, Paddles, Wormholes, etc. here
                     // A random chance to generate a powerup block.
                     if (Math.random() > 0.9) {
-                        bricks.add(
+                        actors.add(
                                 new Brick(
                                 Brick.BRICK_WIDTH * j,
                                 Brick.BRICK_HEIGHT * i * 2,
@@ -262,7 +244,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                                 R.drawable.breakout_tiles_48)
                         );
                     } else {
-                        bricks.add(
+                        actors.add(
                                 new Brick(
                                 Brick.BRICK_WIDTH * j,
                                 Brick.BRICK_HEIGHT * i * 2,
@@ -271,7 +253,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                     }
                 }
                 if (level.csv_file_data.get(i).get(j).equals("2")) {
-                    spikes.add(
+                    actors.add(
                             new Spike(
                                 Spike.SPIKE_WIDTH * j,
                                 Spike.SPIKE_HEIGHT * i)
@@ -309,9 +291,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 
             drawActorList(balls);
             drawActorList(paddles);
-            drawActorList(bricks);
-            drawActorList(spikes);
-            drawActorList(items);
+            drawActorList(actors);
 
             paint.setColor(Color.WHITE);
             paint.setTextSize(50);
