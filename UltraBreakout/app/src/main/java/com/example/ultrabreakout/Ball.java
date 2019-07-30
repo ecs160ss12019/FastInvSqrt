@@ -16,8 +16,8 @@ import java.util.ArrayList;
 //
 
 class Ball extends Actor {
-    public static final int BALL_HEIGHT = 55;
-    public static final int BALL_WIDTH = 55;
+    public static final int BALL_HEIGHT = 50;
+    public static final int BALL_WIDTH = 50;
 
     // The maximum velocities for the ball in the x and y components.
     public static final int X_VELOCITY = 450;

@@ -25,7 +25,7 @@ class Item extends Actor {
         GOLDEN_BALL,
     }
     private static final Map<PowerUpType, Integer> itemMap = new HashMap<PowerUpType, Integer>(){{
-        put(PowerUpType.PADDLE_WIDTH_INCREASE,R.drawable.spike);
+        put(PowerUpType.PADDLE_WIDTH_INCREASE,R.drawable.breakout_tiles_48);
         put(PowerUpType.GOLDEN_BALL,R.drawable.goldenball);
     }};
 

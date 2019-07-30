@@ -231,7 +231,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                 if (level.csv_file_data.get(i).get(j).equals("1")) {
                     //FIXME: Add Balls, Paddles, Wormholes, etc. here
                     // A random chance to generate a powerup block.
-                    if (Math.random() > 0.9) {
+                    if (Math.random() > 0.95) {
                         actors.add(
                                 new Brick(
                                 Brick.BRICK_WIDTH * j,
