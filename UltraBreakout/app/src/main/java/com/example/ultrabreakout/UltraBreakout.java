@@ -32,12 +32,8 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 
     private ArrayList<Paddle> paddles;
     private ArrayList<Ball> balls;
-    private ArrayList<Brick> bricks;
-    private ArrayList<Spike> spikes;
-    private ArrayList<Item> items;
     private ArrayList<Actor> actors;
     private Level level;
-    private int lives;
     private Stats stats;
     private Sound sound;
 
@@ -171,8 +167,8 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                                 if (curBrick.powerup == Brick.PowerUpType.PADDLE_WIDTH_INCREASE){
                                     actors.add(new Item(ball.hitbox.left,ball.hitbox.top,0,450,Item.PowerUpType.PADDLE_WIDTH_INCREASE));
                                 }
-                                else if (curBrick.powerup == Brick.PowerUpType.NONE){
-                                    actors.add(new Item(ball.hitbox.left,ball.hitbox.top,0,450,Item.PowerUpType.NONE));
+                                else if (curBrick.powerup == Brick.PowerUpType.GOLDEN_BALL){
+                                    actors.add(new Item(ball.hitbox.left,ball.hitbox.top,0,450,Item.PowerUpType.GOLDEN_BALL));
                                 }
                                 actors.remove(i);
                             }
@@ -242,6 +238,14 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                                 Brick.BRICK_HEIGHT * i * 2,
                                 Brick.PowerUpType.PADDLE_WIDTH_INCREASE,
                                 R.drawable.breakout_tiles_48)
+                        );
+                    } else if (Math.random() > 0.95) {
+                        actors.add(
+                                new Brick(
+                                        Brick.BRICK_WIDTH * j,
+                                        Brick.BRICK_HEIGHT * i * 2,
+                                        Brick.PowerUpType.GOLDEN_BALL,
+                                        R.drawable.goldenball_tile)
                         );
                     } else {
                         actors.add(

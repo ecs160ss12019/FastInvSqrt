@@ -16,8 +16,8 @@ import android.graphics.BitmapFactory;
 import java.util.HashMap;
 import java.util.Map;
 class Item extends Actor {
-    private static final int ITEM_WIDTH = 64;
-    private static final int ITEM_HEIGHT = 64;
+    private static final int ITEM_WIDTH = 30;
+    private static final int ITEM_HEIGHT = 30;
     public enum PowerUpType {
         NONE,                   // Normal block.
         PADDLE_WIDTH_INCREASE,  // Increase the width of the paddle.
@@ -26,7 +26,7 @@ class Item extends Actor {
     }
     private static final Map<PowerUpType, Integer> itemMap = new HashMap<PowerUpType, Integer>(){{
         put(PowerUpType.PADDLE_WIDTH_INCREASE,R.drawable.spike);
-        put(PowerUpType.NONE,R.drawable.ball);
+        put(PowerUpType.GOLDEN_BALL,R.drawable.goldenball);
     }};
 
 
@@ -46,7 +46,7 @@ class Item extends Actor {
 
     public void update(float fps){
         velocity.x = 0;
-        velocity.y = 450;
+        velocity.y = 400;
         updatePos(fps);
     }
 }

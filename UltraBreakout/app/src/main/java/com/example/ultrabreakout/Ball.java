@@ -16,13 +16,13 @@ import java.util.ArrayList;
 //
 
 class Ball extends Actor {
-    public static final int BALL_HEIGHT = 64;
-    public static final int BALL_WIDTH = 64;
+    public static final int BALL_HEIGHT = 55;
+    public static final int BALL_WIDTH = 55;
 
     // The maximum velocities for the ball in the x and y components.
     public static final int X_VELOCITY = 450;
     public static final int Y_VELOCITY = 450;
-    public static final int BALL_POWERUP_TIME = 10000;
+    public static final int BALL_POWERUP_TIME = 4000;
     public Handler ballTimer;
     private Runnable ballCallback;
     // Timer and handler to implement paddle width powerup object.

@@ -54,7 +54,7 @@ class Paddle extends Actor {
             case PADDLE_WIDTH_INCREASE:
                 this.paddleWidthIncrease();
                 break;
-            case NONE:
+            case GOLDEN_BALL:
                 ball.setGoldenBall();
                 break;
         }

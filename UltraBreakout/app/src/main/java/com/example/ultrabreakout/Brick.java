@@ -81,15 +81,6 @@ class Brick extends Actor {
             }
         }
 
-        //If HP>1, reduce HP
-        //Else, do the following powerup code
-//        switch (powerup) {
-//            case PADDLE_WIDTH_INCREASE:
-//                for (Paddle paddle : paddles){
-//                    paddle.paddleWidthIncrease();
-//                }
-//                break;
-//        }
     }
     public void decrementHealth() {
             health --;
