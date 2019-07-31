@@ -57,7 +57,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         sprites = getResources();
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
-        this.pauseMenu = new PauseMenu(screenWidth/10,screenHeight/10,screenWidth*9/10,screenHeight*9/10);
+        this.pauseMenu = new PauseMenu(screenHeight, screenWidth);
 
         this.level = level;
 
@@ -102,21 +102,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                 draw();
                 frameTimePrev = frameTimeNow;
             }
-            /*else {
-                Log.d("Passed", "False");
-                pause();
 
-                while(paused){
-                    Log.d("Passed", "In");
-
-                    if(!input.isPressPause()){
-                        Log.d("Paused: ", "Not");
-                        paused = false;
-                    }
-                }
-                Log.d("Passed: ", "True");
-
-            }*/
             if (stats.lives <= 0){
                 gameOver();
             }
@@ -329,8 +315,9 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 //                    screenHeight/2 + 450, paint);
 
             if(paused == true){
-                paint.setARGB(100,130,130,180);
-                canvas.drawRect(screenWidth/10,screenHeight/10,screenWidth*9/10,screenHeight*9/10,paint);
+                //paint.setARGB(100,130,130,180);
+                //canvas.drawRect(screenWidth/10,screenHeight/10,screenWidth*9/10,screenHeight*9/10,paint);
+                pauseMenu.draw(canvas,paint);
             }
 
             holder.unlockCanvasAndPost(canvas);
@@ -358,10 +345,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         Log.d("Touch:" ,"instance");
         if ( y < 100 && paused == true){
             paused = false;
-            stats.updatetime();
             resume();
-            stats.updatetime();
-
         } else if (y > 1000 && paused == false){
             paused = true;
             pause();
