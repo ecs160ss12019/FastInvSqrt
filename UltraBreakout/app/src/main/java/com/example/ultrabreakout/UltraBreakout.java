@@ -57,7 +57,6 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         sprites = getResources();
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
-        this.pauseMenu = new PauseMenu(screenHeight, screenWidth);
 
         this.level = level;
 
@@ -81,6 +80,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         // Initialize paused game.
         paused = false;
         gameThread = null;
+        this.pauseMenu = new PauseMenu(screenHeight, screenWidth, paint, canvas);
 
         frameTimeNow = frameTimePrev = System.currentTimeMillis();
 
@@ -342,22 +342,24 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                 input.touchUpEvent(x, y);
                 break;
         }
-        Log.d("Touch:" ,"instance");
-        if ( y < 100 && paused == true){
-            paused = false;
-            resume();
-        } else if (y > 1000 && paused == false){
-            paused = true;
-            pause();
+        if (paused == false) {
+            if (y < 100){
+                pause();
+            }
+        } else {
+            int option = pauseMenu.handleClick(x , y);
+            if (option == 2){
+                resume();
+            }
         }
-
         return true;
     }
 
     public void pause() {
         sound.pause();
+        paused = true;
         playing = false;
-
+        draw();
         try {
             gameThread.join();
         } catch (InterruptedException e) {
@@ -369,6 +371,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 
     public void resume() {
         sound.resume();
+        paused = false;
         playing = true;
         frameTimeNow = frameTimePrev = System.currentTimeMillis();
         gameThread = new Thread(this);
