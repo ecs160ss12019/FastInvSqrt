@@ -138,6 +138,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
             //checks the bounds of the ball, dies if below the screen
             if (balls.get(i).hasFallen(screenHeight)) {
                 stats.decrementLives();
+                stats.decrementScore();
                 balls.get(i).die(paddles.get(0), balls.size());
             }
         }
@@ -181,6 +182,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                                     actors.add(new Item(ball.hitbox.left,ball.hitbox.top,0,450,Item.PowerUpType.GOLDEN_BALL));
                                 }
                                 actors.remove(i);
+                                stats.incrementScore();
                             }
                             break;
                         case ("Spike"):
@@ -188,6 +190,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                             if (curSpike.intersects(ball)) {
                                 stats.decrementLives();
                                 ball.die(paddles.get(0), balls.size());
+                                stats.decrementScore();
                             }
                             break;
                     }
@@ -316,7 +319,10 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 //            canvas.drawText("TimeElapsed: " + stats.timeelpased,
 //                    screenWidth/2 - 870,
 //                    screenHeight/2 + 450, paint);
-//
+            canvas.drawText("Score: " + stats.score,
+                    screenWidth/2 - 870 + 300,
+                    screenHeight/2 + 450, paint);
+
             canvas.drawBitmap(BitmapFactory.decodeResource(sprites,R.drawable.breakout_tiles_46),null,pauseButton.hitbox,null);
 
             if(paused == true){

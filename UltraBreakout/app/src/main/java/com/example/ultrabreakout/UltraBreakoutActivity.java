@@ -36,6 +36,7 @@ public class UltraBreakoutActivity extends ScreenActivity {
 
         ultraBreakout = new UltraBreakout(this, size.x, size.y, level, this);
         setContentView(ultraBreakout);
+
     }
 
     @Override

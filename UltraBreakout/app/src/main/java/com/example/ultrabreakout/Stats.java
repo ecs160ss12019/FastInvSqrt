@@ -11,7 +11,7 @@ package com.example.ultrabreakout;
 
 class Stats {
   private int bricksRemaining;
-  private int score;
+  int score;
   float timestart;
   int lives;
   float timeelpased;
@@ -37,4 +37,10 @@ class Stats {
     lives--;
   }
 
+  public void incrementScore(){
+    score += 10;
+  }
+  public void decrementScore(){
+    score -= 50;
+  }
 }
