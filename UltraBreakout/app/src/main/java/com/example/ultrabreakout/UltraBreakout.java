@@ -326,11 +326,6 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 
         switch (motionEvent.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
-                if (x > button.hitbox.left && x < button.hitbox.right && y < button.hitbox.bottom && y > button.hitbox.top){
-                    canvas = holder.lockCanvas();
-                    canvas.drawBitmap(BitmapFactory.decodeResource(sprites,R.drawable.breakout_tiles_56),null,menu.hitbox,null);
-                    holder.unlockCanvasAndPost(canvas);
-                }
             case MotionEvent.ACTION_POINTER_DOWN:
                 input.touchDownEvent(x, y);
                 break;
