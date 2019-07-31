@@ -34,7 +34,7 @@ public class UltraBreakoutActivity extends ScreenActivity {
         configureScreen();
         size = obtainScreenSize();
 
-        ultraBreakout = new UltraBreakout(this, size.x, size.y, level);
+        ultraBreakout = new UltraBreakout(this, size.x, size.y, level, this);
         setContentView(ultraBreakout);
     }
 
@@ -58,4 +58,5 @@ public class UltraBreakoutActivity extends ScreenActivity {
 
         ultraBreakout.destroy();
     }
+
 }

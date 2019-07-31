@@ -24,7 +24,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 
     // Keeps track of fps for physics and updating purposes.
     private float fps;
-
+    private UltraBreakoutActivity GameActivity;
     // Used for drawing objects on screen.
     private SurfaceHolder holder;
     private Canvas canvas;
@@ -52,9 +52,10 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 
     long frameTimeNow, frameTimePrev;
 
-    public UltraBreakout(Context context, int screenWidth, int screenHeight, Level level) {
+    public UltraBreakout(Context context, int screenWidth, int screenHeight, Level level, UltraBreakoutActivity GameActivity) {
         super(context);
         sprites = getResources();
+        this.GameActivity = GameActivity;
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
 
@@ -350,6 +351,9 @@ public class UltraBreakout extends SurfaceView implements Runnable {
             int option = pauseMenu.handleClick(x , y);
             if (option == 2){
                 resume();
+            } else if (option == 1){
+                destroy();
+                this.GameActivity.finish();
             }
         }
         return true;

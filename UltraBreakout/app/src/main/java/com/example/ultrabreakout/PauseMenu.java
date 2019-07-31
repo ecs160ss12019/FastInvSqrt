@@ -28,15 +28,15 @@ public class PauseMenu {
         this.paint = new Paint();
         this.canvas = new Canvas();
         paint.setTextSize(height/8);
-        paint.getTextBounds("Resume", 0, 6, ResumeArea);
-        paint.getTextBounds("Exit", 0, 4, ExitArea);
+        paint.getTextBounds("RESUME", 0, 6, ResumeArea);
+        paint.getTextBounds("EXIT", 0, 4, ExitArea);
         int resumeY =  (int)((height * 7 / 12) - ( paint.descent() + paint.ascent()) / 2);
         int exitY = (int)((height * 9 / 12) - ( paint.descent() + paint.ascent()) / 2);
         adjustBoxArea(ResumeArea, width/2, resumeY);
         adjustBoxArea(ExitArea, width/2, exitY);
 
-        ResumeButton = new DrawableButton(ResumeArea, width/2, resumeY, height/8, "Resume");
-        ExitButton = new DrawableButton(ExitArea, width/2, exitY, height/8, "Exit");
+        ResumeButton = new DrawableButton(ResumeArea, width/2, resumeY, height/8, "RESUME");
+        ExitButton = new DrawableButton(ExitArea, width/2, exitY, height/8, "EXIT");
     }
 
 

@@ -47,7 +47,6 @@ public class DrawableButton {
     }
 
     public void draw(Canvas canvas, Paint paint){
-        canvas.drawRect(Area,paint);
         paint.setTextAlign(Paint.Align.CENTER);
         paint.setTextSize(textSize);
         canvas.drawText(Text, startX, startY, paint);
