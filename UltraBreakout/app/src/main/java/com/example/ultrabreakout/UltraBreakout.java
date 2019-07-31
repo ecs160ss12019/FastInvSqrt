@@ -36,7 +36,6 @@ public class UltraBreakout extends SurfaceView implements Runnable {
     private Level level;
     private Stats stats;
     private Sound sound;
-    //creating pause button here temporarily
     private PauseMenu menu;
     private PauseButton button;
 
@@ -71,10 +70,8 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         stats = new Stats();
         input = new Input(screenWidth, screenHeight);
         generateActors();
-
         menu = new PauseMenu(screenWidth,screenHeight);
         button = new PauseButton(screenWidth, screenHeight);
-
         sound = Sound.getInstance();
         sound.play_background(context, R.raw.background_2);
 
@@ -313,7 +310,6 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 //                    screenWidth/2 - 870,
 //                    screenHeight/2 + 450, paint);
 //
-            // drawing the button
             canvas.drawBitmap(BitmapFactory.decodeResource(sprites,R.drawable.breakout_tiles_56),null,button.hitbox,null);
 
             holder.unlockCanvasAndPost(canvas);
@@ -330,7 +326,6 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 
         switch (motionEvent.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
-                // if the button was hit then draw the menu, should change states
                 if (x > button.hitbox.left && x < button.hitbox.right && y < button.hitbox.bottom && y > button.hitbox.top){
                     canvas = holder.lockCanvas();
                     canvas.drawBitmap(BitmapFactory.decodeResource(sprites,R.drawable.breakout_tiles_56),null,menu.hitbox,null);
