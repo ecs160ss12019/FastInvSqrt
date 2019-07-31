@@ -6,11 +6,13 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import java.util.ArrayList;
+import java.util.Timer;
 
 import static com.example.ultrabreakout.Actor.sprites;
 import static java.lang.Math.abs;
@@ -36,6 +38,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
     private Level level;
     private Stats stats;
     private Sound sound;
+    private PauseMenu pauseMenu;
 
     // Keeps track whether the main thread should be running or not.
     // Volatile so that it is thread-safe.
@@ -52,9 +55,10 @@ public class UltraBreakout extends SurfaceView implements Runnable {
     public UltraBreakout(Context context, int screenWidth, int screenHeight, Level level) {
         super(context);
         sprites = getResources();
-
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
+        this.pauseMenu = new PauseMenu(screenWidth/10,screenHeight/10,screenWidth*9/10,screenHeight*9/10);
+
         this.level = level;
 
         Brick.BRICK_WIDTH = screenWidth/Level.NUM_COLUMNS;
@@ -87,6 +91,8 @@ public class UltraBreakout extends SurfaceView implements Runnable {
     public void run() {
         while(playing) {
             if (!paused) {
+                Log.d("Passed", "False");
+
                 // Calculate the frame rate for physics purposes.
                 frameTimeNow = System.currentTimeMillis();
                 fps = 1000 / ((float)(frameTimeNow - frameTimePrev));
@@ -96,6 +102,21 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                 draw();
                 frameTimePrev = frameTimeNow;
             }
+            /*else {
+                Log.d("Passed", "False");
+                pause();
+
+                while(paused){
+                    Log.d("Passed", "In");
+
+                    if(!input.isPressPause()){
+                        Log.d("Paused: ", "Not");
+                        paused = false;
+                    }
+                }
+                Log.d("Passed: ", "True");
+
+            }*/
             if (stats.lives <= 0){
                 gameOver();
             }
@@ -288,8 +309,8 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 
     void draw() {
         if (holder.getSurface().isValid()) {
-            // Lock the canvas, so we can start drawing.
-            canvas = holder.lockCanvas();
+                // Lock the canvas, so we can start drawing.
+                canvas = holder.lockCanvas();
 
             canvas.drawColor(Color.rgb(0, 0, 0));
 
@@ -306,6 +327,11 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 //            canvas.drawText("TimeElapsed: " + stats.timeelpased,
 //                    screenWidth/2 - 870,
 //                    screenHeight/2 + 450, paint);
+
+            if(paused == true){
+                paint.setARGB(100,130,130,180);
+                canvas.drawRect(screenWidth/10,screenHeight/10,screenWidth*9/10,screenHeight*9/10,paint);
+            }
 
             holder.unlockCanvasAndPost(canvas);
 
@@ -329,6 +355,17 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                 input.touchUpEvent(x, y);
                 break;
         }
+        Log.d("Touch:" ,"instance");
+        if ( y < 100 && paused == true){
+            paused = false;
+            stats.updatetime();
+            resume();
+            stats.updatetime();
+
+        } else if (y > 1000 && paused == false){
+            paused = true;
+            pause();
+        }
 
         return true;
     }
@@ -336,16 +373,20 @@ public class UltraBreakout extends SurfaceView implements Runnable {
     public void pause() {
         sound.pause();
         playing = false;
+
         try {
             gameThread.join();
         } catch (InterruptedException e) {
             System.err.println("Could not pause game, error joining thread: " + e.getMessage());
         }
+
+
     }
 
     public void resume() {
         sound.resume();
         playing = true;
+        frameTimeNow = frameTimePrev = System.currentTimeMillis();
         gameThread = new Thread(this);
         gameThread.start();
     }
