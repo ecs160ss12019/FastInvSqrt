@@ -1,5 +1,7 @@
 package com.example.ultrabreakout;
 
+import android.util.Log;
+
 /* Handles the logic for user input.
  *
  * Deals with converting raw user input (ex location on screen pressed)
@@ -14,7 +16,7 @@ public class Input {
     // Keep track of last user state.
     private boolean pressedRight;
     private boolean pressedLeft;
-
+    private boolean pressedPause;
     // Variables for internal logic.
     private int screenWidth;
     private int screenHeight;
@@ -22,7 +24,7 @@ public class Input {
     public Input(int screenWidth, int screenHeight) {
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
-
+        pressedPause = false;
         pressedRight = false;
         pressedLeft = false;
     }
@@ -31,7 +33,15 @@ public class Input {
      *
      */
     public void touchDownEvent(float x, float y) {
-        if (x <= screenWidth / 2) {
+        Log.d("Touch: ", Float.toString(x) + ", " + Float.toString(y));
+        if (y < 100) {
+            if (pressedPause == true) {
+                pressedPause = false;
+            } else {
+                Log.d("Touch: ", "Pause True");
+                pressedPause = true;
+            }
+        }else if (x <= screenWidth / 2) {
             pressedLeft = true;
         } else if (x > screenWidth / 2) {
             pressedRight = true;
@@ -52,4 +62,6 @@ public class Input {
     // Getters for user input.
     public boolean isPressRight() { return pressedRight && !pressedLeft; }
     public boolean isPressLeft() { return pressedLeft && !pressedRight; }
+    public boolean isPressPause() { return pressedPause; }
+
 }
