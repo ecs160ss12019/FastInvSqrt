@@ -37,6 +37,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
     private Stats stats;
     private Sound sound;
     private PauseMenu menu;
+    private PauseButton button;
 
     // Keeps track whether the main thread should be running or not.
     // Volatile so that it is thread-safe.
@@ -70,6 +71,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         input = new Input(screenWidth, screenHeight);
         generateActors();
         menu = new PauseMenu(screenWidth,screenHeight);
+        button = new PauseButton(screenWidth, screenHeight);
         sound = Sound.getInstance();
         sound.play_background(context, R.raw.background_2);
 
@@ -308,7 +310,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 //                    screenWidth/2 - 870,
 //                    screenHeight/2 + 450, paint);
 //
-            //canvas.drawBitmap(BitmapFactory.decodeResource(sprites,R.drawable.breakout_tiles_56),null,menu.hitbox,null);
+            canvas.drawBitmap(BitmapFactory.decodeResource(sprites,R.drawable.breakout_tiles_56),null,button.hitbox,null);
 
             holder.unlockCanvasAndPost(canvas);
 
