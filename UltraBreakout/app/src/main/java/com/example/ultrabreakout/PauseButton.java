@@ -12,7 +12,15 @@ public class PauseButton {
         this.buttonWidth = screenWidth / (float) 10;
         this.buttonHeight = screenHeight / (float) 10;
 
-        hitbox = new RectF(screenWidth/2, screenHeight/2, screenWidth/2+buttonWidth,screenHeight/2+buttonHeight);
+        hitbox = new RectF(screenWidth - 200 , screenHeight- 200, screenWidth - 200 + buttonWidth,screenHeight - 200 +buttonHeight);
+    }
+    public boolean collides(float x, float y){
+        if (x < this.hitbox.right && x > this.hitbox.left &&  y > this.hitbox.top && y < this.hitbox.bottom){
+            return true;
+        }
+        else{
+            return false;
+        }
 
     }
 

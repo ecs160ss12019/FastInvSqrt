@@ -20,7 +20,7 @@ public class PauseMenu {
     Paint paint;
     Canvas canvas;
 
-    public PauseMenu(int height, int width, Paint paint, Canvas canvas){
+    public PauseMenu(int height, int width, Paint paint){
         Area = new RectF(0,0,width,height);
         ResumeArea = new Rect();
         ExitArea = new Rect();
@@ -35,7 +35,6 @@ public class PauseMenu {
         int exitY = (int)((height * 9 / 12) - ( paint.descent() + paint.ascent()) / 2);
         adjustBoxArea(ResumeArea, width/2, resumeY);
         adjustBoxArea(ExitArea, width/2, exitY);
-
         ResumeButton = new DrawableButton(ResumeArea, width/2, resumeY, height/8, "RESUME");
         ExitButton = new DrawableButton(ExitArea, width/2, exitY, height/8, "EXIT");
     }
