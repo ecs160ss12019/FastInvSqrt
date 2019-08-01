@@ -62,6 +62,5 @@ public class Input {
     // Getters for user input.
     public boolean isPressRight() { return pressedRight && !pressedLeft; }
     public boolean isPressLeft() { return pressedLeft && !pressedRight; }
-    public boolean isPressPause() { return pressedPause; }
 
 }

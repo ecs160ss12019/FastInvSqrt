@@ -366,6 +366,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         return true;
     }
 
+    //Check whether pause button has been pressed, pause if it has been
     public void checkForPause(float x, float y){
         if (!paused) {
             if (pauseButton.collides(x,y)){
@@ -374,9 +375,9 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         }
     }
 
+    // Determine which menu we are in and handle option selection in game Menu
     public void handleInGameMenu(float x,float y){
         if (paused) {
-            int option;
             if (gameOver){
                 handleGameOverMenu(x, y);
             }
@@ -386,6 +387,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         }
     }
 
+    // Handle option selection in gameOverMenu
     public void handleGameOverMenu(float x, float y) {
         int option;
         option = gameOverMenu.handleClick(x, y);
@@ -397,6 +399,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         }
     }
 
+    // Handle option selection in pauseMenu
     public void handlePauseMenu(float x, float y){
         int option = pauseMenu.handleClick(x , y);
         if (option == 2){
@@ -417,8 +420,6 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         } catch (InterruptedException e) {
             System.err.println("Could not pause game, error joining thread: " + e.getMessage());
         }
-
-
     }
 
     public void resume() {

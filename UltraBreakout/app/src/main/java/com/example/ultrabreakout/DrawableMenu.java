@@ -26,6 +26,7 @@ public class DrawableMenu {
         Area.right = Area.right + offsetX - uncenter;
     }
 
+    //Check which button has been pressed, return int for which button has been pressed
     public int handleClick(float x, float y) {
         for (int i = 0; i < ButtonsList.size(); i++) {
             if (ButtonsList.get(i).contains(x, y)) {
@@ -35,6 +36,7 @@ public class DrawableMenu {
         return 0;
     }
 
+    //Draw a PauseMenu
     public void draw(Canvas canvas, Paint paint, String str){
         //Draw filter
         paint.setARGB(100,130,130,180);
@@ -55,6 +57,7 @@ public class DrawableMenu {
 
     }
 
+    //Draw a gameOverMenu
     public void draw(Canvas canvas, Paint paint, String str, boolean victory){
         //Draw filter based on victory or defeat
         if (victory) {

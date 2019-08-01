@@ -16,8 +16,6 @@ import android.os.Bundle;
 import android.util.Log;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -28,14 +26,13 @@ import java.util.Scanner;
 class Level {
     public static  int NUM_ROWS = 16;
     public static  int NUM_COLUMNS = 16;
-    int[][] game_level = new int[NUM_ROWS][NUM_COLUMNS];
     List<List<String>> csv_file_data = new ArrayList<List<String>>();
 
     public Level(String csv_file_name, Context myContext){
         csv_file_data =  read_level(csv_file_name, myContext);
     }
 
-
+    //read csv file
     private List<List<String>> read_level(String csv_file_name, Context myContext){
         String path = "levels/" + csv_file_name;
 
@@ -56,6 +53,7 @@ class Level {
         return csv_file_data;
     }
 
+    //read row in csv file
     private List<String> read_level_row(String line){
         List<String> row = new ArrayList<String>();
         try (Scanner rowScanner = new Scanner(line)){
