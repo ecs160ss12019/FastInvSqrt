@@ -40,6 +40,8 @@ public class UltraBreakout extends SurfaceView implements Runnable {
     private Sound sound;
     private PauseButton pauseButton;
     private PauseMenu pauseMenu;
+    private PauseMenu gameOverMenu;
+    private boolean gameOver;
 
     // Keeps track whether the main thread should be running or not.
     // Volatile so that it is thread-safe.
@@ -76,7 +78,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 
         sound = Sound.getInstance();
         sound.play_background(context, R.raw.background_2);
-
+        gameOver = false;
         fps = 0;
 
         // Initialize paused game.
@@ -84,6 +86,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         gameThread = null;
         this.pauseButton = new PauseButton(screenWidth, screenHeight);
         this.pauseMenu = new PauseMenu(screenHeight, screenWidth, paint);
+        this.gameOverMenu = new PauseMenu(screenHeight, screenWidth, paint);
 
         frameTimeNow = frameTimePrev = System.currentTimeMillis();
 
@@ -105,7 +108,6 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                 draw();
                 frameTimePrev = frameTimeNow;
             }
-
             if (stats.lives <= 0){
                 gameOver();
             }
@@ -113,7 +115,13 @@ public class UltraBreakout extends SurfaceView implements Runnable {
     }
     public void gameOver(){
         System.out.println("GAME OVER");
-        restart();
+        stats = new Stats();
+        input = new Input(screenWidth, screenHeight);
+        gameOver = true;
+        paused = true;
+        pause();
+
+        //restart();
     }
 
 
@@ -336,10 +344,12 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 
             canvas.drawBitmap(BitmapFactory.decodeResource(sprites,R.drawable.breakout_tiles_46),null,pauseButton.hitbox,null);
 
-            if(paused == true){
+            if(paused == true && !gameOver){
                 //paint.setARGB(100,130,130,180);
                 //canvas.drawRect(screenWidth/10,screenHeight/10,screenWidth*9/10,screenHeight*9/10,paint);
-                pauseMenu.draw(canvas,paint);
+                pauseMenu.draw(canvas,paint, "Paused");
+            } else if (paused == true && gameOver){
+                gameOverMenu.draw(canvas,paint, "GAMEOVER");
             }
 
             holder.unlockCanvasAndPost(canvas);
@@ -369,7 +379,14 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                 pause();
             }
         } else {
-            int option = pauseMenu.handleClick(x , y);
+            int option;
+            if (gameOver){
+                option = gameOverMenu.handleClick(x , y);
+            }
+            else{
+                option = pauseMenu.handleClick(x , y);
+            }
+
             if (option == 2){
                 resume();
             } else if (option == 1){

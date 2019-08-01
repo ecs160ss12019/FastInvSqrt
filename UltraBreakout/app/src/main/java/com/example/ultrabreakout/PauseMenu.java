@@ -40,7 +40,8 @@ public class PauseMenu {
     }
 
 
-    public void draw(Canvas canvas, Paint paint){
+
+    public void draw(Canvas canvas, Paint paint, String str){
         //Draw PAUSED in middle of the screen
         paint.setARGB(100,130,130,180);
         canvas.drawRect(Area,paint);
@@ -49,7 +50,7 @@ public class PauseMenu {
         paint.setTextSize(height/3);
         int centerX = width/2;
         int centerY = (int)((height / 4) - ( paint.descent() + paint.ascent()) / 2);
-        canvas.drawText("PAUSED", centerX, centerY, paint);
+        canvas.drawText(str, centerX, centerY, paint);
         //Draw below the PAUSE
         ResumeButton.draw(canvas,paint);
         ExitButton.draw(canvas,paint);
