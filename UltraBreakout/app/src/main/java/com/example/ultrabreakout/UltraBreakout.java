@@ -97,8 +97,6 @@ public class UltraBreakout extends SurfaceView implements Runnable {
     public void run() {
         while(playing) {
             if (!paused) {
-                Log.d("Passed", "False");
-
                 // Calculate the frame rate for physics purposes.
                 frameTimeNow = System.currentTimeMillis();
                 fps = 1000 / ((float)(frameTimeNow - frameTimePrev));
@@ -113,15 +111,11 @@ public class UltraBreakout extends SurfaceView implements Runnable {
             }
         }
     }
-    public void gameOver(){
-        System.out.println("GAME OVER");
-        stats = new Stats();
-        input = new Input(screenWidth, screenHeight);
-        gameOver = true;
-        paused = true;
-        pause();
 
-        //restart();
+    public void gameOver(){
+        gameOver = true;
+        draw();
+        pause();
     }
 
 
@@ -335,9 +329,6 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                     screenWidth/2 - 870,
                     screenHeight/2 + 450, paint);
 
-//            canvas.drawText("TimeElapsed: " + stats.timeelpased,
-//                    screenWidth/2 - 870,
-//                    screenHeight/2 + 450, paint);
             canvas.drawText("Score: " + stats.score,
                     screenWidth/2 - 870 + 300,
                     screenHeight/2 + 450, paint);
@@ -345,8 +336,6 @@ public class UltraBreakout extends SurfaceView implements Runnable {
             canvas.drawBitmap(BitmapFactory.decodeResource(sprites,R.drawable.breakout_tiles_46),null,pauseButton.hitbox,null);
 
             if(paused == true && !gameOver){
-                //paint.setARGB(100,130,130,180);
-                //canvas.drawRect(screenWidth/10,screenHeight/10,screenWidth*9/10,screenHeight*9/10,paint);
                 pauseMenu.draw(canvas,paint, "Paused");
             } else if (paused == true && gameOver){
                 gameOverMenu.draw(canvas,paint, "GAMEOVER");
@@ -382,17 +371,24 @@ public class UltraBreakout extends SurfaceView implements Runnable {
             int option;
             if (gameOver){
                 option = gameOverMenu.handleClick(x , y);
+                if (option == 2){
+                    resume();
+                } else if (option == 1){
+                    Log.d("EXIT", "EXITING");
+                    this.GameActivity.returnToMainMenu();
+                }
             }
             else{
                 option = pauseMenu.handleClick(x , y);
+                if (option == 2){
+                    resume();
+                } else if (option == 1){
+                    Log.d("EXIT", "EXITING");
+                    this.GameActivity.returnToMainMenu();
+                }
             }
 
-            if (option == 2){
-                resume();
-            } else if (option == 1){
-                destroy();
-                this.GameActivity.finish();
-            }
+
         }
         return true;
     }
@@ -415,7 +411,9 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         sound.resume();
         paused = false;
         playing = true;
+        gameOver = false;
         frameTimeNow = frameTimePrev = System.currentTimeMillis();
+        stats.lives = 3;
         gameThread = new Thread(this);
         gameThread.start();
     }

@@ -39,6 +39,22 @@ public class UltraBreakoutActivity extends ScreenActivity {
 
     }
 
+    public void returnToMainMenu(){
+        Intent intent = new Intent(UltraBreakoutActivity.this, Title.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |  Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
+        //From what I've read online, this top section should be sufficient for returning to the title screen.
+        //However calling the code above from the GameOverMenu screen somehow causes the app to freeze, while
+        //calling it from the PauseMenu somehow does not cause it to freeze. I tried switching to using only
+        //system.exit(0) instead of finish, and i got issues with the fullScreen resetting. Somehow calling both finish()
+        //and system.exit(0) fixes both problems, although I don't think this is the correct documented way to do this.
+        System.exit(0);
+    }
+
+
+
+
     @Override
     protected void onResume() {
         super.onResume();

@@ -46,7 +46,6 @@ public class LevelSelectMenu extends PopUpScreen {
         int id = View.generateViewId();
         button.setId(id);
         r_ids.add(id);
-        Log.d("debugging", Integer.toString(button.getId()) );
 
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         if (level == 0) {
