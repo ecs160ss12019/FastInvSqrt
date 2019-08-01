@@ -154,18 +154,21 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         stats.updatetime();
         for (int i = balls.size() - 1; i >= 0; i--) {
             //First update the paddle velocity based on user input; goes in direction of paddle
-            if (balls.get(i).velocity.x == 0 && balls.get(i).velocity.y == 0 && (input.isPressLeft() || input.isPressRight())) {
+            if (balls.get(0).velocity.x == 0 && balls.get(0).velocity.y == 0 && (input.isPressLeft() || input.isPressRight())) {
                 balls.get(i).velocity.setVelocity(input.isPressLeft() ? -Ball.X_VELOCITY : Ball.X_VELOCITY, -Ball.Y_VELOCITY);
+                balls.get(0).isActive = true;
             }
             //checks the bounds of the ball, dies if below the screen
             if (balls.get(i).hasFallen(screenHeight)) {
                 if (balls.size() == 1){
-                    balls.get(0).die(paddles.get(0), balls.size());
+                    balls.get(0).die(paddles.get(0));
                     stats.decrementLives();
                     stats.decrementScore();
                 }
-                balls.remove(balls.size() - 1);
-                balls.get(i).die(paddles.get(0), balls.size());
+                else {
+                    balls.remove(balls.get(i));
+                    stats.active_balls--;
+                }
             }
         }
 
@@ -173,9 +176,6 @@ public class UltraBreakout extends SurfaceView implements Runnable {
             for (Ball ball : balls) {
                 //checks if paddle hits the ball, and reflects it by the y axis if it does
                 if (paddle.intersects(ball) && ball.velocity.y > 0) {
-                    // Change the x velocity based on where the ball hit the paddle.
-                    // Ex if the ball hits on the left side of the paddle, it will
-                    // move to the left side of the screen.
                     paddle.collide(ball);
                 }
             }
@@ -211,9 +211,16 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                         case ("Spike"):
                             Spike curSpike = ((Spike)curActor);
                             if (curSpike.intersects(ball)) {
-                                stats.decrementLives();
-                                ball.die(paddles.get(0), balls.size());
-                                stats.decrementScore();
+                                //FIXME Make unified ball killing funct
+                                if (balls.size() == 1){
+                                    balls.get(0).die(paddles.get(0));
+                                    stats.decrementLives();
+                                    stats.decrementScore();
+                                }
+                                else {
+                                    balls.remove(balls.get(i));
+                                    stats.active_balls--;
+                                }
                             }
                             break;
                     }
@@ -260,6 +267,22 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         balls = new ArrayList<>();
         paddles = new ArrayList<>();
         actors= new ArrayList<>();
+
+        balls.add(
+                new Ball(
+                        screenWidth/2 - Ball.BALL_WIDTH/2,
+                        screenHeight - Paddle.PADDLE_HEIGHT * 8 + statsBarOffset + 20,
+                        0,
+                        0)
+        );
+        stats.active_balls++; //First ball by default is active
+
+        paddles.add(
+                new Paddle(
+                        (screenWidth/2) - Paddle.PADDLE_WIDTH/2,
+                        screenHeight - Paddle.PADDLE_HEIGHT * 4)
+        );
+
         for (int i = 0; i < level.NUM_ROWS; i++){
             for (int j = 0; j < level.NUM_COLUMNS; j++){
                 switch (level.csv_file_data.get(i).get(j)){
@@ -288,18 +311,6 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                 }
             }
         }
-        balls.add(
-                new Ball(
-                screenWidth/2 - Ball.BALL_WIDTH/2,
-                screenHeight - Paddle.PADDLE_HEIGHT * 8 + statsBarOffset + 20,
-                0,
-                0)
-        );
-        paddles.add(
-                new Paddle(
-                (screenWidth/2) - Paddle.PADDLE_WIDTH/2,
-                screenHeight - Paddle.PADDLE_HEIGHT * 4)
-        );
     }
 
     //Draws any actor, note the wildcard ?

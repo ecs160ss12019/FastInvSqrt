@@ -16,6 +16,7 @@ class Stats {
   float timestart;
   int lives;
   float timeelpased;
+  int active_balls;
 
 
   public Stats () {
@@ -25,6 +26,7 @@ class Stats {
     bricksRemaining = 0;
     bricksDestroyed = 0;
     timestart = System.currentTimeMillis();
+    active_balls = 0;
   }
 
   public Stats (int bricksRemaining) {

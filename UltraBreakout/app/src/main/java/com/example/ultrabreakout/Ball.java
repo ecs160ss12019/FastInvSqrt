@@ -113,12 +113,10 @@ class Ball extends Actor {
     }
 
     //Kills the ball. What happens depends on if it's ball_zero.
-    public void die (Paddle paddle_zero, int num_balls){
-        if (num_balls == 1){
-            reset (paddle_zero);
-            normalBall();
-            paddle_zero.paddleWidthNormal();
-        }
+    public void die (Paddle paddle_zero){
+        reset (paddle_zero);
+        normalBall();
+        paddle_zero.paddleWidthNormal();
         velocity.setSpeed(0);
         //FIXME: Anything else to set?
     }
