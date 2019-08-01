@@ -10,7 +10,7 @@ import java.util.function.Consumer;
 
 
 public class DrawableButton {
-    Rect Area;
+    Rect hitbox;
     Boolean isText;
     Boolean isImage;
     int startX;
@@ -24,15 +24,12 @@ public class DrawableButton {
         this.textSize = textSize;
         this.isText = true;
         this.Text = Text;
-        this.Area = Area;
+        this.hitbox = Area;
     }
 
-    public DrawableButton(Rect Area, int x, int y) {
-
-    }
-
+    //Check whether or not coordinates are inside button
     public boolean contains(float x, float y){
-        return (x > Area.left && x < Area.right && y > Area.top && y < Area.bottom);
+        return (x > hitbox.left && x < hitbox.right && y > hitbox.top && y < hitbox.bottom);
     }
 
     public void draw(Canvas canvas, Paint paint){
