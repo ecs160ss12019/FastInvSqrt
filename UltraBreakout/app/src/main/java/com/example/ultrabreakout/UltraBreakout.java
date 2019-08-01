@@ -178,6 +178,9 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                                 if (curBrick.powerup == Brick.PowerUpType.PADDLE_WIDTH_INCREASE){
                                     actors.add(new Item(ball.hitbox.left,ball.hitbox.top,0,450,Item.PowerUpType.PADDLE_WIDTH_INCREASE));
                                 }
+                                else if (curBrick.powerup == Brick.PowerUpType.PADDLE_WIDTH_DECREASE){
+                                    actors.add(new Item(ball.hitbox.left,ball.hitbox.top,0,450,Item.PowerUpType.PADDLE_WIDTH_DECREASE));
+                                }
                                 else if (curBrick.powerup == Brick.PowerUpType.GOLDEN_BALL){
                                     actors.add(new Item(ball.hitbox.left,ball.hitbox.top,0,450,Item.PowerUpType.GOLDEN_BALL));
                                 }
@@ -259,6 +262,14 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                                         Brick.BRICK_HEIGHT * i * 2,
                                         Brick.PowerUpType.GOLDEN_BALL,
                                         R.drawable.goldenball_tile)
+                        );
+                    } else if (Math.random() > 0.95) {
+                        actors.add(
+                                new Brick(
+                                        Brick.BRICK_WIDTH * j,
+                                        Brick.BRICK_HEIGHT * i * 2,
+                                        Brick.PowerUpType.PADDLE_WIDTH_DECREASE,
+                                        R.drawable.breakout_tiles_48)
                         );
                     } else {
                         actors.add(

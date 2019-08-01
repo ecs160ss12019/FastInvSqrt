@@ -76,7 +76,7 @@ class Ball extends Actor {
         if (num_balls == 1){
             reset (paddle_zero);
             notGoldenBall();
-            paddle_zero.paddleWidthDecrease();
+            paddle_zero.paddleWidthNormal();
         }
         velocity.setSpeed(0);
         //FIXME: Anything else to set?

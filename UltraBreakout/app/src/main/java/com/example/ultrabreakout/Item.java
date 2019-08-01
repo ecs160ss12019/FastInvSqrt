@@ -23,9 +23,11 @@ class Item extends Actor {
         PADDLE_WIDTH_INCREASE,  // Increase the width of the paddle.
         NUM_POWERUP_TYPES,
         GOLDEN_BALL,
+        PADDLE_WIDTH_DECREASE,
     }
     private static final Map<PowerUpType, Integer> itemMap = new HashMap<PowerUpType, Integer>(){{
         put(PowerUpType.PADDLE_WIDTH_INCREASE,R.drawable.breakout_tiles_48);
+        put(PowerUpType.PADDLE_WIDTH_DECREASE,R.drawable.breakout_tiles_48);
         put(PowerUpType.GOLDEN_BALL,R.drawable.goldenball);
     }};
 
