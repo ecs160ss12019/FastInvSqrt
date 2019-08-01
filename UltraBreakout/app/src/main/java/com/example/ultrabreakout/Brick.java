@@ -118,6 +118,11 @@ class Brick extends Actor {
             }
         }
 
+        //Ball is trapped between two bricks, no damage
+        if (!ball.isActive){
+            return;
+        }
+
         //Make brick take damage
         if (--health == 1) {
             setBrokenSprite();

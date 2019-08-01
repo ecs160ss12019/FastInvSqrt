@@ -49,12 +49,9 @@ class Ball extends Actor {
                 normalBall();
             }
         };
+        isActive = false;
     }
 
-    //Generates a ball on the field; distinct from the first ball
-    public static Ball generateBall (float x_pos, float y_pos){
-        return new Ball (x_pos, y_pos, 0, Y_VELOCITY);
-    }
 
     public void setGoldenBall(){
         ballTimer.removeCallbacks(ballCallback);

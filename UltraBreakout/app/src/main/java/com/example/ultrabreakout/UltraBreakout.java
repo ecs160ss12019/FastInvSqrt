@@ -159,8 +159,12 @@ public class UltraBreakout extends SurfaceView implements Runnable {
             }
             //checks the bounds of the ball, dies if below the screen
             if (balls.get(i).hasFallen(screenHeight)) {
-                stats.decrementLives();
-                stats.decrementScore();
+                if (balls.size() == 1){
+                    balls.get(0).die(paddles.get(0), balls.size());
+                    stats.decrementLives();
+                    stats.decrementScore();
+                }
+                balls.remove(balls.size() - 1);
                 balls.get(i).die(paddles.get(0), balls.size());
             }
         }
@@ -277,11 +281,16 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                                 new Spike(
                                         Spike.SPIKE_WIDTH * j,
                                         Spike.SPIKE_HEIGHT * i)
-                            );
+                        );
                         break;
                     case ("3"):
-                        actors.add(Ball.generateBall(j,i));
-                        //FIXME Ballz
+                        balls.add(
+                                new Ball (
+                                        Ball.BALL_WIDTH * j,
+                                        Ball.BALL_HEIGHT * i,
+                                        0,
+                                        Ball.Y_VELOCITY)
+                        );
                         break;
                     default:
                         break;
@@ -359,7 +368,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                 input.touchUpEvent(x, y);
                 break;
         }
-        if (paused == false) {
+        if (!paused) {
             if (pauseButton.collides(x,y)){
                 pause();
             }

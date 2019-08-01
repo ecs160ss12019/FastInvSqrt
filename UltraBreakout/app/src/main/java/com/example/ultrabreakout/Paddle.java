@@ -40,6 +40,8 @@ class Paddle extends Actor {
     }
 
     public void collide (Ball ball){
+        //Ball becomes active if it was part of level initially
+        ball.isActive = true;
         float x_diff = ball.hitbox.centerX() - hitbox.centerX();
         float x_velocity = (x_diff / (width / 2)) * Ball.X_VELOCITY;
         ball.velocity.setVelocity(x_velocity, -ball.velocity.y);
