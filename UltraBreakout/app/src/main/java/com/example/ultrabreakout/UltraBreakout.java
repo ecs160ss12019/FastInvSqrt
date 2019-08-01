@@ -5,17 +5,15 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.RectF;
+import android.graphics.Typeface;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import java.util.ArrayList;
-import java.util.Timer;
 
 import static com.example.ultrabreakout.Actor.sprites;
-import static java.lang.Math.abs;
 
 public class UltraBreakout extends SurfaceView implements Runnable {
 
@@ -75,9 +73,11 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         // Initialize for drawing objects on screen.
         holder = getHolder();
         paint = new Paint();
+        Typeface typeface = Typeface.createFromAsset(context.getAssets(), "fonts/8bit.TTF");
+        paint.setTypeface(typeface);
         // Actors and functions related to the game.
         stats = new Stats();
-        statsBar = new StatsBar(stats, screenWidth);
+        statsBar = new StatsBar(stats, screenWidth, typeface);
         input = new Input(screenWidth, screenHeight);
         generateActors();
 

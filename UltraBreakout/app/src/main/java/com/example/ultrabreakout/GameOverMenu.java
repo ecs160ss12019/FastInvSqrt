@@ -45,7 +45,7 @@ public class GameOverMenu extends DrawableMenu{
         canvas.drawRect(Area,paint);
         paint.setARGB(255,255,255,255);
         paint.setTextAlign(Paint.Align.CENTER);
-        paint.setTextSize(height/3);
+        paint.setTextSize(height/4);
         int centerX = width/2;
         int centerY = (int)((height / 4) - ( paint.descent() + paint.ascent()) / 2);
         canvas.drawText(str, centerX, centerY, paint);

@@ -28,8 +28,8 @@ public class PauseMenu extends DrawableMenu{
         paint.setTextSize(height/8);
         paint.getTextBounds("RESUME", 0, 6, ResumeArea);
         paint.getTextBounds("EXIT", 0, 4, ExitArea);
-        int resumeY =  (int)((height * 7 / 12) - ( paint.descent() + paint.ascent()) / 2);
-        int exitY = (int)((height * 9 / 12) - ( paint.descent() + paint.ascent()) / 2);
+        int resumeY =  (int)((height * 8 / 12) - ( paint.descent() + paint.ascent()) / 2);
+        int exitY = (int)((height * 10 / 12) - ( paint.descent() + paint.ascent()) / 2);
         adjustBoxArea(ResumeArea, width/2, resumeY);
         adjustBoxArea(ExitArea, width/2, exitY);
         ResumeButton = new DrawableButton(ResumeArea, width/2, resumeY, height/8, "RESUME");
@@ -44,7 +44,7 @@ public class PauseMenu extends DrawableMenu{
         canvas.drawRect(Area,paint);
         paint.setARGB(255,255,255,255);
         paint.setTextAlign(Paint.Align.CENTER);
-        paint.setTextSize(height/3);
+        paint.setTextSize(height/4);
         int centerX = width/2;
         int centerY = (int)((height / 4) - ( paint.descent() + paint.ascent()) / 2);
         canvas.drawText(str, centerX, centerY, paint);
