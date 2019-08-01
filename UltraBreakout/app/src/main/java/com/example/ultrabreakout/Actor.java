@@ -1,8 +1,12 @@
 package com.example.ultrabreakout;
 
 import android.content.res.Resources;
+import android.graphics.BitmapFactory;
 import android.graphics.RectF;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+
+import androidx.annotation.DrawableRes;
 /*
  * Superclass for all in-game objects.
  * They all have position, velocity, and images.
@@ -67,8 +71,9 @@ class Actor {
         sprite = _sprite;
     }
 
-    public void setSprite(Bitmap sprite) {
-        this.sprite = sprite;
+    //Sets the sprite
+    public void setSprite(@DrawableRes int sprite_id) {
+        sprite = BitmapFactory.decodeResource(sprites,sprite_id);
     }
 
     //Returns if this actor collides with another one.

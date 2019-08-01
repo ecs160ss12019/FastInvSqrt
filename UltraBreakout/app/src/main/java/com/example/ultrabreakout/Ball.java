@@ -36,6 +36,8 @@ class Ball extends Actor {
         GOLDEN,
     }
 
+    public boolean isActive;    //Has ball contacted paddle at least once?
+
     public Ball(float x_pos, float y_pos, float x_vel, float y_vel) {
         //FIXME: Come up with a standardized ball size
         super(x_pos, y_pos, x_vel, y_vel, BALL_WIDTH, BALL_HEIGHT,
@@ -47,14 +49,17 @@ class Ball extends Actor {
                 normalBall();
             }
         };
+        isActive = false;
     }
+
 
     public void setGoldenBall(){
         ballTimer.removeCallbacks(ballCallback);
         ballTimer.postDelayed(ballCallback, BALL_POWERUP_TIME);
         this.ballState = BallState.GOLDEN;
-        this.setSprite(BitmapFactory.decodeResource(sprites,R.drawable.goldenball));
+        this.setSprite(R.drawable.goldenball);
     }
+
     public void increaseBallSpeed(){
         ballTimer.removeCallbacks(ballCallback);
         ballTimer.postDelayed(ballCallback, BALL_POWERUP_TIME);
@@ -82,7 +87,7 @@ class Ball extends Actor {
 
     }
     public void normalBall(){
-        setSprite(BitmapFactory.decodeResource(sprites,R.drawable.ball3));
+        setSprite(R.drawable.ball3);
         this.ballState = BallState.NORMAL;
         this.velocity.x = X_VELOCITY;
         this.velocity.y = Y_VELOCITY;

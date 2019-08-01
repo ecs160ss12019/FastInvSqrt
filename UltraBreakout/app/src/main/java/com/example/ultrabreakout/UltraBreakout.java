@@ -153,14 +153,18 @@ public class UltraBreakout extends SurfaceView implements Runnable {
     public void update() {
         stats.updatetime();
         for (int i = balls.size() - 1; i >= 0; i--) {
-            // First update the paddle velocity based on user input.
+            //First update the paddle velocity based on user input; goes in direction of paddle
             if (balls.get(i).velocity.x == 0 && balls.get(i).velocity.y == 0 && (input.isPressLeft() || input.isPressRight())) {
                 balls.get(i).velocity.setVelocity(input.isPressLeft() ? -Ball.X_VELOCITY : Ball.X_VELOCITY, -Ball.Y_VELOCITY);
             }
             //checks the bounds of the ball, dies if below the screen
             if (balls.get(i).hasFallen(screenHeight)) {
-                stats.decrementLives();
-                stats.decrementScore();
+                if (balls.size() == 1){
+                    balls.get(0).die(paddles.get(0), balls.size());
+                    stats.decrementLives();
+                    stats.decrementScore();
+                }
+                balls.remove(balls.size() - 1);
                 balls.get(i).die(paddles.get(0), balls.size());
             }
         }
@@ -192,24 +196,11 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                         case("Brick"):
                             Brick curBrick = ((Brick)curActor);
                             curBrick.collide(ball);
-                            curBrick.decrementHealth();
-                            if (curBrick.returnHealth() == 1) {
-                                curBrick.setBrokenSprite();
-                            }
-                            else if(curBrick.returnHealth() <= 0) {
-                                if (curBrick.powerup == Brick.PowerUpType.PADDLE_WIDTH_INCREASE){
-                                    actors.add(new Item(ball.hitbox.left,ball.hitbox.top,0,450,Item.PowerUpType.PADDLE_WIDTH_INCREASE));
+                            if(curBrick.returnHealth() <= 0) {
+                                if (curBrick.checkPowerUp() != Item.PowerUpType.NONE){
+                                    actors.add(new Item(ball.hitbox.left,ball.hitbox.top,0,450,curBrick.checkPowerUp()));
                                 }
-                                else if (curBrick.powerup == Brick.PowerUpType.PADDLE_WIDTH_DECREASE){
-                                    actors.add(new Item(ball.hitbox.left,ball.hitbox.top,0,450,Item.PowerUpType.PADDLE_WIDTH_DECREASE));
-                                }
-                                else if (curBrick.powerup == Brick.PowerUpType.GOLDEN_BALL){
-                                    actors.add(new Item(ball.hitbox.left,ball.hitbox.top,0,450,Item.PowerUpType.GOLDEN_BALL));
-                                }
-                                // has a low chance of getting an extra life drop should change to as higher level, lower drop rate.
-                                else if (curBrick.powerup == Brick.PowerUpType.NONE && Math.random() < .25){
-                                    actors.add(new Item(ball.hitbox.left,ball.hitbox.top,0,450,Item.PowerUpType.BALL_SPEED_INCREASE));
-                                }
+
                                 actors.remove(i);
                                 stats.decrementRemainingBricks();
                                 stats.incrementDestroyedBricks();
@@ -226,7 +217,6 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                             }
                             break;
                     }
-
                 }
             }
             for (int k = paddles.size() - 1; k >= 0; k--){
@@ -269,53 +259,32 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         //FIXME
         balls = new ArrayList<>();
         paddles = new ArrayList<>();
-        //items = new ArrayList<>();
         actors= new ArrayList<>();
         for (int i = 0; i < level.NUM_ROWS; i++){
             for (int j = 0; j < level.NUM_COLUMNS; j++){
-                if (level.csv_file_data.get(i).get(j).equals("1")) {
-                    stats.incrementRemainingBricks();
-                    //FIXME: Add Balls, Paddles, Wormholes, etc. here
-                    // A random chance to generate a powerup block.
-                    if (Math.random() > 0.95) {
+                switch (level.csv_file_data.get(i).get(j)){
+                    case ("1"):
+                        stats.incrementRemainingBricks();
+                        actors.add(Brick.generateBrick(j,i));
+                        break;
+                    case ("2"):
                         actors.add(
-                                new Brick(
-                                Brick.BRICK_WIDTH * j,
-                                Brick.BRICK_HEIGHT * i * 2 + statsBarOffset + 20,
-                                Brick.PowerUpType.PADDLE_WIDTH_INCREASE,
-                                R.drawable.breakout_tiles_48)
+                                new Spike(
+                                        Spike.SPIKE_WIDTH * j,
+                                        Spike.SPIKE_HEIGHT * i)
                         );
-                    } else if (Math.random() > 0.95) {
-                        actors.add(
-                                new Brick(
-                                        Brick.BRICK_WIDTH * j,
-                                        Brick.BRICK_HEIGHT * i * 2 + statsBarOffset + 20,
-                                        Brick.PowerUpType.GOLDEN_BALL,
-                                        R.drawable.goldenball_tile)
+                        break;
+                    case ("3"):
+                        balls.add(
+                                new Ball (
+                                        Ball.BALL_WIDTH * j,
+                                        Ball.BALL_HEIGHT * i,
+                                        0,
+                                        Ball.Y_VELOCITY)
                         );
-                    } else if (Math.random() > 0.95) {
-                        actors.add(
-                                new Brick(
-                                        Brick.BRICK_WIDTH * j,
-                                        Brick.BRICK_HEIGHT * i * 2 + statsBarOffset + 20,
-                                        Brick.PowerUpType.PADDLE_WIDTH_DECREASE,
-                                        R.drawable.breakout_tiles_48)
-                        );
-                    } else {
-                        actors.add(
-                                new Brick(
-                                Brick.BRICK_WIDTH * j,
-                                Brick.BRICK_HEIGHT * i * 2 + statsBarOffset + 20,
-                                Brick.PowerUpType.NONE)
-                        );
-                    }
-                }
-                if (level.csv_file_data.get(i).get(j).equals("2")) {
-                    actors.add(
-                            new Spike(
-                                Spike.SPIKE_WIDTH * j,
-                                Spike.SPIKE_HEIGHT * i + statsBarOffset + 20)
-                    );
+                        break;
+                    default:
+                        break;
                 }
             }
         }
@@ -390,7 +359,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                 input.touchUpEvent(x, y);
                 break;
         }
-        if (paused == false) {
+        if (!paused) {
             if (pauseButton.collides(x,y)){
                 pause();
             }
