@@ -36,8 +36,6 @@ class Ball extends Actor {
         GOLDEN,
     }
 
-    public boolean isActive;    //Has ball contacted paddle at least once?
-
     public Ball(float x_pos, float y_pos, float x_vel, float y_vel) {
         super(x_pos, y_pos, x_vel, y_vel, BALL_WIDTH, BALL_HEIGHT,
                 BitmapFactory.decodeResource(sprites,R.drawable.ball3));
@@ -48,7 +46,26 @@ class Ball extends Actor {
                 normalBall();
             }
         };
-        isActive = false;
+    }
+
+    public  Ball(Ball ball){
+        super(
+                ball.hitbox.left,
+                ball.hitbox.top,
+                ball.velocity.x,
+                ball.velocity.y,
+                BALL_WIDTH,
+                BALL_HEIGHT,
+                BitmapFactory.decodeResource(sprites,R.drawable.ball3)
+        );
+        ballTimer = new Handler();
+        ballCallback = new Runnable() {
+            @Override
+            public void run() {
+                normalBall();
+            }
+        };
+
     }
 
 

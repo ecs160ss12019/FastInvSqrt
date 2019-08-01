@@ -25,6 +25,7 @@ class Brick extends Actor {
         PADDLE_WIDTH_DECREASE,
         BALL_SPEED_INCREASE,
         BALL_SPEED_DECREASE,
+        DOUBLE_BALL
     }
 
     private static final int[] BRICK_SPRITES = new int[]{
@@ -41,7 +42,7 @@ class Brick extends Actor {
 
     public static int BRICK_WIDTH;
     public static int BRICK_HEIGHT;
-    private int health;
+    public int health;
     private int brick_index;
 
 
@@ -118,25 +119,11 @@ class Brick extends Actor {
             }
         }
 
-        //Ball is trapped between two bricks, no damage
-        if (!ball.isActive){
-            return;
-        }
-
         //Make brick take damage
         if (--health == 1) {
             setBrokenSprite();
         }
 
-    }
-    public void decrementHealth() {
-            health --;
-
-    }
-
-    public int returnHealth() {
-
-        return health;
     }
 
 
@@ -156,12 +143,12 @@ class Brick extends Actor {
                 return Item.PowerUpType.BALL_SPEED_DECREASE;
             case BALL_SPEED_INCREASE:
                 return Item.PowerUpType.BALL_SPEED_INCREASE;
+            case DOUBLE_BALL:
+                return Item.PowerUpType.DOUBLE_BALL;
             default:
                 return Item.PowerUpType.NONE;
         }
     }
-
-
 
     //Updates the Brick
     public void Update (float fps){

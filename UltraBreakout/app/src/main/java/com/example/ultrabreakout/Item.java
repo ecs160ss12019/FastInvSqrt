@@ -21,13 +21,16 @@ class Item extends Actor {
     public enum PowerUpType {
         NONE,                   // Normal block.
         PADDLE_WIDTH_INCREASE,  // Increase the width of the paddle.
-        NUM_POWERUP_TYPES,
-        GOLDEN_BALL,
-        PADDLE_WIDTH_DECREASE,
-        EXTRA_LIFE,
-        BALL_SPEED_INCREASE,
-        BALL_SPEED_DECREASE,
+        NUM_POWERUP_TYPES,      // Unused
+        GOLDEN_BALL,            // Ball can pierce obstacles
+        PADDLE_WIDTH_DECREASE,  // Paddle shrinks on contact with item
+        EXTRA_LIFE,             // " "
+        BALL_SPEED_INCREASE,    // setSpeed() speeds up ball
+        BALL_SPEED_DECREASE,    // " "
+        DOUBLE_BALL             // Creates another ball
     }
+
+    //
     private static final Map<PowerUpType, Integer> itemMap = new HashMap<PowerUpType, Integer>(){{
         put(PowerUpType.PADDLE_WIDTH_INCREASE,R.drawable.breakout_tiles_48);
         put(PowerUpType.PADDLE_WIDTH_DECREASE,R.drawable.breakout_tiles_48);
@@ -35,6 +38,7 @@ class Item extends Actor {
         put(PowerUpType.EXTRA_LIFE,R.drawable.lifeball2);
         put(PowerUpType.BALL_SPEED_INCREASE,R.drawable.featherball2);
         put(PowerUpType.BALL_SPEED_DECREASE,R.drawable.featherball2);
+        put(PowerUpType.DOUBLE_BALL,R.drawable.ball2);
     }};
 
 
