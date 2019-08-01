@@ -4,7 +4,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -15,7 +14,7 @@ public class DrawableMenu {
     Paint paint;
     Canvas canvas;
 
-    ArrayList<DrawableButton> ButtonsList;
+    ArrayList<DrawableMenuButton> ButtonsList;
 
     //Adjust Area obtained from getTextBounds by offset to match actual drawText Area
     public void adjustBoxArea(Rect Area, int offsetX, int offsetY) {
@@ -51,7 +50,7 @@ public class DrawableMenu {
         canvas.drawText(str, centerX, centerY, paint);
 
         //Draw Buttons in ButtonsList
-        for (DrawableButton button : ButtonsList){
+        for (DrawableMenuButton button : ButtonsList){
             button.draw(canvas,paint);
         }
 
@@ -76,17 +75,17 @@ public class DrawableMenu {
         canvas.drawText(str, centerX, centerY, paint);
 
         //Draw Buttons in ButtonsList
-        for (DrawableButton button : ButtonsList){
+        for (DrawableMenuButton button : ButtonsList){
             button.draw(canvas,paint);
         }
 
     }
 
-    public DrawableButton buildDrawableButton(String Text, int x, int y){
+    public DrawableMenuButton buildDrawableButton(String Text, int x, int y){
         Rect Area = new Rect();
         paint.getTextBounds(Text, 0, Text.length() , Area);
         adjustBoxArea(Area, x, y);
-        DrawableButton button = new DrawableButton(Area, x, y, height/8, Text);
+        DrawableMenuButton button = new DrawableMenuButton(Area, x, y, height/8, Text);
         return button;
     }
 

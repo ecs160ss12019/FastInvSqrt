@@ -23,6 +23,7 @@ public class Title extends ScreenActivity {
         sound.play_background(getApplicationContext(), R.raw.background_1);
     }
 
+    //Set Up text and font for title
     private void configureTitle(){
         Button title = (Button) findViewById(R.id.title);
         Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/8bit.TTF");
