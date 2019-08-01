@@ -36,9 +36,8 @@ public class GameOverMenu extends DrawableMenu{
 
 
     public void draw(Canvas canvas, Paint paint, String str){
-        //Draw PAUSED in middle of the screen
-
-        paint.setARGB(100,130,130,180);
+        //Draw GAMEOVER in middle of the screen
+        paint.setARGB(120,220,30,30);
         canvas.drawRect(Area,paint);
         paint.setARGB(255,255,255,255);
         paint.setTextAlign(Paint.Align.CENTER);
@@ -46,7 +45,7 @@ public class GameOverMenu extends DrawableMenu{
         int centerX = width/2;
         int centerY = (int)((height / 4) - ( paint.descent() + paint.ascent()) / 2);
         canvas.drawText(str, centerX, centerY, paint);
-        //Draw below the PAUSE
+        //Draw below the GAMEOVER
         RetryButton.draw(canvas,paint);
         ExitButton.draw(canvas,paint);
     }

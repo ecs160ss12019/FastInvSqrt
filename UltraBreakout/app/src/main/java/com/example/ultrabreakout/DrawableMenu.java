@@ -8,7 +8,7 @@ public class DrawableMenu {
     int width;
     int height;
 
-    //Adjust Rect Area obtained from
+    //Adjust Area obtained from getTextBounds by offset to match actual drawText Area
     public void adjustBoxArea(Rect Area, int offsetX, int offsetY){
         int uncenter = (Area.right - Area.left)/2;
         Area.bottom = Area.bottom + offsetY;

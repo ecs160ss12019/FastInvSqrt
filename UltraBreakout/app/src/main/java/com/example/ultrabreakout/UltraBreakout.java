@@ -127,7 +127,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         paddles.get(0).velocity.setSpeed(0);
         balls.get(0).reset(paddles.get(0));
         input = new Input(screenWidth, screenHeight);
-        //generateActors();
+        generateActors();
         stats = new Stats();
     }
 
@@ -343,7 +343,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
             if(paused == true && !gameOver){
                 pauseMenu.draw(canvas,paint, "Paused");
             } else if (paused == true && gameOver){
-                pauseMenu.draw(canvas,paint, "GAMEOVER");
+                gameOverMenu.draw(canvas,paint, "GAMEOVER");
             }
 
             holder.unlockCanvasAndPost(canvas);
@@ -377,6 +377,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
             if (gameOver){
                 option = gameOverMenu.handleClick(x , y);
                 if (option == 2){
+                    restart();
                     resume();
                 } else if (option == 1){
                     Log.d("EXIT", "EXITING");
