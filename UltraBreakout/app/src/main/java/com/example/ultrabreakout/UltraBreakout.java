@@ -153,7 +153,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
     public void update() {
         stats.updatetime();
         for (int i = balls.size() - 1; i >= 0; i--) {
-            // First update the paddle velocity based on user input.
+            //First update the paddle velocity based on user input; goes in direction of paddle
             if (balls.get(i).velocity.x == 0 && balls.get(i).velocity.y == 0 && (input.isPressLeft() || input.isPressRight())) {
                 balls.get(i).velocity.setVelocity(input.isPressLeft() ? -Ball.X_VELOCITY : Ball.X_VELOCITY, -Ball.Y_VELOCITY);
             }
@@ -222,7 +222,6 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                             }
                             break;
                     }
-
                 }
             }
             for (int k = paddles.size() - 1; k >= 0; k--){
@@ -271,16 +270,17 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                 switch (level.csv_file_data.get(i).get(j)){
                     case ("1"):
                         stats.incrementRemainingBricks();
-                        actors.add(Brick.generateBrick(j,i,statsBarOffset));
+                        actors.add(Brick.generateBrick(j,i));
                         break;
                     case ("2"):
                         actors.add(
                                 new Spike(
                                         Spike.SPIKE_WIDTH * j,
-                                        Spike.SPIKE_HEIGHT * i + statsBarOffset + 20)
+                                        Spike.SPIKE_HEIGHT * i)
                             );
                         break;
                     case ("3"):
+                        actors.add(Ball.generateBall(j,i));
                         //FIXME Ballz
                         break;
                     default:

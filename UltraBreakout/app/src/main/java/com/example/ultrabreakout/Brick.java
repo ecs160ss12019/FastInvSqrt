@@ -53,7 +53,7 @@ class Brick extends Actor {
                 BitmapFactory.decodeResource(sprites,
                         BRICK_SPRITES[0]));
         brick_index = new Random().nextInt(BRICK_SPRITES.length);
-        setSprite(BitmapFactory.decodeResource(sprites, BRICK_SPRITES[brick_index]));
+        setSprite(BRICK_SPRITES[brick_index]);
         this.powerup = powerup;
         this.health = 2;
     }
@@ -65,9 +65,9 @@ class Brick extends Actor {
     }
 
     //Generates a brick; to be used with the generateActors function
-    public static Brick generateBrick (final int j, final int i, final int statsBarOffset){
-        int x_pos = j * BRICK_WIDTH;
-        int y_pos = i * BRICK_HEIGHT * 2 + statsBarOffset + 20;
+    public static Brick generateBrick (final float j, final float i){
+        float x_pos = j * BRICK_WIDTH;
+        float y_pos = i * BRICK_HEIGHT * 2;
         if (Math.random() > 0.95) {
             return new Brick(
                             x_pos,
@@ -136,7 +136,7 @@ class Brick extends Actor {
 
 
     public void setBrokenSprite() {
-        setSprite(BitmapFactory.decodeResource(sprites, BRICK_BROKEN_SPRITES[brick_index]));
+        setSprite(BRICK_BROKEN_SPRITES[brick_index]);
     }
 
 
