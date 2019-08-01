@@ -3,6 +3,7 @@ package com.example.ultrabreakout;
 import android.content.Intent;
 import android.content.res.AssetManager;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -45,22 +46,21 @@ public class LevelSelectMenu extends PopUpScreen {
     //Set up the Level selection
     private void configureButton(final int level, LinearLayout ll ){
 
-
-
         Button button = new Button(this);
-        //LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 50);
+        button.setBackgroundResource(R.drawable.breakout_tiles_01);
+
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/8bit.TTF");
+        button.setTypeface(typeface);
+
 
         int id = View.generateViewId();
         button.setId(id);
         r_ids.add(id);
 
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        /*if (level == 0) {
-            params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-        } else {
-            params.addRule(RelativeLayout.BELOW, r_ids.get(level-1));//r_ids.get(level - 1));
-        }*/
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 100);
         button.setLayoutParams(params);
+        params.setMargins(0, 20, 0, 20);
+
 
         button.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -70,7 +70,7 @@ public class LevelSelectMenu extends PopUpScreen {
                 startActivity(i);
             }
         });
-        button.setText("button"+level);
+        button.setText(level_file_names[level].substring(0,level_file_names[level].length() - 4) );
         ll.addView(button,params);
 
     }
