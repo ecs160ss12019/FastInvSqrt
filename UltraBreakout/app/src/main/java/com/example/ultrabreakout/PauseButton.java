@@ -2,6 +2,8 @@ package com.example.ultrabreakout;
 
 import android.graphics.RectF;
 
+import static com.example.ultrabreakout.UltraBreakout.statsBarOffset;
+
 public class PauseButton {
     float buttonWidth;
     float buttonHeight;
@@ -12,7 +14,7 @@ public class PauseButton {
         this.buttonWidth = screenWidth / (float) 10;
         this.buttonHeight = screenHeight / (float) 10;
 
-        hitbox = new RectF(screenWidth - 200 , screenHeight- 200, screenWidth - 200 + buttonWidth,screenHeight - 200 +buttonHeight);
+        hitbox = new RectF(screenWidth - statsBarOffset , 0, screenWidth,statsBarOffset);
     }
     public boolean collides(float x, float y){
         if (x < this.hitbox.right && x > this.hitbox.left &&  y > this.hitbox.top && y < this.hitbox.bottom){

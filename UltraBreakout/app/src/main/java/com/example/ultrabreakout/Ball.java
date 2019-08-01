@@ -5,6 +5,8 @@ import android.os.Handler;
 
 import java.util.ArrayList;
 
+import static com.example.ultrabreakout.UltraBreakout.statsBarOffset;
+
 /*
  * Handles the ball(s).
  * When the game updates, check if the ball has collided
@@ -57,7 +59,7 @@ class Ball extends Actor {
                 || (hitbox.left < 0 && velocity.x < 0)){
             velocity.reverseX();
         }
-        if ((hitbox.top < 0 && velocity.y < 0)){
+        if ((hitbox.top < statsBarOffset && velocity.y < 0)){
             velocity.reverseY();
         }
         updatePos(fps);
