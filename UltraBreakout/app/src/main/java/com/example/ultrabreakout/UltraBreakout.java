@@ -156,7 +156,6 @@ public class UltraBreakout extends SurfaceView implements Runnable {
             //First update the paddle velocity based on user input; goes in direction of paddle
             if (balls.get(0).velocity.x == 0 && balls.get(0).velocity.y == 0 && (input.isPressLeft() || input.isPressRight())) {
                 balls.get(0).velocity.setVelocity(input.isPressLeft() ? -Ball.X_VELOCITY : Ball.X_VELOCITY, -Ball.Y_VELOCITY);
-                balls.get(0).isActive = true;
             }
             //checks the bounds of the ball, dies if below the screen
             if (balls.get(i).hasFallen(screenHeight)) {
@@ -167,7 +166,6 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                 }
                 else {
                     balls.remove(balls.get(i));
-                    stats.active_balls--;
                 }
             }
         }
@@ -177,6 +175,9 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                 //checks if paddle hits the ball, and reflects it by the y axis if it does
                 if (paddle.intersects(ball) && ball.velocity.y > 0) {
                     paddle.collide(ball);
+                    if (!ball.isActive){
+                        ball.isActive = true;
+                    }
                 }
             }
         }
@@ -219,7 +220,6 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                                 }
                                 else {
                                     balls.remove(balls.get(i));
-                                    stats.active_balls--;
                                 }
                             }
                             break;
@@ -275,7 +275,6 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                         0,
                         0)
         );
-        stats.active_balls++; //First ball by default is active
 
         paddles.add(
                 new Paddle(
@@ -297,14 +296,17 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                                         Spike.SPIKE_HEIGHT * i)
                         );
                         break;
-                    case ("3"):
+/*                    case ("3"):
                         balls.add(
                                 new Ball (
                                         Ball.BALL_WIDTH * j,
-                                        Ball.BALL_HEIGHT * i,
+                                        Ball.BALL_HEIGHT * i + 10, //Minor offset to not get stuck
                                         0,
                                         Ball.Y_VELOCITY)
                         );
+                        break;*/
+                    case ("4"):
+                        //FIXME Wormholes
                         break;
                     default:
                         break;
