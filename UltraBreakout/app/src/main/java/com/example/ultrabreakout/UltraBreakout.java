@@ -192,11 +192,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                         case("Brick"):
                             Brick curBrick = ((Brick)curActor);
                             curBrick.collide(ball);
-                            curBrick.decrementHealth();
-                            if (curBrick.returnHealth() == 1) {
-                                curBrick.setBrokenSprite();
-                            }
-                            else if(curBrick.returnHealth() <= 0) {
+                            if(curBrick.returnHealth() <= 0) {
                                 if (curBrick.powerup == Brick.PowerUpType.PADDLE_WIDTH_INCREASE){
                                     actors.add(new Item(ball.hitbox.left,ball.hitbox.top,0,450,Item.PowerUpType.PADDLE_WIDTH_INCREASE));
                                 }
@@ -269,53 +265,26 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         //FIXME
         balls = new ArrayList<>();
         paddles = new ArrayList<>();
-        //items = new ArrayList<>();
         actors= new ArrayList<>();
         for (int i = 0; i < level.NUM_ROWS; i++){
             for (int j = 0; j < level.NUM_COLUMNS; j++){
-                if (level.csv_file_data.get(i).get(j).equals("1")) {
-                    stats.incrementRemainingBricks();
-                    //FIXME: Add Balls, Paddles, Wormholes, etc. here
-                    // A random chance to generate a powerup block.
-                    if (Math.random() > 0.95) {
+                switch (level.csv_file_data.get(i).get(j)){
+                    case ("1"):
+                        stats.incrementRemainingBricks();
+                        actors.add(Brick.generateBrick(j,i,statsBarOffset));
+                        break;
+                    case ("2"):
                         actors.add(
-                                new Brick(
-                                Brick.BRICK_WIDTH * j,
-                                Brick.BRICK_HEIGHT * i * 2 + statsBarOffset + 20,
-                                Brick.PowerUpType.PADDLE_WIDTH_INCREASE,
-                                R.drawable.breakout_tiles_48)
-                        );
-                    } else if (Math.random() > 0.95) {
-                        actors.add(
-                                new Brick(
-                                        Brick.BRICK_WIDTH * j,
-                                        Brick.BRICK_HEIGHT * i * 2 + statsBarOffset + 20,
-                                        Brick.PowerUpType.GOLDEN_BALL,
-                                        R.drawable.goldenball_tile)
-                        );
-                    } else if (Math.random() > 0.95) {
-                        actors.add(
-                                new Brick(
-                                        Brick.BRICK_WIDTH * j,
-                                        Brick.BRICK_HEIGHT * i * 2 + statsBarOffset + 20,
-                                        Brick.PowerUpType.PADDLE_WIDTH_DECREASE,
-                                        R.drawable.breakout_tiles_48)
-                        );
-                    } else {
-                        actors.add(
-                                new Brick(
-                                Brick.BRICK_WIDTH * j,
-                                Brick.BRICK_HEIGHT * i * 2 + statsBarOffset + 20,
-                                Brick.PowerUpType.NONE)
-                        );
-                    }
-                }
-                if (level.csv_file_data.get(i).get(j).equals("2")) {
-                    actors.add(
-                            new Spike(
-                                Spike.SPIKE_WIDTH * j,
-                                Spike.SPIKE_HEIGHT * i + statsBarOffset + 20)
-                    );
+                                new Spike(
+                                        Spike.SPIKE_WIDTH * j,
+                                        Spike.SPIKE_HEIGHT * i + statsBarOffset + 20)
+                            );
+                        break;
+                    case ("3"):
+                        //FIXME Ballz
+                        break;
+                    default:
+                        break;
                 }
             }
         }

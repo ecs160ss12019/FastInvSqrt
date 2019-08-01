@@ -64,6 +64,40 @@ class Brick extends Actor {
         this.powerup = powerup;
     }
 
+    //Generates a brick; to be used with the generateActors function
+    public static Brick generateBrick (final int j, final int i, final int statsBarOffset){
+        int x_pos = j * BRICK_WIDTH;
+        int y_pos = i * BRICK_HEIGHT * 2 + statsBarOffset + 20;
+        if (Math.random() > 0.95) {
+            return new Brick(
+                            x_pos,
+                            y_pos,
+                            PowerUpType.PADDLE_WIDTH_INCREASE,
+                            R.drawable.breakout_tiles_48
+            );
+        } else if (Math.random() > 0.95) {
+            return new Brick(
+                            x_pos,
+                            y_pos,
+                            PowerUpType.GOLDEN_BALL,
+                            R.drawable.goldenball_tile
+            );
+        } else if (Math.random() > 0.95) {
+            return new Brick(
+                            x_pos,
+                            y_pos,
+                            PowerUpType.PADDLE_WIDTH_DECREASE,
+                            R.drawable.breakout_tiles_48
+            );
+        } else {
+            return new Brick(
+                            x_pos,
+                            y_pos,
+                            PowerUpType.NONE
+            );
+        }
+    }
+
     //Colliding event with ball
     //Either reduces its HP if it has any, or drops a powerup.
     public void collide (Ball ball){
@@ -82,6 +116,11 @@ class Brick extends Actor {
             else {
                 ball.velocity.reverseY();
             }
+        }
+
+        //Make brick take damage
+        if (--health == 1) {
+            setBrokenSprite();
         }
 
     }
