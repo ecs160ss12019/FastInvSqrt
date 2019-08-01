@@ -40,7 +40,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
     private Sound sound;
     private PauseButton pauseButton;
     private PauseMenu pauseMenu;
-    private PauseMenu gameOverMenu;
+    private GameOverMenu gameOverMenu;
     private boolean gameOver;
 
     // Keeps track whether the main thread should be running or not.
@@ -85,8 +85,8 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         paused = false;
         gameThread = null;
         this.pauseButton = new PauseButton(screenWidth, screenHeight);
-        this.pauseMenu = new PauseMenu(screenHeight, screenWidth, paint);
-        this.gameOverMenu = new PauseMenu(screenHeight, screenWidth, paint);
+        this.pauseMenu = new PauseMenu(screenHeight, screenWidth);
+        this.gameOverMenu = new GameOverMenu(screenHeight, screenWidth);
 
         frameTimeNow = frameTimePrev = System.currentTimeMillis();
 

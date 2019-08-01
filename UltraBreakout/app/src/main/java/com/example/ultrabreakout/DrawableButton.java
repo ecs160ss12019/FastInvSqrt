@@ -16,7 +16,6 @@ public class DrawableButton {
     int startX;
     int startY;
     String Text;
-    String Onclick;
     float textSize;
 
     public DrawableButton(Rect Area, int x, int y, float textSize, String Text) {
@@ -26,7 +25,6 @@ public class DrawableButton {
         this.isText = true;
         this.Text = Text;
         this.Area = Area;
-        this.Onclick = Onclick;
     }
 
     public DrawableButton(Rect Area, int x, int y) {
@@ -34,15 +32,6 @@ public class DrawableButton {
     }
 
     public boolean contains(float x, float y){
-        Log.d("Area.left", Float.toString(Area.left));
-        Log.d("Area.right", Float.toString(Area.right));
-        Log.d("Area.top", Float.toString(Area.top));
-        Log.d("Area.bottom", Float.toString(Area.bottom));
-        Log.d("x<left:", Boolean.toString(x<Area.left));
-        Log.d("x<left:", Boolean.toString(x<Area.left));
-        Log.d("x<left:", Boolean.toString(x<Area.left));
-        Log.d("x<left:", Boolean.toString(x<Area.left));
-
         return (x > Area.left && x < Area.right && y > Area.top && y < Area.bottom);
     }
 

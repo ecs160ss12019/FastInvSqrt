@@ -1,38 +1,35 @@
 package com.example.ultrabreakout;
 
-
-//Drawable Pause Menu using canvas and paint
-
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.Log;
 
-public class PauseMenu extends DrawableMenu{
-    DrawableButton ResumeButton;
+public class GameOverMenu extends DrawableMenu{
+    DrawableButton RetryButton;
     DrawableButton ExitButton;
-    Rect ResumeArea;
+    Rect RetryArea;
     Rect ExitArea;
     Paint paint;
     Canvas canvas;
 
-    public PauseMenu(int height, int width) {
+    public GameOverMenu(int height, int width){
         Area = new RectF(0,0,width,height);
-        ResumeArea = new Rect();
+        RetryArea = new Rect();
         ExitArea = new Rect();
         this.width = width;
         this.height = height;
         this.paint = new Paint();
         this.canvas = new Canvas();
         paint.setTextSize(height/8);
-        paint.getTextBounds("RESUME", 0, 6, ResumeArea);
+        paint.getTextBounds("RETRY", 0, 5, RetryArea);
         paint.getTextBounds("EXIT", 0, 4, ExitArea);
         int resumeY =  (int)((height * 7 / 12) - ( paint.descent() + paint.ascent()) / 2);
         int exitY = (int)((height * 9 / 12) - ( paint.descent() + paint.ascent()) / 2);
-        adjustBoxArea(ResumeArea, width/2, resumeY);
+        adjustBoxArea(RetryArea, width/2, resumeY);
         adjustBoxArea(ExitArea, width/2, exitY);
-        ResumeButton = new DrawableButton(ResumeArea, width/2, resumeY, height/8, "RESUME");
+        RetryButton = new DrawableButton(RetryArea, width/2, resumeY, height/8, "RETRY");
         ExitButton = new DrawableButton(ExitArea, width/2, exitY, height/8, "EXIT");
     }
 
@@ -49,20 +46,21 @@ public class PauseMenu extends DrawableMenu{
         int centerY = (int)((height / 4) - ( paint.descent() + paint.ascent()) / 2);
         canvas.drawText(str, centerX, centerY, paint);
         //Draw below the PAUSE
-        ResumeButton.draw(canvas,paint);
+        RetryButton.draw(canvas,paint);
         ExitButton.draw(canvas,paint);
     }
 
     public int handleClick(float x, float y){
-        if (ResumeButton.contains(x,y)){
+        if (RetryButton.contains(x,y)){
+            Log.d("option", "2");
             return 2;
         } else if (ExitButton.contains(x,y)){
+            Log.d("option", "1");
             return 1;
         } else {
+            Log.d("option", "0");
             return 0;
         }
     }
-
-
 
 }
