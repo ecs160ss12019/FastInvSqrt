@@ -39,7 +39,6 @@ class Ball extends Actor {
     public boolean isActive;    //Has ball contacted paddle at least once?
 
     public Ball(float x_pos, float y_pos, float x_vel, float y_vel) {
-        //FIXME: Come up with a standardized ball size
         super(x_pos, y_pos, x_vel, y_vel, BALL_WIDTH, BALL_HEIGHT,
                 BitmapFactory.decodeResource(sprites,R.drawable.ball3));
         ballTimer = new Handler();
@@ -112,13 +111,11 @@ class Ball extends Actor {
         return false;
     }
 
-    //Kills the ball. What happens depends on if it's ball_zero.
-    public void die (Paddle paddle_zero, int num_balls){
-        if (num_balls == 1){
-            reset (paddle_zero);
-            normalBall();
-            paddle_zero.paddleWidthNormal();
-        }
+    //Kills ball zero.
+    public void die (Paddle paddle_zero){
+        reset (paddle_zero);
+        normalBall();
+        paddle_zero.paddleWidthNormal();
         velocity.setSpeed(0);
         //FIXME: Anything else to set?
     }
