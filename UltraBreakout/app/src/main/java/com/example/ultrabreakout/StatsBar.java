@@ -3,6 +3,7 @@ package com.example.ultrabreakout;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.graphics.Typeface;
 
 import static com.example.ultrabreakout.UltraBreakout.statsBarOffset;
 
@@ -11,9 +12,10 @@ public class StatsBar {
     RectF Area;
     Paint paint;
 
-    public StatsBar(Stats stats, int ScreenWidth){
+    public StatsBar(Stats stats, int ScreenWidth, Typeface typeface){
         this.stats = stats;
-        paint = new Paint();
+        this.paint = new Paint();
+        paint.setTypeface(typeface);
         Area = new RectF(0,0, ScreenWidth, statsBarOffset + 20);
 
     }
