@@ -155,7 +155,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         for (int i = balls.size() - 1; i >= 0; i--) {
             // First update the paddle velocity based on user input.
             if (balls.get(i).velocity.x == 0 && balls.get(i).velocity.y == 0 && (input.isPressLeft() || input.isPressRight())) {
-                balls.get(i).velocity.setVelocity(Ball.X_VELOCITY, -Ball.Y_VELOCITY);
+                balls.get(i).velocity.setVelocity(input.isPressLeft() ? -Ball.X_VELOCITY : Ball.X_VELOCITY, -Ball.Y_VELOCITY);
             }
             //checks the bounds of the ball, dies if below the screen
             if (balls.get(i).hasFallen(screenHeight)) {
