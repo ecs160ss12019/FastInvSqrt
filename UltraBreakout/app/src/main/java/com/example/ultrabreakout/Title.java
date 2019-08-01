@@ -1,6 +1,9 @@
 package com.example.ultrabreakout;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetManager;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -14,27 +17,33 @@ public class Title extends ScreenActivity {
         super.onCreate(savedInstanceState);
         configureScreen();
         setContentView(R.layout.activity_ultra_breakout__title_screen);
+        configureTitle();
         configureLevelsButton();
-
         sound = Sound.getInstance();
         sound.play_background(getApplicationContext(), R.raw.background_1);
     }
 
-    //makes activity FullScreen and sets contentView
-
+    private void configureTitle(){
+        Button title = (Button) findViewById(R.id.title);
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/8bit.TTF");
+        title.setTypeface(typeface);
+    }
 
 
     //Sets up On Click for Levels Button
     private void configureLevelsButton() {
         Button Levels_button = (Button) findViewById(R.id.LevelsButton);
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/8bit.TTF");
+        Levels_button.setTypeface(typeface);
         Levels_button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
                 startActivity(new Intent(Title.this, LevelSelectMenu.class));
             }
         });
-
     }
+
+
 
     @Override
     protected void onResume() {

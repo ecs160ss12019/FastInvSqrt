@@ -55,6 +55,7 @@ class Paddle extends Actor {
         }
         updatePos(fps);
     }
+
     public void powerup(Item item, Ball ball,Stats stats){
         switch (item.powerup) {
             case PADDLE_WIDTH_INCREASE:
@@ -130,7 +131,6 @@ class Paddle extends Actor {
             width = PADDLE_WIDTH * 2;
         }
         else if(paddleState == PaddleState.INCREASE){
-
             hitbox.right -= 0.5 * PADDLE_WIDTH;
             hitbox.left += 0.5 * width;
             width = PADDLE_WIDTH / 2;
