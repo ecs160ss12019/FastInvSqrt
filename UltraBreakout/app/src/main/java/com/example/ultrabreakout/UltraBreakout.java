@@ -197,19 +197,10 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                             Brick curBrick = ((Brick)curActor);
                             curBrick.collide(ball);
                             if(curBrick.returnHealth() <= 0) {
-                                if (curBrick.powerup == Brick.PowerUpType.PADDLE_WIDTH_INCREASE){
-                                    actors.add(new Item(ball.hitbox.left,ball.hitbox.top,0,450,Item.PowerUpType.PADDLE_WIDTH_INCREASE));
+                                if (curBrick.checkPowerUp() != Item.PowerUpType.NONE){
+                                    actors.add(new Item(ball.hitbox.left,ball.hitbox.top,0,450,curBrick.checkPowerUp()));
                                 }
-                                else if (curBrick.powerup == Brick.PowerUpType.PADDLE_WIDTH_DECREASE){
-                                    actors.add(new Item(ball.hitbox.left,ball.hitbox.top,0,450,Item.PowerUpType.PADDLE_WIDTH_DECREASE));
-                                }
-                                else if (curBrick.powerup == Brick.PowerUpType.GOLDEN_BALL){
-                                    actors.add(new Item(ball.hitbox.left,ball.hitbox.top,0,450,Item.PowerUpType.GOLDEN_BALL));
-                                }
-                                // has a low chance of getting an extra life drop should change to as higher level, lower drop rate.
-                                else if (curBrick.powerup == Brick.PowerUpType.NONE && Math.random() < .25){
-                                    actors.add(new Item(ball.hitbox.left,ball.hitbox.top,0,450,Item.PowerUpType.BALL_SPEED_INCREASE));
-                                }
+
                                 actors.remove(i);
                                 stats.decrementRemainingBricks();
                                 stats.incrementDestroyedBricks();
