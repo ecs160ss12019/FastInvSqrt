@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -42,8 +43,10 @@ public class LevelSelectMenu extends PopUpScreen {
 
 
     //Set up the Level selection
-    private void configureButton(final int level){
-        LinearLayout rl = (LinearLayout)findViewById(R.id.popup_window);
+    private void configureButton(final int level, LinearLayout ll ){
+
+
+
         Button button = new Button(this);
         //LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 50);
 
@@ -68,7 +71,7 @@ public class LevelSelectMenu extends PopUpScreen {
             }
         });
         button.setText("button"+level);
-        rl.addView(button,params);
+        ll.addView(button,params);
 
     }
 
@@ -76,9 +79,13 @@ public class LevelSelectMenu extends PopUpScreen {
     private void setUpLevelSelectButtons(){
         //for (int i = 0; i < level_file_names.length; i++){
         //temporarily set as 2 until over lapping button position bug is fixed.
+        ScrollView sv = (ScrollView)findViewById(R.id.popup_window);
+        LinearLayout ll = new LinearLayout(this);
+        ll.setOrientation(LinearLayout.VERTICAL);
         for (int i = 0; i < level_file_names.length; i++){    //currently there is a bug when generating greater than 2 buttons
-            configureButton(i);
+            configureButton(i, ll);
         }
+        sv.addView(ll);
     }
 
     //reads in all file names from assets/levels into our Levels array
