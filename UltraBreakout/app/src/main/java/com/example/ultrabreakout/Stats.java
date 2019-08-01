@@ -10,7 +10,7 @@ package com.example.ultrabreakout;
  */
 
 class Stats {
-  private int bricksRemaining;
+  int bricksRemaining;
   int score;
   float timestart;
   int lives;
@@ -19,9 +19,9 @@ class Stats {
 
   public Stats () {
     score = 0;
-    //timePlayed = 0;
     lives = 3;
     timeelpased = 0;
+    bricksRemaining = 0;
     timestart = System.currentTimeMillis();
   }
 
@@ -43,4 +43,6 @@ class Stats {
   public void decrementScore(){
     score -= 50;
   }
+  public void incrementRemainingBricks() {bricksRemaining+=1;}
+  public void decrementRemainingBricks() {bricksRemaining-=1;}
 }

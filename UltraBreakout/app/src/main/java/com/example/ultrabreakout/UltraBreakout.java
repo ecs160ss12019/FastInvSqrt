@@ -42,6 +42,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
     private PauseMenu pauseMenu;
     private GameOverMenu gameOverMenu;
     private boolean gameOver;
+    private boolean victory;
 
     // Keeps track whether the main thread should be running or not.
     // Volatile so that it is thread-safe.
@@ -79,6 +80,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         sound = Sound.getInstance();
         sound.play_background(context, R.raw.background_2);
         gameOver = false;
+        victory = false;
         fps = 0;
 
         // Initialize paused game.
@@ -109,7 +111,17 @@ public class UltraBreakout extends SurfaceView implements Runnable {
             if (stats.lives <= 0){
                 gameOver();
             }
+            if (stats.bricksRemaining <= 0){
+                win();
+            }
         }
+    }
+
+    public void win(){
+        victory = true;
+        gameOver = true;
+        draw();
+        pause();
     }
 
     public void gameOver(){
@@ -121,6 +133,8 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 
 
     public void restart(){
+        gameOver = false;
+        victory = false;
         paddles.get(0).reposition(
                 (screenWidth/2) - Paddle.PADDLE_WIDTH/2,
                 paddles.get(0).hitbox.top);
@@ -192,6 +206,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                                     actors.add(new Item(ball.hitbox.left,ball.hitbox.top,0,450,Item.PowerUpType.EXTRA_LIFE));
                                 }
                                 actors.remove(i);
+                                stats.decrementRemainingBricks();
                                 stats.incrementScore();
                             }
                             break;
@@ -252,6 +267,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         for (int i = 0; i < level.NUM_ROWS; i++){
             for (int j = 0; j < level.NUM_COLUMNS; j++){
                 if (level.csv_file_data.get(i).get(j).equals("1")) {
+                    stats.incrementRemainingBricks();
                     //FIXME: Add Balls, Paddles, Wormholes, etc. here
                     // A random chance to generate a powerup block.
                     if (Math.random() > 0.95) {
@@ -340,10 +356,12 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 
             canvas.drawBitmap(BitmapFactory.decodeResource(sprites,R.drawable.breakout_tiles_46),null,pauseButton.hitbox,null);
 
-            if(paused == true && !gameOver){
+            if(paused && !gameOver){
                 pauseMenu.draw(canvas,paint, "Paused");
-            } else if (paused == true && gameOver){
-                gameOverMenu.draw(canvas,paint, "GAMEOVER");
+            } else if (paused && gameOver && !victory){
+                gameOverMenu.draw(canvas,paint, "YOU LOSE", victory);
+            } else if (paused && gameOver  && victory) {
+                gameOverMenu.draw(canvas,paint,"YOU WIN", victory);
             }
 
             holder.unlockCanvasAndPost(canvas);

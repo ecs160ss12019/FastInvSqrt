@@ -35,9 +35,13 @@ public class GameOverMenu extends DrawableMenu{
 
 
 
-    public void draw(Canvas canvas, Paint paint, String str){
+    public void draw(Canvas canvas, Paint paint, String str, boolean victory){
         //Draw GAMEOVER in middle of the screen
-        paint.setARGB(120,220,30,30);
+        if (victory) {
+            paint.setARGB(80,70,130,150);
+        } else {
+            paint.setARGB(120, 220, 30, 30);
+        }
         canvas.drawRect(Area,paint);
         paint.setARGB(255,255,255,255);
         paint.setTextAlign(Paint.Align.CENTER);
