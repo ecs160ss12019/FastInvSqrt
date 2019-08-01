@@ -145,8 +145,10 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         paddles.get(0).velocity.setSpeed(0);
         balls.get(0).reset(paddles.get(0));
         input = new Input(screenWidth, screenHeight);
-        generateActors();
         stats = new Stats();
+        generateActors();
+
+        statsBar.stats = stats;
     }
 
     public void update() {
@@ -211,6 +213,8 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                                 }
                                 actors.remove(i);
                                 stats.decrementRemainingBricks();
+                                stats.incrementDestroyedBricks();
+                                Log.d("remaining Bricks: ", ""+stats.bricksRemaining);
                                 stats.incrementScore();
                             }
                             break;
