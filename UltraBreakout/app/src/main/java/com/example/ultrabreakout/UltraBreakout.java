@@ -132,7 +132,6 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         gameOver = true;
         draw();
         pause();
-        //restart();
     }
 
 
@@ -208,8 +207,8 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                                     actors.add(new Item(ball.hitbox.left,ball.hitbox.top,0,450,Item.PowerUpType.GOLDEN_BALL));
                                 }
                                 // has a low chance of getting an extra life drop should change to as higher level, lower drop rate.
-                                else if (curBrick.powerup == Brick.PowerUpType.NONE && Math.random() < .025){
-                                    actors.add(new Item(ball.hitbox.left,ball.hitbox.top,0,450,Item.PowerUpType.EXTRA_LIFE));
+                                else if (curBrick.powerup == Brick.PowerUpType.NONE && Math.random() < .25){
+                                    actors.add(new Item(ball.hitbox.left,ball.hitbox.top,0,450,Item.PowerUpType.BALL_SPEED_INCREASE));
                                 }
                                 actors.remove(i);
                                 stats.decrementRemainingBricks();
@@ -282,7 +281,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                         actors.add(
                                 new Brick(
                                 Brick.BRICK_WIDTH * j,
-                                Brick.BRICK_HEIGHT * i * 2 + statsBarOffset,
+                                Brick.BRICK_HEIGHT * i * 2 + statsBarOffset + 20,
                                 Brick.PowerUpType.PADDLE_WIDTH_INCREASE,
                                 R.drawable.breakout_tiles_48)
                         );
@@ -290,7 +289,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                         actors.add(
                                 new Brick(
                                         Brick.BRICK_WIDTH * j,
-                                        Brick.BRICK_HEIGHT * i * 2 + statsBarOffset,
+                                        Brick.BRICK_HEIGHT * i * 2 + statsBarOffset + 20,
                                         Brick.PowerUpType.GOLDEN_BALL,
                                         R.drawable.goldenball_tile)
                         );
@@ -298,7 +297,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                         actors.add(
                                 new Brick(
                                         Brick.BRICK_WIDTH * j,
-                                        Brick.BRICK_HEIGHT * i * 2 + statsBarOffset,
+                                        Brick.BRICK_HEIGHT * i * 2 + statsBarOffset + 20,
                                         Brick.PowerUpType.PADDLE_WIDTH_DECREASE,
                                         R.drawable.breakout_tiles_48)
                         );
@@ -306,7 +305,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                         actors.add(
                                 new Brick(
                                 Brick.BRICK_WIDTH * j,
-                                Brick.BRICK_HEIGHT * i * 2 + statsBarOffset,
+                                Brick.BRICK_HEIGHT * i * 2 + statsBarOffset + 20,
                                 Brick.PowerUpType.NONE)
                         );
                     }
@@ -315,7 +314,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                     actors.add(
                             new Spike(
                                 Spike.SPIKE_WIDTH * j,
-                                Spike.SPIKE_HEIGHT * i + statsBarOffset)
+                                Spike.SPIKE_HEIGHT * i + statsBarOffset + 20)
                     );
                 }
             }
@@ -323,7 +322,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         balls.add(
                 new Ball(
                 screenWidth/2 - Ball.BALL_WIDTH/2,
-                screenHeight - Paddle.PADDLE_HEIGHT * 8 + statsBarOffset,
+                screenHeight - Paddle.PADDLE_HEIGHT * 8 + statsBarOffset + 20,
                 0,
                 0)
         );
@@ -441,7 +440,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         playing = true;
         gameOver = false;
         frameTimeNow = frameTimePrev = System.currentTimeMillis();
-        stats.lives = 3;
+        //stats.lives = 3;
         gameThread = new Thread(this);
         gameThread.start();
     }

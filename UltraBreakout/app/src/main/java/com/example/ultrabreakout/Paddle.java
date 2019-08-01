@@ -68,6 +68,10 @@ class Paddle extends Actor {
                 break;
             case EXTRA_LIFE:
                 stats.incrementLives();
+            case BALL_SPEED_DECREASE:
+                ball.decreaseBallSpeed();
+            case BALL_SPEED_INCREASE:
+                ball.increaseBallSpeed();
         }
     }
 

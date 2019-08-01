@@ -14,7 +14,7 @@ public class StatsBar {
     public StatsBar(Stats stats, int ScreenWidth){
         this.stats = stats;
         paint = new Paint();
-        Area = new RectF(0,0, ScreenWidth, statsBarOffset);
+        Area = new RectF(0,0, ScreenWidth, statsBarOffset + 20);
 
     }
 

@@ -18,8 +18,8 @@ import static com.example.ultrabreakout.UltraBreakout.statsBarOffset;
 //
 
 class Ball extends Actor {
-    public static final int BALL_HEIGHT = 50;
-    public static final int BALL_WIDTH = 50;
+    public static final int BALL_HEIGHT = 40;
+    public static final int BALL_WIDTH = 40;
 
     // The maximum velocities for the ball in the x and y components.
     public static final int X_VELOCITY = 450;
@@ -28,7 +28,13 @@ class Ball extends Actor {
     public Handler ballTimer;
     private Runnable ballCallback;
     // Timer and handler to implement paddle width powerup object.
-    public boolean golden = false;
+    BallState ballState;
+    public enum BallState {
+        INCREASE,
+        DECREASE,
+        NORMAL,
+        GOLDEN,
+    }
 
     public Ball(float x_pos, float y_pos, float x_vel, float y_vel) {
         //FIXME: Come up with a standardized ball size
@@ -38,7 +44,7 @@ class Ball extends Actor {
         ballCallback = new Runnable() {
             @Override
             public void run() {
-                notGoldenBall();
+                normalBall();
             }
         };
     }
@@ -46,12 +52,40 @@ class Ball extends Actor {
     public void setGoldenBall(){
         ballTimer.removeCallbacks(ballCallback);
         ballTimer.postDelayed(ballCallback, BALL_POWERUP_TIME);
-        this.golden = true;
+        this.ballState = BallState.GOLDEN;
         this.setSprite(BitmapFactory.decodeResource(sprites,R.drawable.goldenball));
     }
-    public void notGoldenBall(){
+    public void increaseBallSpeed(){
+        ballTimer.removeCallbacks(ballCallback);
+        ballTimer.postDelayed(ballCallback, BALL_POWERUP_TIME);
+
+        if (this.ballState == BallState.NORMAL){
+            this.ballState = BallState.INCREASE;
+            this.velocity.setSpeed((float)2.5);
+        }
+        else if (this.ballState == BallState.DECREASE){
+            this.ballState = BallState.NORMAL;
+            normalBall();
+        }
+    }
+    public void decreaseBallSpeed(){
+        ballTimer.removeCallbacks(ballCallback);
+        ballTimer.postDelayed(ballCallback, BALL_POWERUP_TIME);
+        if (this.ballState == BallState.NORMAL){
+            this.ballState = BallState.DECREASE;
+            this.velocity.setSpeed((float)0.25);
+        }
+        else if (this.ballState == BallState.INCREASE){
+            this.ballState = BallState.NORMAL;
+            normalBall();
+        }
+
+    }
+    public void normalBall(){
         setSprite(BitmapFactory.decodeResource(sprites,R.drawable.ball3));
-        this.golden = false;
+        this.ballState = BallState.NORMAL;
+        this.velocity.x = X_VELOCITY;
+        this.velocity.y = Y_VELOCITY;
     }
 
     public void update (float fps, float screenWidth){
@@ -77,7 +111,7 @@ class Ball extends Actor {
     public void die (Paddle paddle_zero, int num_balls){
         if (num_balls == 1){
             reset (paddle_zero);
-            notGoldenBall();
+            normalBall();
             paddle_zero.paddleWidthNormal();
         }
         velocity.setSpeed(0);

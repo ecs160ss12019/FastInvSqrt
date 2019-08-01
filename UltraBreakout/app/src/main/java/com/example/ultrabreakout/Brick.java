@@ -23,6 +23,8 @@ class Brick extends Actor {
         NUM_POWERUP_TYPES,
         GOLDEN_BALL,
         PADDLE_WIDTH_DECREASE,
+        BALL_SPEED_INCREASE,
+        BALL_SPEED_DECREASE,
     }
 
     private static final int[] BRICK_SPRITES = new int[]{
@@ -73,7 +75,7 @@ class Brick extends Actor {
                 Math.abs(hitbox.left - ball.hitbox.right),
                 Math.abs(hitbox.right - ball.hitbox.left)
         );
-        if (!ball.golden){
+        if (ball.ballState != Ball.BallState.GOLDEN){
             if (vertical_dist >= horizontal_dist){
                 ball.velocity.reverseX();
             }
