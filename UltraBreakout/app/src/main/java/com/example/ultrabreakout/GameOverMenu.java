@@ -37,6 +37,7 @@ public class GameOverMenu extends DrawableMenu{
 
     public void draw(Canvas canvas, Paint paint, String str){
         //Draw PAUSED in middle of the screen
+
         paint.setARGB(100,130,130,180);
         canvas.drawRect(Area,paint);
         paint.setARGB(255,255,255,255);

@@ -55,7 +55,7 @@ class Paddle extends Actor {
         }
         updatePos(fps);
     }
-    public void powerup(Item item, Ball ball){
+    public void powerup(Item item, Ball ball,Stats stats){
         switch (item.powerup) {
             case PADDLE_WIDTH_INCREASE:
                 this.paddleWidthIncrease();
@@ -66,6 +66,8 @@ class Paddle extends Actor {
             case GOLDEN_BALL:
                 ball.setGoldenBall();
                 break;
+            case EXTRA_LIFE:
+                stats.incrementLives();
         }
     }
 

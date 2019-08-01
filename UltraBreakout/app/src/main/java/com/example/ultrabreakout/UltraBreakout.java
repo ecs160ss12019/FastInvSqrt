@@ -116,6 +116,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         gameOver = true;
         draw();
         pause();
+        //restart();
     }
 
 
@@ -186,6 +187,10 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                                 else if (curBrick.powerup == Brick.PowerUpType.GOLDEN_BALL){
                                     actors.add(new Item(ball.hitbox.left,ball.hitbox.top,0,450,Item.PowerUpType.GOLDEN_BALL));
                                 }
+                                // has a low chance of getting an extra life drop should change to as higher level, lower drop rate.
+                                else if (curBrick.powerup == Brick.PowerUpType.NONE && Math.random() < .025){
+                                    actors.add(new Item(ball.hitbox.left,ball.hitbox.top,0,450,Item.PowerUpType.EXTRA_LIFE));
+                                }
                                 actors.remove(i);
                                 stats.incrementScore();
                             }
@@ -208,7 +213,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                     switch (curActor.getClass().getSimpleName()) {
                         case ("Item"):
                             if (paddle.intersects(actor_list.get(i))){
-                                paddle.powerup(((Item)curActor), balls.get(0));
+                                paddle.powerup(((Item)curActor), balls.get(0), stats);
                                 actors.remove(i);
                             }
                             else if(((Item)curActor).hasFallen(screenHeight)){
@@ -338,7 +343,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
             if(paused == true && !gameOver){
                 pauseMenu.draw(canvas,paint, "Paused");
             } else if (paused == true && gameOver){
-                gameOverMenu.draw(canvas,paint, "GAMEOVER");
+                pauseMenu.draw(canvas,paint, "GAMEOVER");
             }
 
             holder.unlockCanvasAndPost(canvas);
@@ -387,7 +392,6 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                     this.GameActivity.returnToMainMenu();
                 }
             }
-
 
         }
         return true;

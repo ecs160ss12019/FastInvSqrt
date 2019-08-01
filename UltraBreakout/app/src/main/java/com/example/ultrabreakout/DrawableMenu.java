@@ -16,4 +16,5 @@ public class DrawableMenu {
         Area.left = Area.left + offsetX - uncenter;
         Area.right = Area.right + offsetX - uncenter;
     }
+
 }
