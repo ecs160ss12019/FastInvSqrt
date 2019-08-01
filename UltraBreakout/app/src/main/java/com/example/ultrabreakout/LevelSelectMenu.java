@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.HorizontalScrollView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import java.io.IOException;
@@ -41,18 +43,20 @@ public class LevelSelectMenu extends PopUpScreen {
 
     //Set up the Level selection
     private void configureButton(final int level){
-        RelativeLayout rl = (RelativeLayout)findViewById(R.id.popup_window);
+        LinearLayout rl = (LinearLayout)findViewById(R.id.popup_window);
         Button button = new Button(this);
+        //LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 50);
+
         int id = View.generateViewId();
         button.setId(id);
         r_ids.add(id);
 
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        if (level == 0) {
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        /*if (level == 0) {
             params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
         } else {
             params.addRule(RelativeLayout.BELOW, r_ids.get(level-1));//r_ids.get(level - 1));
-        }
+        }*/
         button.setLayoutParams(params);
 
         button.setOnClickListener(new View.OnClickListener(){
@@ -64,7 +68,7 @@ public class LevelSelectMenu extends PopUpScreen {
             }
         });
         button.setText("button"+level);
-        rl.addView(button);
+        rl.addView(button,params);
 
     }
 
@@ -72,7 +76,7 @@ public class LevelSelectMenu extends PopUpScreen {
     private void setUpLevelSelectButtons(){
         //for (int i = 0; i < level_file_names.length; i++){
         //temporarily set as 2 until over lapping button position bug is fixed.
-        for (int i = 0; i < 2; i++){    //currently there is a bug when generating greater than 2 buttons
+        for (int i = 0; i < level_file_names.length; i++){    //currently there is a bug when generating greater than 2 buttons
             configureButton(i);
         }
     }
