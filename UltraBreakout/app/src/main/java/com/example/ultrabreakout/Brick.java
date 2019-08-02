@@ -3,15 +3,12 @@ package com.example.ultrabreakout;
 /*
  * Handles the destroyable bricks on the field.
  * Each has its own HP and can contain powerups.
- *
- *
- * TODO
+ * generateBricks() randomly dictates what type
+ *  of Brick is created and what it might hold.
  *
  */
 
 import android.graphics.BitmapFactory;
-import android.util.Log;
-
 import androidx.annotation.DrawableRes;
 import java.util.Random;
 
@@ -25,16 +22,17 @@ class Brick extends Actor {
             R.drawable.breakout_tiles_13, R.drawable.breakout_tiles_15, R.drawable.breakout_tiles_17,
             R.drawable.breakout_tiles_19 };
 
+    //Maps to same indices as BRICK_SPRITES for color consistency
     private static final int[] BRICK_BROKEN_SPRITES = new int[]{
             R.drawable.breakout_tiles_02, R.drawable.breakout_tiles_04, R.drawable.breakout_tiles_06,
             R.drawable.breakout_tiles_08, R.drawable.breakout_tiles_10, R.drawable.breakout_tiles_12,
             R.drawable.breakout_tiles_14, R.drawable.breakout_tiles_16, R.drawable.breakout_tiles_18,
             R.drawable.breakout_tiles_20 };
 
-    public static int BRICK_WIDTH;
+    public static int BRICK_WIDTH;  //May be allowed to change
     public static int BRICK_HEIGHT;
     public int health;
-    private final int brick_index;
+    private final int brick_index;  //Index of current brick in BRICK_SPRITES
 
 
     // The powerup types that the brick holds.
@@ -108,7 +106,8 @@ class Brick extends Actor {
     //Either reduces its HP if it has any, or drops a powerup.
     public void collide (Ball ball){
 
-
+        //Draws two rectangles, determine which one Ball overlaps more
+        //  to determine how to deflect
         float vertical_dist = Math.min (
                 Math.abs(hitbox.bottom - ball.hitbox.top),
                 Math.abs(hitbox.top - ball.hitbox.bottom)

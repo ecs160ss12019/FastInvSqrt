@@ -1,5 +1,15 @@
 package com.example.ultrabreakout;
 
+/*
+ * Handles most of the in-game functions as part of
+ *  an observer model.
+ * It can be roughly divided into four parts:
+ *  Initialization:     (Re)Creates all needed objects for all functions
+ *  Updating:           Actual gameplay frame-by-frame updating
+ *  Drawing:            Draws objects on-screen
+ *  Menu, Touch, Pause: Menu and touchscreen handling
+ */
+
 import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -17,21 +27,19 @@ import static com.example.ultrabreakout.Actor.sprites;
 
 public class UltraBreakout extends SurfaceView implements Runnable {
 
-    private int screenWidth;
-    private int screenHeight;
-    static int statsBarOffset;
+    private int screenWidth;                    //Usually tested on Google Pixel,
+    private int screenHeight;                   // 1920x1080
+    static int statsBarOffset;                  //For keeping all objects visible
 
-    // Keeps track of fps for physics and updating purposes.
-    private float fps;
+    private float fps;                          //Frames per second for updating
     private UltraBreakoutActivity GameActivity;
-    // Used for drawing objects on screen.
     private SurfaceHolder holder;
     private Canvas canvas;
     private Paint paint;
     private Input input;
-    private ArrayList<Paddle> paddles;
-    private ArrayList<Ball> balls;
-    private ArrayList<Actor> actors;
+    private ArrayList<Paddle> paddles;          //For multiple paddles; unused
+    private ArrayList<Ball> balls;              //For multiple Balls
+    private ArrayList<Actor> actors;            //Does not include Paddle/Ball
     private Level level;
     private Stats stats;
     private Sound sound;
@@ -56,7 +64,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 
     public UltraBreakout(Context context, int screenWidth, int screenHeight, Level level, UltraBreakoutActivity GameActivity) {
         super(context);
-        sprites = getResources();
+        sprites = getResources();   //For Actor
         this.GameActivity = GameActivity;
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
@@ -135,7 +143,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         pause();
     }
 
-
+    //Reinitializes a level.
     public void restart(){
         gameOver = false;
         victory = false;
@@ -151,47 +159,19 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         statsBar.stats = stats;
     }
 
-    public void update() {
+    //Updates every single Actor.
+    //Rather ugly due to needing to access the list of Actors and stats;
+    //  refactoring attempts didn't succeed as a result.
+    public void update(){
         stats.updatetime();
-        for (int i = balls.size() - 1; i >= 0; i--) {
-            //First update the paddle velocity based on user input; goes in direction of paddle
-            if (balls.get(0).velocity.x == 0 && balls.get(0).velocity.y == 0 && (input.isPressLeft() || input.isPressRight())) {
-                balls.get(0).velocity.setVelocity(input.isPressLeft() ? -Ball.X_VELOCITY : Ball.X_VELOCITY, -Ball.Y_VELOCITY);
-            }
-            //checks the bounds of the ball, dies if below the screen
-            if (balls.get(i).hasFallen(screenHeight)) {
-                if (balls.size() == 1){
-                    balls.get(0).die(paddles.get(0));
-                    stats.decrementLives();
-                    stats.decrementScore();
-                }
-                else {
-                    balls.remove(balls.get(i));
-                }
-            }
-        }
-
-        for (Paddle paddle : paddles) {
-            for (Ball ball : balls) {
-                //checks if paddle hits the ball, and reflects it by the y axis if it does
-                if (paddle.intersects(ball) && ball.velocity.y > 0) {
-                    paddle.collide(ball);
-                }
-            }
-        }
-
-        // checkCollisions checks to see if ball is colliding with any bricks, and handle if so.
-        //it also checks if the paddle hits an item, so you can get a powerup
-        checkCollisions(actors);
-    }
-
-    public void checkCollisions(ArrayList<? extends Actor> actor_list){
-        for (int i = actor_list.size() - 1; i >= 0; i--){
-            Actor curActor = actor_list.get(i);
+        for (int i = actors.size() - 1; i >= 0; i--){
+            Actor curActor = actors.get(i);
             for (int j = balls.size() - 1; j >= 0; j--){
                 Ball ball = balls.get(j);
                 if (curActor.intersects(ball)){
+                    //Determines what child of Actor we have
                     switch (curActor.getClass().getSimpleName()){
+
                         case("Brick"):
                             Brick curBrick = ((Brick)curActor);
                             curBrick.collide(ball);
@@ -206,6 +186,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                                 stats.incrementScore();
                             }
                             break;
+
                         case ("Spike"):
                             Spike curSpike = ((Spike)curActor);
                             if (curSpike.intersects(ball)) {
@@ -228,7 +209,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                 if (curActor.intersects(paddle)) {
                     switch (curActor.getClass().getSimpleName()) {
                         case ("Item"):
-                            if (paddle.intersects(actor_list.get(i))){
+                            if (paddle.intersects(actors.get(i))){
                                 paddle.powerup(((Item)curActor), balls, stats);
                                 actors.remove(i);
                             }
@@ -240,13 +221,42 @@ public class UltraBreakout extends SurfaceView implements Runnable {
             }
 
         }
-        for (Ball ball : balls){
-            ball.update(fps, screenWidth);
+
+        for (int i = balls.size() - 1; i >= 0; i--) {
+
+            //First update the paddle velocity based on user input; goes in direction of paddle
+            if (balls.get(0).velocity.x == 0
+                && balls.get(0).velocity.y == 0
+                && (input.isPressLeft() || input.isPressRight())
+               )
+            {
+                balls.get(0).velocity.setVelocity(input.isPressLeft() ? -Ball.X_VELOCITY : Ball.X_VELOCITY, -Ball.Y_VELOCITY);
+            }
+
+            balls.get(i).update(fps, screenWidth);
+            //checks the bounds of the ball, dies if below the screen
+            if (balls.get(i).hasFallen(screenHeight)) {
+                if (balls.size() == 1){
+                    balls.get(0).die(paddles.get(0));
+                    stats.decrementLives();
+                    stats.decrementScore();
+                }
+                else {
+                    balls.remove(balls.get(i));
+                    continue;
+                }
+            }
         }
 
         for (Paddle paddle : paddles) {
+            for (Ball ball : balls) {
+                if (paddle.intersects(ball) && ball.velocity.y > 0) {
+                    paddle.collide(ball);
+                }
+            }
             paddle.update(fps, input, screenWidth);
         }
+
         for (Actor actor: actors) {
             switch (actor.getClass().getSimpleName()){
                 case("Item"):
@@ -256,7 +266,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         }
     }
 
-    //Generates the obstacles for the ball to hit from a .csv
+    //Generates the Actors in predefined positions from a .csv file
     public void generateActors(){
 
         balls = new ArrayList<>();
@@ -291,6 +301,8 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                                         Spike.SPIKE_HEIGHT * i + statsBarOffset*3/2)
                         );
                         break;
+
+                      //Old version with ball cavities; removed due to needing too many variables
 /*                    case ("3"):
                         balls.add(
                                 new Ball (
@@ -300,6 +312,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                                         Ball.Y_VELOCITY)
                         );
                         break;*/
+
                     default:
                         break;
                 }
@@ -307,7 +320,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         }
     }
 
-    //Draws any actor, note the wildcard ?
+    //Draws all actors, note the wildcard ?
     public void drawActorList(ArrayList<? extends Actor> actor_list) {
         for (Actor a : actor_list){
             canvas.drawBitmap(a.sprite, null, a.hitbox, null);
@@ -332,7 +345,10 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 
             statsBar.draw(canvas);
 
-            canvas.drawBitmap(BitmapFactory.decodeResource(sprites,R.drawable.breakout_tiles_46),null,pauseButton.hitbox,null);
+            canvas.drawBitmap(
+                    BitmapFactory.decodeResource(
+                        sprites,R.drawable.breakout_tiles_46),
+                    null,pauseButton.hitbox,null);
 
             if(paused && !gameOver){
                 pauseMenu.draw(canvas,paint, "Paused");
@@ -349,6 +365,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         }
     }
 
+    //Touch event for getting paddle movement
     @Override
     public boolean onTouchEvent(MotionEvent motionEvent) {
         int index = motionEvent.getActionIndex();

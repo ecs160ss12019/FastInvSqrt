@@ -2,16 +2,13 @@ package com.example.ultrabreakout;
 
 import android.graphics.BitmapFactory;
 import android.os.Handler;
-
-import java.util.ArrayList;
-
-import static android.view.View.X;
 import static com.example.ultrabreakout.UltraBreakout.statsBarOffset;
 
 /*
  * Handles the ball(s).
- * When the game updates, other actors cause the collisions.
- *
+ * When the game updates, other actors handle the collisions,
+ * not the balls themselves since they don't change upon
+ * colliding with other actors (besides position and velocity).
  */
 
 class Ball extends Actor {
@@ -29,10 +26,11 @@ class Ball extends Actor {
     // The initial velocities for the ball in the x and y components.
     public static final int X_VELOCITY = 450;
     public static final int Y_VELOCITY = 450;
+
     public static final int BALL_POWERUP_TIME = 4000;
     public Handler ballTimer;
     private Runnable ballCallback;
-    // Timer and handler to implement paddle width powerup object.
+    // Timer and handler to implement ball width powerup object.
     public BallState ballState = BallState.NORMAL;
 
     public Ball(float x_pos, float y_pos, float x_vel, float y_vel) {
@@ -47,6 +45,7 @@ class Ball extends Actor {
         };
     }
 
+    //Clone constructor
     public  Ball(Ball ball){
         super(
                 ball.hitbox.left,
@@ -66,7 +65,6 @@ class Ball extends Actor {
         };
 
     }
-
 
     public void setGoldenBall(){
         ballTimer.removeCallbacks(ballCallback);
@@ -101,6 +99,8 @@ class Ball extends Actor {
         }
 
     }
+
+
     public void normalBall(){
         if (this.velocity.x > 0){
             this.velocity.x = X_VELOCITY;
@@ -120,7 +120,7 @@ class Ball extends Actor {
         this.ballState = BallState.NORMAL;
     }
 
-    //Reflects the ball if at screen edges
+    //Reflects the ball if at screen edges, then update position
     public void update (float fps, float screenWidth){
         if ((hitbox.right > screenWidth && velocity.x > 0)
                 || (hitbox.left < 0 && velocity.x < 0)){
@@ -140,13 +140,12 @@ class Ball extends Actor {
         return false;
     }
 
-    //Kills ball zero.
+    //Kills and resets ball zero.
     public void die (Paddle paddle_zero){
         reset (paddle_zero);
         normalBall();
         paddle_zero.paddleWidthNormal();
         velocity.setSpeed(0);
-        //FIXME: Anything else to set?
     }
 
     //Resets the ball to on top of the original paddle.

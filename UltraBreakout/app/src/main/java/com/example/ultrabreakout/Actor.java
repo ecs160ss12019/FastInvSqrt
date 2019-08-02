@@ -4,15 +4,17 @@ import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.graphics.RectF;
 import android.graphics.Bitmap;
-
 import androidx.annotation.DrawableRes;
+
 /*
- * Superclass for all in-game objects.
- * They all have position, velocity, and images.
+ * Parent class for all in-game objects.
+ * They all have position, Velocity, and images.
  * Everything is a rectangle, by the way.
  *
- * TODO
- * Nothing I can think of -Nicola
+ * In retrospect, it may have been easier had all the children
+ *  contained ArrayLists of all instances of them.
+ * Additionally, all actors originally were intended to be able to
+ *  be mobile depending on the level, including Spikes.
  *
  */
 
@@ -50,7 +52,6 @@ class Actor {
 
     }
     public static Resources sprites;
-        //FIXME Is this really a good idea, to have Actor store the resources as essentially global?
 
     RectF hitbox;
     Velocity velocity;

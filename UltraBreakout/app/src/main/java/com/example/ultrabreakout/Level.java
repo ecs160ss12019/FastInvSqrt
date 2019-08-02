@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -17,6 +18,7 @@ import java.util.Scanner;
  * 0 - Empty Tile
  * 1 - Bricks
  * 2 - Spikes
+ * 3 - Balls (unused)
  */
 
 class Level {
@@ -37,7 +39,7 @@ class Level {
             InputStream csvStream = assetManager.open(path);
             InputStreamReader csvStreamReader = new InputStreamReader(csvStream);
             BufferedReader reader = new BufferedReader(csvStreamReader);
-            String line = null;
+            String line;
             for(int i =0; i < NUM_ROWS; i++){
                 line = reader.readLine();
                 csv_file_data.add(read_level_row(line));
@@ -51,7 +53,7 @@ class Level {
 
     //read row in csv file
     private List<String> read_level_row(String line){
-        List<String> row = new ArrayList<String>();
+        List<String> row = new ArrayList<>();
         try (Scanner rowScanner = new Scanner(line)){
             rowScanner.useDelimiter(",");
             while (rowScanner.hasNext()) {

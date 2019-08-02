@@ -114,9 +114,4 @@ public class Sound {
             mediaPlayer.pause();
         }
     }
-
-    public void cleanup() {
-        mediaPlayer.release();
-        mediaPlayer = null;
-    }
 }

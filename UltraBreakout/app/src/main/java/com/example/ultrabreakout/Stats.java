@@ -1,8 +1,8 @@
 package com.example.ultrabreakout;
 
 /*
- * Keeps track of in-game statistics such as lives
- * and score.
+ * Keeps track of in-game statistics such as lives,
+ * time, bricks, and score.
  *
  */
 

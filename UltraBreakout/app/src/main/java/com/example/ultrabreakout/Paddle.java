@@ -3,19 +3,19 @@ package com.example.ultrabreakout;
 /*
  * Handles the paddle object.
  * Basically just a rectangle that moves back and forth.
+ * Can collide with Items to gain powerups.
  */
 
 import android.graphics.BitmapFactory;
 import android.os.Handler;
-
 import java.util.ArrayList;
 
 class Paddle extends Actor {
 
     public enum PaddleState{
-        NORMAL,
-        INCREASE,
-        DECREASE
+        NORMAL,     //
+        INCREASE,   // Paddle is longer
+        DECREASE    // Paddle is shorter
     }
     
     public static final int PADDLE_WIDTH = 160;
@@ -43,12 +43,14 @@ class Paddle extends Actor {
         };
     }
 
+    //Reflects the ball after collision depending on point of impact
     public void collide (Ball ball){
         float x_diff = ball.hitbox.centerX() - hitbox.centerX();
         float x_velocity = (x_diff / (width / 2)) * Ball.X_VELOCITY;
         ball.velocity.setVelocity(x_velocity, -ball.velocity.y);
     }
 
+    //Moves Paddle left or right depending on speed
     public void update(float fps, Input input, float screenWidth){
         if (input.isPressLeft() && (hitbox.left > 0)){
             velocity.x = -PADDLE_SPEED;
@@ -60,6 +62,7 @@ class Paddle extends Actor {
         updatePos(fps);
     }
 
+    //Runs after contacting an Item. Powers up either Paddle or the Balls.
     public void powerup(Item item, ArrayList<Ball> balls, Stats stats){
         switch (item.powerup) {
             case PADDLE_WIDTH_INCREASE:
@@ -91,18 +94,7 @@ class Paddle extends Actor {
         }
     }
 
-    public void reset(float xpos){
-        this.hitbox.left = xpos;
-        this.hitbox.top = 950;
-        this.hitbox.right = xpos + width;
-        this.hitbox.bottom = height;
-        this.velocity.x = 0;
-        this.velocity.y = 0;
-    }
-
-    /* Increases the paddle width on powerup pickup.
-     *
-     */
+    // Increases the paddle width on powerup pickup.
     public void paddleWidthIncrease() {
         // Reset any current timer for the paddle width powerup.
         paddleWidthTimer.removeCallbacks(paddleWidthCallback);
@@ -122,9 +114,7 @@ class Paddle extends Actor {
         }
     }
 
-    /* Reset the paddle back to original width after powerup ends.
-     *
-     */
+    // Reset the paddle back to original width after powerup ends.
     public void paddleWidthDecrease() {
         paddleWidthTimer.removeCallbacks(paddleWidthCallback);
         paddleWidthTimer.postDelayed(paddleWidthCallback, PADDLE_POWERUP_TIME);

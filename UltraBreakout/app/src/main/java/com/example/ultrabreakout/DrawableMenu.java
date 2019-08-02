@@ -7,7 +7,8 @@ import android.graphics.RectF;
 import java.util.ArrayList;
 
 /*
- * Handles creation of in-game drawable menus created using canvas and paint, as opposed to Android menus
+ * Handles creation of in-game drawable menus created using
+ *  canvas and paint, as opposed to Android menus
  */
 
 public class DrawableMenu {

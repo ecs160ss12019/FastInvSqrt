@@ -4,6 +4,10 @@ import android.graphics.RectF;
 
 import static com.example.ultrabreakout.UltraBreakout.statsBarOffset;
 
+/*
+ * A pause button at the extreme top right of the screen.
+ */
+
 public class PauseButton {
     float buttonWidth;
     float buttonHeight;

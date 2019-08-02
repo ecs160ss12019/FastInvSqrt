@@ -6,7 +6,7 @@ import android.graphics.RectF;
 import java.util.ArrayList;
 
 /*
- * Class for drawing the GameOverMenu
+ * Class for drawing the GameOverMenu.
  */
 
 public class GameOverMenu extends DrawableMenu{
@@ -18,7 +18,7 @@ public class GameOverMenu extends DrawableMenu{
         this.width = width;
         this.height = height;
 
-        ButtonsList = new ArrayList<DrawableMenuButton>();
+        ButtonsList = new ArrayList<>();
         paint.setTextSize(height/8);
         ButtonsList.add(buildDrawableButton("EXIT", width/2,
                 (int)((height * 9 / 12) - ( paint.descent() + paint.ascent()) / 2) ));

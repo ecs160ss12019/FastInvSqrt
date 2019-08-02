@@ -1,14 +1,8 @@
 package com.example.ultrabreakout;
 
-/*,fs you.
- *
- * TODO
- * Figure out what items to implement to make the appropriate
- * changes to Paddle/Ball/Stats.
- *
- * If an Item is on the screen, the game update function
- * needs to additionally check if it collides with the Paddle
- * or vice versa.
+/*
+ * Grants various effects upon contact with a Paddle.
+ * See PowerUpType.java for effects
  */
 
 import android.graphics.BitmapFactory;
@@ -45,6 +39,7 @@ class Item extends Actor {
         return false;
     }
 
+    //Item slowly falls down to bottom of screen
     public void update(float fps){
         velocity.x = 0;
         velocity.y = 400;

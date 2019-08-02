@@ -18,7 +18,7 @@ public class PauseMenu extends DrawableMenu{
         this.width = width;
         this.height = height;
 
-        ButtonsList = new ArrayList<DrawableMenuButton>();
+        ButtonsList = new ArrayList<>();
         paint.setTextSize(height/8);
         ButtonsList.add(buildDrawableButton("EXIT", width/2,
                 (int)((height * 9 / 12) - ( paint.descent() + paint.ascent()) / 2) ));

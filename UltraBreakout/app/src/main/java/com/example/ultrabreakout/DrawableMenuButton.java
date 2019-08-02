@@ -5,7 +5,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 
 /*
- * Handles creation of in-game drawable menus created using canvas and paint, as opposed to Android menus
+ * A menu button.
  */
 
 public class DrawableMenuButton {

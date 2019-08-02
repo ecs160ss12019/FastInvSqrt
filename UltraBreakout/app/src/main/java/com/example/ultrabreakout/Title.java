@@ -1,12 +1,16 @@
 package com.example.ultrabreakout;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.res.AssetManager;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+/*
+ * Handles the Title screen.
+ * Initializes the actual image and music, plus
+ *  the level select.
+ */
 
 public class Title extends ScreenActivity {
 
@@ -25,7 +29,7 @@ public class Title extends ScreenActivity {
 
     //Set Up text and font for title
     private void configureTitle(){
-        Button title = (Button) findViewById(R.id.title);
+        Button title = findViewById(R.id.title);
         Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/8bit.TTF");
         title.setTypeface(typeface);
     }
@@ -33,7 +37,7 @@ public class Title extends ScreenActivity {
 
     //Sets up On Click for Levels Button
     private void configureLevelsButton() {
-        Button Levels_button = (Button) findViewById(R.id.LevelsButton);
+        Button Levels_button = findViewById(R.id.LevelsButton);
         Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/8bit.TTF");
         Levels_button.setTypeface(typeface);
         Levels_button.setOnClickListener(new View.OnClickListener(){

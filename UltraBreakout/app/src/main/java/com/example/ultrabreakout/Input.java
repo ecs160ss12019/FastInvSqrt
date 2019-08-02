@@ -12,6 +12,7 @@ import android.util.Log;
  * The current method of user input is to move the paddle right if the user
  * clicked in the right half of the screen, and left if on the left side.
  */
+
 public class Input {
     // Keep track of last user state.
     private boolean pressedRight;
@@ -33,7 +34,7 @@ public class Input {
      *
      */
     public void touchDownEvent(float x, float y) {
-        Log.d("Touch: ", Float.toString(x) + ", " + Float.toString(y));
+        Log.d("Touch: ", x + ", " + y);
         if (y < 100) {
             if (pressedPause == true) {
                 pressedPause = false;
@@ -41,7 +42,7 @@ public class Input {
                 Log.d("Touch: ", "Pause True");
                 pressedPause = true;
             }
-        }else if (x <= screenWidth / 2) {
+        } else if (x <= screenWidth / 2) {
             pressedLeft = true;
         } else if (x > screenWidth / 2) {
             pressedRight = true;
