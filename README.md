@@ -9,7 +9,7 @@ https://github.com/ecs160ss12019/FastInvSqrt/blob/master/CRC_Cards.md
 ### Acceptance Criteria:
 https://github.com/ecs160ss12019/FastInvSqrt/blob/master/Acceptance_Criteria.md
 
-This project is a clone of the Atari 2600 game <em>Super Breakout</em> for Android 5.1. Currently, we have object sprites, power-ups, spikes, a level select, and working physics. Tentatively, we will add levels, animations, and a more in-depth scoring system.
+This project is a clone of the Atari 2600 game <em>Super Breakout</em> for Android 5.1. It has sprites, music, power-ups, spikes, and levels, along with a scoring system.
 
 ## Members
 ### Nicola Mussi
