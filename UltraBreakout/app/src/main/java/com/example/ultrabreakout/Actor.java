@@ -18,6 +18,12 @@ import androidx.annotation.DrawableRes;
  */
 
 class Actor {
+    public enum ActorState{
+        NORMAL,
+        INCREASE,
+        DECREASE,
+        GOLDEN,
+    }
 
     class Velocity {
 

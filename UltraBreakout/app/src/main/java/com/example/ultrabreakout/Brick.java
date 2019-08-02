@@ -101,7 +101,7 @@ class Brick extends Actor {
                 Math.abs(hitbox.left - ball.hitbox.right),
                 Math.abs(hitbox.right - ball.hitbox.left)
         );
-        if (ball.ballState != Ball.BallState.GOLDEN){
+        if (ball.ballState != ActorState.GOLDEN){
             if (vertical_dist >= horizontal_dist){
                 ball.velocity.reverseX();
             }
@@ -121,7 +121,7 @@ class Brick extends Actor {
     public void setBrokenSprite() {
         setSprite(BRICK_BROKEN_SPRITES[brick_index]);
     }
-    
+
 
     //Updates the Brick
     public void Update (float fps){
