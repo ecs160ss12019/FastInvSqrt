@@ -28,13 +28,7 @@ class Ball extends Actor {
     public Handler ballTimer;
     private Runnable ballCallback;
     // Timer and handler to implement paddle width powerup object.
-    BallState ballState;
-    public enum BallState {
-        INCREASE,
-        DECREASE,
-        NORMAL,
-        GOLDEN,
-    }
+    public ActorState ballState;
 
     public Ball(float x_pos, float y_pos, float x_vel, float y_vel) {
         super(x_pos, y_pos, x_vel, y_vel, BALL_WIDTH, BALL_HEIGHT,
@@ -72,7 +66,7 @@ class Ball extends Actor {
     public void setGoldenBall(){
         ballTimer.removeCallbacks(ballCallback);
         ballTimer.postDelayed(ballCallback, BALL_POWERUP_TIME);
-        this.ballState = BallState.GOLDEN;
+        this.ballState = ActorState.GOLDEN;
         this.setSprite(R.drawable.goldenball);
     }
 
@@ -80,33 +74,35 @@ class Ball extends Actor {
         ballTimer.removeCallbacks(ballCallback);
         ballTimer.postDelayed(ballCallback, BALL_POWERUP_TIME);
 
-        if (this.ballState == BallState.NORMAL){
-            this.ballState = BallState.INCREASE;
+        if (this.ballState == ActorState.NORMAL){
+            this.ballState = ActorState.INCREASE;
             this.velocity.setSpeed((float)2.5);
         }
-        else if (this.ballState == BallState.DECREASE){
-            this.ballState = BallState.NORMAL;
+        else if (this.ballState == ActorState.DECREASE){
+            this.ballState = ActorState.NORMAL;
             normalBall();
         }
     }
     public void decreaseBallSpeed(){
         ballTimer.removeCallbacks(ballCallback);
         ballTimer.postDelayed(ballCallback, BALL_POWERUP_TIME);
-        if (this.ballState == BallState.NORMAL){
-            this.ballState = BallState.DECREASE;
+        if (this.ballState == ActorState.NORMAL){
+            this.ballState = ActorState.DECREASE;
             this.velocity.setSpeed((float)0.25);
         }
-        else if (this.ballState == BallState.INCREASE){
-            this.ballState = BallState.NORMAL;
+        else if (this.ballState == ActorState.INCREASE){
+            this.ballState = ActorState.NORMAL;
             normalBall();
         }
 
     }
     public void normalBall(){
         setSprite(R.drawable.ball3);
-        this.ballState = BallState.NORMAL;
         this.velocity.x = X_VELOCITY;
         this.velocity.y = Y_VELOCITY;
+        this.ballState = ActorState.NORMAL;
+        ballTimer.removeCallbacks(ballCallback);
+
     }
 
     public void update (float fps, float screenWidth){

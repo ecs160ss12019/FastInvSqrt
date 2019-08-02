@@ -10,5 +10,4 @@ public enum PowerUpType {
         BALL_SPEED_DECREASE,
         EXTRA_LIFE,
         DOUBLE_BALL,
-
 }
