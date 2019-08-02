@@ -2,16 +2,17 @@ package com.example.ultrabreakout;
 
 /*
  * Handles the destroyable bricks on the field.
- * Each has its own HP.
+ * Each has its own HP and can contain powerups.
+ *
  *
  * TODO
- * Decide which constructor to use, I guess
+ *
  */
 
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 import androidx.annotation.DrawableRes;
-
 import java.util.Random;
 
 class Brick extends Actor {
@@ -31,17 +32,25 @@ class Brick extends Actor {
     public static int BRICK_WIDTH;
     public static int BRICK_HEIGHT;
     public int health;
-    private int brick_index;
+    private final int brick_index;
 
 
     // The powerup types that the brick holds.
     public PowerUpType powerup;
 
-    public Brick(float x_pos, float y_pos, PowerUpType powerup, int sprite_num, int health) {
+    public Brick(
+                float x_pos,
+                float y_pos,
+                PowerUpType powerup,
+                int sprite_num,
+                int health,
+                int sprite_index)
+    {
         super(x_pos, y_pos, 0, 0, BRICK_WIDTH, BRICK_HEIGHT,
                 BitmapFactory.decodeResource(sprites,sprite_num));
         this.powerup = powerup;
         this.health = health;
+        brick_index = sprite_index;
     }
 
     //Generates a brick; to be used with the generateActors function
@@ -49,7 +58,8 @@ class Brick extends Actor {
         float x_pos = j * BRICK_WIDTH;
         float y_pos = i * BRICK_HEIGHT * 2;
         PowerUpType power_up = PowerUpType.NONE;
-        @DrawableRes int sprite = BRICK_SPRITES[new Random().nextInt(BRICK_SPRITES.length)];
+        int random_sprite_index = new Random().nextInt(BRICK_SPRITES.length);
+        @DrawableRes int sprite = BRICK_SPRITES[random_sprite_index];
         int health = 2; //Defaults to 2 hits per brick
 
         //Roughly 10% of Bricks will contain a powerup
@@ -80,9 +90,11 @@ class Brick extends Actor {
                 case 5:
                     power_up = PowerUpType.EXTRA_LIFE;
                     sprite = R.drawable.lifeball;
-                case 6:
+                    break;
+/*                case 6:
                     power_up = PowerUpType.DOUBLE_BALL;
                     sprite = R.drawable.lifeball2;
+                    break;*/
             }
         }
         return new Brick(
@@ -90,13 +102,16 @@ class Brick extends Actor {
             y_pos,
             power_up,
             sprite,
-            health
+            health,
+            random_sprite_index
         );
     }
 
     //Colliding event with ball
     //Either reduces its HP if it has any, or drops a powerup.
     public void collide (Ball ball){
+
+
         float vertical_dist = Math.min (
                 Math.abs(hitbox.bottom - ball.hitbox.top),
                 Math.abs(hitbox.top - ball.hitbox.bottom)
@@ -105,7 +120,7 @@ class Brick extends Actor {
                 Math.abs(hitbox.left - ball.hitbox.right),
                 Math.abs(hitbox.right - ball.hitbox.left)
         );
-        if (ball.ballState != ActorState.GOLDEN){
+        if (ball.ballState != Ball.BallState.GOLDEN){
             if (vertical_dist >= horizontal_dist){
                 ball.velocity.reverseX();
             }
@@ -113,21 +128,14 @@ class Brick extends Actor {
                 ball.velocity.reverseY();
             }
         }
-
-        //Make brick take damage
+        //Make brick take damage, change to same index broken sprite
         if (--health == 1) {
-            setBrokenSprite();
+            setSprite(BRICK_BROKEN_SPRITES[brick_index]);
         }
 
     }
 
-
-    public void setBrokenSprite() {
-        setSprite(BRICK_BROKEN_SPRITES[brick_index]);
-    }
-
-
-    //Updates the Brick
+    //Updates the Brick; unused due to no levels having moving bricks yet
     public void Update (float fps){
         updatePos(fps);
     }

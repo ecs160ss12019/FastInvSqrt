@@ -4,7 +4,6 @@ import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.graphics.RectF;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 
 import androidx.annotation.DrawableRes;
 /*
@@ -18,12 +17,6 @@ import androidx.annotation.DrawableRes;
  */
 
 class Actor {
-    public enum ActorState{
-        NORMAL,
-        INCREASE,
-        DECREASE,
-        GOLDEN,
-    }
 
     class Velocity {
 
