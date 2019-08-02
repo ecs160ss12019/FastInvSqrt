@@ -1,19 +1,7 @@
 package com.example.ultrabreakout;
 
-/*
- * Has a set placement of bricks and other actors,
- * and possibly graphics/music.
- *
- * TODO
- * Will this be read from a file,
- * or randomly generated each time?
- */
-
-
 import android.content.Context;
 import android.content.res.AssetManager;
-import android.os.Bundle;
-import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -22,6 +10,14 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+/*
+ * Levels are read from 16x16 csv files, where each index contains a tile corresponding to tile
+ * position.
+ * 0 - Empty Tile
+ * 1 - Bricks
+ * 2 - Spikes
+ */
 
 class Level {
     public static  int NUM_ROWS = 16;

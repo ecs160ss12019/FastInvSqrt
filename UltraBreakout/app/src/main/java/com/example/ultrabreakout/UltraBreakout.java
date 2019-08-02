@@ -5,7 +5,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -61,12 +60,13 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         this.GameActivity = GameActivity;
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
-        this.statsBarOffset = screenHeight / (Level.NUM_ROWS);
 
         this.level = level;
  
         Brick.BRICK_WIDTH = screenWidth/Level.NUM_COLUMNS;
         Brick.BRICK_HEIGHT = screenHeight / (Level.NUM_ROWS * 2);
+        this.statsBarOffset = Brick.BRICK_HEIGHT * 2;
+
         Spike.SPIKE_WIDTH = screenWidth/Level.NUM_COLUMNS;
         Spike.SPIKE_HEIGHT = (screenHeight * 4) / (Level.NUM_ROWS * 2);
         // Initialize for drawing objects on screen.
@@ -288,7 +288,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                         actors.add(
                                 new Spike(
                                         Spike.SPIKE_WIDTH * j,
-                                        Spike.SPIKE_HEIGHT * i)
+                                        Spike.SPIKE_HEIGHT * i + statsBarOffset*3/2)
                         );
                         break;
 /*                    case ("3"):
@@ -300,9 +300,6 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                                         Ball.Y_VELOCITY)
                         );
                         break;*/
-                    case ("4"):
-                        //FIXME Wormholes
-                        break;
                     default:
                         break;
                 }

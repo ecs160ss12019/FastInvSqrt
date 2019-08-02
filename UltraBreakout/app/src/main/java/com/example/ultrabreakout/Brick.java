@@ -15,6 +15,8 @@ import android.util.Log;
 import androidx.annotation.DrawableRes;
 import java.util.Random;
 
+import static com.example.ultrabreakout.UltraBreakout.statsBarOffset;
+
 class Brick extends Actor {
 
     private static final int[] BRICK_SPRITES = new int[]{
@@ -56,7 +58,7 @@ class Brick extends Actor {
     //Generates a brick; to be used with the generateActors function
     public static Brick generateBrick (final float j, final float i){
         float x_pos = j * BRICK_WIDTH;
-        float y_pos = i * BRICK_HEIGHT * 2;
+        float y_pos = i * BRICK_HEIGHT * 2 + statsBarOffset * 3/2;
         PowerUpType power_up = PowerUpType.NONE;
         int random_sprite_index = new Random().nextInt(BRICK_SPRITES.length);
         @DrawableRes int sprite = BRICK_SPRITES[random_sprite_index];
