@@ -63,10 +63,10 @@ class Brick extends Actor {
         int health = 2; //Defaults to 2 hits per brick
 
         //Roughly 10% of Bricks will contain a powerup
-        if (Math.random() > 0.6) {
+        if (Math.random() > 0.85) {
             health = 1; //One hit for powerup bricks
             sprite = R.drawable.breakout_tiles_48;
-            switch ((int) (Math.random() * 7)) {
+            switch ((int) (Math.random() * 6)) {
                 //Set above number to one above number of powerups
                 case 0:
                     power_up = PowerUpType.PADDLE_WIDTH_INCREASE;
@@ -86,6 +86,11 @@ class Brick extends Actor {
                 case 5:
                     power_up = PowerUpType.EXTRA_LIFE;
                     break;
+
+                //FIXME
+                // Due to how Handlers work, we currently cannot have
+                //  two Balls or Paddles without initializing them
+                //  before the gameThread begins.
 /*                case 6:
                     power_up = PowerUpType.DOUBLE_BALL;
                     sprite = R.drawable.lifeball2;

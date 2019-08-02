@@ -79,10 +79,10 @@ class Ball extends Actor {
 
         if (this.ballState == ballState.NORMAL){
             this.ballState = ballState.INCREASE;
-            this.velocity.setSpeed((float)2.5);
+            this.velocity.setSpeed(2.0f);
         }
         else if (this.ballState == ballState.DECREASE){
-            this.velocity.setSpeed((float)(1/2.5));
+            this.velocity.setSpeed((.5f));
             normalBall();
         }
     }
@@ -91,15 +91,14 @@ class Ball extends Actor {
         ballTimer.postDelayed(ballCallback, BALL_POWERUP_TIME);
         if (this.ballState == BallState.NORMAL){
             this.ballState = BallState.DECREASE;
-            this.velocity.setSpeed((float)0.25);
+            this.velocity.setSpeed(0.25f);
         }
         else if (this.ballState == BallState.INCREASE){
-            this.velocity.setSpeed((float)(4));
+            this.velocity.setSpeed(4f);
             normalBall();
         }
 
     }
-
 
     public void normalBall(){
         if (this.velocity.x > 0){
