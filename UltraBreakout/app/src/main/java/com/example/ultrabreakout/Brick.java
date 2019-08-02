@@ -9,15 +9,12 @@ package com.example.ultrabreakout;
  */
 
 import android.graphics.BitmapFactory;
-import android.graphics.Bitmap;
 
-import java.util.ArrayList;
+import androidx.annotation.DrawableRes;
+
 import java.util.Random;
 
 class Brick extends Actor {
-
-
-
 
     private static final int[] BRICK_SPRITES = new int[]{
             R.drawable.breakout_tiles_01, R.drawable.breakout_tiles_03, R.drawable.breakout_tiles_05,
@@ -40,54 +37,61 @@ class Brick extends Actor {
     // The powerup types that the brick holds.
     public PowerUpType powerup;
 
-    public Brick(float x_pos, float y_pos, PowerUpType powerup) {
-        super(x_pos, y_pos, 0, 0, BRICK_WIDTH, BRICK_HEIGHT,
-                BitmapFactory.decodeResource(sprites,
-                        BRICK_SPRITES[0]));
-        brick_index = new Random().nextInt(BRICK_SPRITES.length);
-        setSprite(BRICK_SPRITES[brick_index]);
-        this.powerup = powerup;
-        this.health = 2;
-    }
-
-    public Brick(float x_pos, float y_pos, PowerUpType powerup, int sprite_num) {
+    public Brick(float x_pos, float y_pos, PowerUpType powerup, int sprite_num, int health) {
         super(x_pos, y_pos, 0, 0, BRICK_WIDTH, BRICK_HEIGHT,
                 BitmapFactory.decodeResource(sprites,sprite_num));
         this.powerup = powerup;
+        this.health = 2;
     }
 
     //Generates a brick; to be used with the generateActors function
     public static Brick generateBrick (final float j, final float i){
         float x_pos = j * BRICK_WIDTH;
         float y_pos = i * BRICK_HEIGHT * 2;
-        if (Math.random() > 0.95) {
-            return new Brick(
-                            x_pos,
-                            y_pos,
-                            PowerUpType.PADDLE_WIDTH_INCREASE,
-                            R.drawable.breakout_tiles_48
-            );
-        } else if (Math.random() > 0.95) {
-            return new Brick(
-                            x_pos,
-                            y_pos,
-                            PowerUpType.GOLDEN_BALL,
-                            R.drawable.goldenball_tile
-            );
-        } else if (Math.random() > 0.95) {
-            return new Brick(
-                            x_pos,
-                            y_pos,
-                            PowerUpType.PADDLE_WIDTH_DECREASE,
-                            R.drawable.breakout_tiles_48
-            );
-        } else {
-            return new Brick(
-                            x_pos,
-                            y_pos,
-                            PowerUpType.NONE
-            );
+        PowerUpType power_up = PowerUpType.NONE;
+        @DrawableRes int sprite = BRICK_SPRITES[new Random().nextInt(BRICK_SPRITES.length)];
+        int health = 2; //Defaults to 2 hits per brick
+
+        //Roughly 10% of Bricks will contain a powerup
+        if (Math.random() > 0.6) {
+            health = 1; //One hit for powerup bricks
+            switch ((int) (Math.random() * 7)) {
+                //Set above number to one above number of powerups
+                case 0:
+                    power_up = PowerUpType.PADDLE_WIDTH_INCREASE;
+                    sprite = R.drawable.breakout_tiles_48;
+                    break;
+                case 1:
+                    power_up = PowerUpType.GOLDEN_BALL;
+                    sprite = R.drawable.goldenball_tile;
+                    break;
+                case 2:
+                    power_up = PowerUpType.PADDLE_WIDTH_DECREASE;
+                    sprite = R.drawable.breakout_tiles_48;
+                    break;
+                case 3:
+                    power_up = PowerUpType.BALL_SPEED_INCREASE;
+                    sprite = R.drawable.featherball;
+                    break;
+                case 4:
+                    power_up = PowerUpType.BALL_SPEED_DECREASE;
+                    sprite = R.drawable.featherball2;
+                    break;
+                case 5:
+                    power_up = PowerUpType.EXTRA_LIFE;
+                    sprite = R.drawable.lifeball;
+                case 6:
+                    power_up = PowerUpType.DOUBLE_BALL;
+                    sprite = R.drawable.lifeball2;
+            }
         }
+        return new Brick(
+            x_pos,
+            y_pos,
+            power_up,
+            sprite,
+            health
+        );
     }
 
     //Colliding event with ball
