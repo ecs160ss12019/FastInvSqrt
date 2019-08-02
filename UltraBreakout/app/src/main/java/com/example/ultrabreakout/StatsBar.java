@@ -7,7 +7,8 @@ import android.graphics.Typeface;
 
 import static com.example.ultrabreakout.UltraBreakout.statsBarOffset;
 
-/*Class object for displaying stats bar at top of screen
+/*
+ * Class for displaying stats bar at top of screen
  */
 
 public class StatsBar {

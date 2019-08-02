@@ -4,9 +4,11 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.util.Log;
-
 import java.util.ArrayList;
+
+/*
+ * Handles creation of in-game drawable menus created using canvas and paint, as opposed to Android menus
+ */
 
 public class DrawableMenu {
     RectF Area;
@@ -26,7 +28,7 @@ public class DrawableMenu {
         Area.right = Area.right + offsetX;
     }
 
-    //Check which button has been pressed, return int for which button has been pressed
+    //Check which button has been pressed, return int corresponding to which button has been pressed
     public int handleClick(float x, float y) {
         for (int i = 0; i < ButtonsList.size(); i++) {
             if (ButtonsList.get(i).contains(x, y)) {

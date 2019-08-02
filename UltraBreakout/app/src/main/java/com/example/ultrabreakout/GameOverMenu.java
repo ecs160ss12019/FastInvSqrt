@@ -3,8 +3,11 @@ package com.example.ultrabreakout;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
-
 import java.util.ArrayList;
+
+/*
+ * Class for drawing the GameOverMenu
+ */
 
 public class GameOverMenu extends DrawableMenu{
 

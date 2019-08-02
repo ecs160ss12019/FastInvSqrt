@@ -1,13 +1,13 @@
 package com.example.ultrabreakout;
 
-
-//Drawable Pause Menu using canvas and paint
-
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
-
 import java.util.ArrayList;
+
+/*
+ * Class for drawing the PauseMenu
+ */
 
 public class PauseMenu extends DrawableMenu{
 
