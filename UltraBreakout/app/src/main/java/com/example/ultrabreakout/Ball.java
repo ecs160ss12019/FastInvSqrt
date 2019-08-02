@@ -5,6 +5,7 @@ import android.os.Handler;
 
 import java.util.ArrayList;
 
+import static android.view.View.X;
 import static com.example.ultrabreakout.UltraBreakout.statsBarOffset;
 
 /*
@@ -32,7 +33,7 @@ class Ball extends Actor {
     public Handler ballTimer;
     private Runnable ballCallback;
     // Timer and handler to implement paddle width powerup object.
-    public BallState ballState;
+    public BallState ballState = BallState.NORMAL;
 
     public Ball(float x_pos, float y_pos, float x_vel, float y_vel) {
         super(x_pos, y_pos, x_vel, y_vel, BALL_WIDTH, BALL_HEIGHT,
@@ -83,7 +84,6 @@ class Ball extends Actor {
             this.velocity.setSpeed((float)2.5);
         }
         else if (this.ballState == ballState.DECREASE){
-            this.ballState = ballState.NORMAL;
             this.velocity.setSpeed((float)(1/2.5));
             normalBall();
         }
@@ -96,16 +96,28 @@ class Ball extends Actor {
             this.velocity.setSpeed((float)0.25);
         }
         else if (this.ballState == BallState.INCREASE){
-            this.ballState = BallState.NORMAL;
             this.velocity.setSpeed((float)(4));
             normalBall();
         }
 
     }
     public void normalBall(){
-        setSprite(R.drawable.ball3);
+        if (this.velocity.x > 0){
+            this.velocity.x = X_VELOCITY;
+        }
+        else if(this.velocity.x < 0){
+            this.velocity.x = -X_VELOCITY;
+        }
+        if (this.velocity.y > 0){
+            this.velocity.y = Y_VELOCITY;
+        }
+        else if (this.velocity.y < 0){
+            this.velocity.y = -Y_VELOCITY;
+        }
+        if (this.ballState == BallState.GOLDEN){
+            this.setSprite(R.drawable.ball3);
+        }
         this.ballState = BallState.NORMAL;
-        ballTimer.removeCallbacks(ballCallback);
     }
 
     //Reflects the ball if at screen edges

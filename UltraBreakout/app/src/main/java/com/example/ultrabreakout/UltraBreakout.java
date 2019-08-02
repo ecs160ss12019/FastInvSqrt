@@ -160,9 +160,10 @@ public class UltraBreakout extends SurfaceView implements Runnable {
             //checks the bounds of the ball, dies if below the screen
             if (balls.get(i).hasFallen(screenHeight)) {
                 if (balls.size() == 1){
-                    balls.get(0).die(paddles.get(0));
-                    stats.decrementLives();
-                    stats.decrementScore();
+//                    balls.get(0).die(paddles.get(0));
+//                    stats.decrementLives();
+//                    stats.decrementScore();
+                    balls.get(0).velocity.reverseY();
                 }
                 else {
                     balls.remove(balls.get(i));

@@ -26,7 +26,7 @@ class Paddle extends Actor {
     // Timer and handler to implement paddle width powerup object.
     public Handler paddleWidthTimer;
     private Runnable paddleWidthCallback;
-    private PaddleState paddleState;
+    private PaddleState paddleState = PaddleState.NORMAL;
 
     public Paddle(float x_pos, float y_pos) {
         super(x_pos, y_pos, 0, 0, PADDLE_WIDTH, PADDLE_HEIGHT,
@@ -156,7 +156,6 @@ class Paddle extends Actor {
         }
         paddleState = PaddleState.NORMAL;
         width = PADDLE_WIDTH;
-        paddleWidthTimer.removeCallbacks(paddleWidthCallback);
     }
 
     public void destroy() {
