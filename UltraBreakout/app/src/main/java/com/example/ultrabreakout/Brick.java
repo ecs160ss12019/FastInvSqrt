@@ -16,7 +16,8 @@ import java.util.Random;
 
 class Brick extends Actor {
 
-    // The powerup types that a block can hold.
+
+
 
     private static final int[] BRICK_SPRITES = new int[]{
             R.drawable.breakout_tiles_01, R.drawable.breakout_tiles_03, R.drawable.breakout_tiles_05,
@@ -32,7 +33,7 @@ class Brick extends Actor {
 
     public static int BRICK_WIDTH;
     public static int BRICK_HEIGHT;
-    private int health;
+    public int health;
     private int brick_index;
 
 
@@ -109,33 +110,18 @@ class Brick extends Actor {
             }
         }
 
-        //Ball is trapped between two bricks, no damage
-        if (!ball.isActive){
-            return;
-        }
-
         //Make brick take damage
         if (--health == 1) {
             setBrokenSprite();
         }
 
     }
-    public void decrementHealth() {
-            health --;
-
-    }
-
-    public int returnHealth() {
-
-        return health;
-    }
 
 
     public void setBrokenSprite() {
         setSprite(BRICK_BROKEN_SPRITES[brick_index]);
     }
-
-
+    
 
     //Updates the Brick
     public void Update (float fps){

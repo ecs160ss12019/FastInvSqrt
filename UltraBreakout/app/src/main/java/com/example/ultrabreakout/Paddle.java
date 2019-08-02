@@ -8,6 +8,8 @@ package com.example.ultrabreakout;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
 
+import java.util.ArrayList;
+
 class Paddle extends Actor {
     public static final int PADDLE_WIDTH = 160;
     public static final int PADDLE_HEIGHT = 40;
@@ -40,8 +42,6 @@ class Paddle extends Actor {
     }
 
     public void collide (Ball ball){
-        //Ball becomes active if it was part of level initially
-        ball.isActive = true;
         float x_diff = ball.hitbox.centerX() - hitbox.centerX();
         float x_velocity = (x_diff / (width / 2)) * Ball.X_VELOCITY;
         ball.velocity.setVelocity(x_velocity, -ball.velocity.y);
@@ -58,7 +58,7 @@ class Paddle extends Actor {
         updatePos(fps);
     }
 
-    public void powerup(Item item, Ball ball,Stats stats){
+    public void powerup(Item item, ArrayList<Ball> balls, Stats stats){
         switch (item.powerup) {
             case PADDLE_WIDTH_INCREASE:
                 this.paddleWidthIncrease();
@@ -67,14 +67,25 @@ class Paddle extends Actor {
                 this.paddleWidthDecrease();
                 break;
             case GOLDEN_BALL:
-                ball.setGoldenBall();
+                for (Ball ball : balls){
+                    ball.setGoldenBall();
+                }
                 break;
             case EXTRA_LIFE:
                 stats.incrementLives();
+                break;
             case BALL_SPEED_DECREASE:
-                ball.decreaseBallSpeed();
+                for (Ball ball : balls){
+                    ball.decreaseBallSpeed();
+                }
+                break;
             case BALL_SPEED_INCREASE:
-                ball.increaseBallSpeed();
+                for (Ball ball : balls){
+                    ball.increaseBallSpeed();
+                }
+                break;
+            case DOUBLE_BALL:
+                balls.add(new Ball (balls.get(0)));
         }
     }
 

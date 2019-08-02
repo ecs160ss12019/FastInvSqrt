@@ -53,8 +53,8 @@ class Stats {
   public void decrementScore(){
     score -= 50;
   }
-  public void incrementRemainingBricks() {bricksRemaining+=1;}
-  public void incrementDestroyedBricks() {bricksDestroyed+=1;}
+  public void incrementRemainingBricks() {bricksRemaining++;}
+  public void incrementDestroyedBricks() {bricksDestroyed++;}
 
-  public void decrementRemainingBricks() {bricksRemaining-=1;}
+  public void decrementRemainingBricks() {bricksRemaining--;}
 }

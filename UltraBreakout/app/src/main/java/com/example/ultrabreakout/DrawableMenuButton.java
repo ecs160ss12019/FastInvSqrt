@@ -9,21 +9,28 @@ import android.util.Log;
 import java.util.function.Consumer;
 
 
-public class DrawableButton {
+public class DrawableMenuButton {
     Rect hitbox;
     Boolean isText;
-    Boolean isImage;
     int startX;
     int startY;
     String Text;
     float textSize;
 
-    public DrawableButton(Rect Area, int x, int y, float textSize, String Text) {
+    public DrawableMenuButton(Rect Area, int x, int y, float textSize, String Text) {
         this.startX = x;
         this.startY = y;
         this.textSize = textSize;
         this.isText = true;
         this.Text = Text;
+        this.hitbox = Area;
+    }
+
+    public DrawableMenuButton(Rect Area, int x, int y, String img) {
+        this.startX = x;
+        this.startY = y;
+        this.textSize = textSize;
+        this.isText = false;
         this.hitbox = Area;
     }
 
@@ -33,9 +40,13 @@ public class DrawableButton {
     }
 
     public void draw(Canvas canvas, Paint paint){
-        paint.setTextAlign(Paint.Align.CENTER);
-        paint.setTextSize(textSize);
-        canvas.drawText(Text, startX, startY, paint);
+        if (isText){
+            paint.setTextAlign(Paint.Align.CENTER);
+            paint.setTextSize(textSize);
+            canvas.drawText(Text, startX, startY, paint);
+        } else {
+
+        }
     }
 
 

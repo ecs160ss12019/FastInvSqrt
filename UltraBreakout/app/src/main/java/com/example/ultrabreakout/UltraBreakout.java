@@ -175,9 +175,6 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                 //checks if paddle hits the ball, and reflects it by the y axis if it does
                 if (paddle.intersects(ball) && ball.velocity.y > 0) {
                     paddle.collide(ball);
-                    if (!ball.isActive){
-                        ball.isActive = true;
-                    }
                 }
             }
         }
@@ -197,11 +194,10 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                         case("Brick"):
                             Brick curBrick = ((Brick)curActor);
                             curBrick.collide(ball);
-                            if(curBrick.returnHealth() <= 0) {
+                            if(curBrick.health <= 0) {
                                 if (curBrick.powerup != PowerUpType.NONE){
                                     actors.add(new Item(ball.hitbox.left,ball.hitbox.top,0,450,curBrick.powerup));
                                 }
-
                                 actors.remove(i);
                                 stats.decrementRemainingBricks();
                                 stats.incrementDestroyedBricks();
@@ -232,7 +228,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                     switch (curActor.getClass().getSimpleName()) {
                         case ("Item"):
                             if (paddle.intersects(actor_list.get(i))){
-                                paddle.powerup(((Item)curActor), balls.get(0), stats);
+                                paddle.powerup(((Item)curActor), balls, stats);
                                 actors.remove(i);
                             }
                             else if(((Item)curActor).hasFallen(screenHeight)){
@@ -261,9 +257,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
 
     //Generates the obstacles for the ball to hit from a .csv
     public void generateActors(){
-        //FIXME Store the balls and the paddles in the level.csv!!!
-        //FIXME
-        //FIXME
+
         balls = new ArrayList<>();
         paddles = new ArrayList<>();
         actors= new ArrayList<>();
