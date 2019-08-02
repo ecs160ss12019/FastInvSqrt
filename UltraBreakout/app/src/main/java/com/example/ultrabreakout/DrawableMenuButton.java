@@ -3,11 +3,6 @@ package com.example.ultrabreakout;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.RectF;
-import android.util.Log;
-
-import java.util.function.Consumer;
-
 
 public class DrawableMenuButton {
     Rect hitbox;
@@ -23,14 +18,6 @@ public class DrawableMenuButton {
         this.textSize = textSize;
         this.isText = true;
         this.Text = Text;
-        this.hitbox = Area;
-    }
-
-    public DrawableMenuButton(Rect Area, int x, int y, String img) {
-        this.startX = x;
-        this.startY = y;
-        this.textSize = textSize;
-        this.isText = false;
         this.hitbox = Area;
     }
 

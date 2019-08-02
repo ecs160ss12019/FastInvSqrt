@@ -1,7 +1,6 @@
 package com.example.ultrabreakout;
 
 import android.graphics.Point;
-import android.util.DisplayMetrics;
 
 public class PopUpScreen extends ScreenActivity {
 

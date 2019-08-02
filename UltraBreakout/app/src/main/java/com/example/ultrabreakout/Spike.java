@@ -1,15 +1,6 @@
 package com.example.ultrabreakout;
 
-/*
- * Handles the spikes that instantly kill you.
- *
- * TODO
- * Shouldn't be too hard.
- */
-
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.content.Context;
 
 class Spike extends Actor {
     public static int SPIKE_HEIGHT;

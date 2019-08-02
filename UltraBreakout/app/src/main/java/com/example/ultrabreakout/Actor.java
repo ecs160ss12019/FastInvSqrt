@@ -4,7 +4,6 @@ import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.graphics.RectF;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 
 import androidx.annotation.DrawableRes;
 /*
