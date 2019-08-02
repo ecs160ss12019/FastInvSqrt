@@ -17,15 +17,6 @@ import java.util.Random;
 class Brick extends Actor {
 
     // The powerup types that a block can hold.
-    public enum PowerUpType {
-        NONE,                   // Normal block.
-        PADDLE_WIDTH_INCREASE,  // Increase the width of the paddle.
-        NUM_POWERUP_TYPES,
-        GOLDEN_BALL,
-        PADDLE_WIDTH_DECREASE,
-        BALL_SPEED_INCREASE,
-        BALL_SPEED_DECREASE,
-    }
 
     private static final int[] BRICK_SPRITES = new int[]{
             R.drawable.breakout_tiles_01, R.drawable.breakout_tiles_03, R.drawable.breakout_tiles_05,
@@ -142,23 +133,6 @@ class Brick extends Actor {
 
     public void setBrokenSprite() {
         setSprite(BRICK_BROKEN_SPRITES[brick_index]);
-    }
-
-    public Item.PowerUpType checkPowerUp(){
-        switch(this.powerup){
-            case PADDLE_WIDTH_DECREASE:
-                return Item.PowerUpType.PADDLE_WIDTH_DECREASE;
-            case PADDLE_WIDTH_INCREASE:
-                return Item.PowerUpType.PADDLE_WIDTH_INCREASE;
-            case GOLDEN_BALL:
-                return Item.PowerUpType.GOLDEN_BALL;
-            case BALL_SPEED_DECREASE:
-                return Item.PowerUpType.BALL_SPEED_DECREASE;
-            case BALL_SPEED_INCREASE:
-                return Item.PowerUpType.BALL_SPEED_INCREASE;
-            default:
-                return Item.PowerUpType.NONE;
-        }
     }
 
 

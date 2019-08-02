@@ -198,8 +198,8 @@ public class UltraBreakout extends SurfaceView implements Runnable {
                             Brick curBrick = ((Brick)curActor);
                             curBrick.collide(ball);
                             if(curBrick.returnHealth() <= 0) {
-                                if (curBrick.checkPowerUp() != Item.PowerUpType.NONE){
-                                    actors.add(new Item(ball.hitbox.left,ball.hitbox.top,0,450,curBrick.checkPowerUp()));
+                                if (curBrick.powerup != PowerUpType.NONE){
+                                    actors.add(new Item(ball.hitbox.left,ball.hitbox.top,0,450,curBrick.powerup));
                                 }
 
                                 actors.remove(i);
