@@ -13,6 +13,7 @@ public class ScreenActivity extends AppCompatActivity{
 
     //Make full screen, removes navigation bar, title bar, and status bar
     //Note the bitwise ORs.
+    //https://stackoverflow.com/questions/48124248/android-full-screen-on-only-one-activity
     public void configureScreen(){
         View decorView = getWindow().getDecorView();
         decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
