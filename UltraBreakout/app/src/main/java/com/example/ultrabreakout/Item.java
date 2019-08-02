@@ -18,16 +18,8 @@ import java.util.Map;
 class Item extends Actor {
     private static final int ITEM_WIDTH = 40;
     private static final int ITEM_HEIGHT = 40;
-    public enum PowerUpType {
-        NONE,                   // Normal block.
-        PADDLE_WIDTH_INCREASE,  // Increase the width of the paddle.
-        NUM_POWERUP_TYPES,
-        GOLDEN_BALL,
-        PADDLE_WIDTH_DECREASE,
-        EXTRA_LIFE,
-        BALL_SPEED_INCREASE,
-        BALL_SPEED_DECREASE,
-    }
+
+
     private static final Map<PowerUpType, Integer> itemMap = new HashMap<PowerUpType, Integer>(){{
         put(PowerUpType.PADDLE_WIDTH_INCREASE,R.drawable.breakout_tiles_48);
         put(PowerUpType.PADDLE_WIDTH_DECREASE,R.drawable.breakout_tiles_48);
@@ -35,6 +27,7 @@ class Item extends Actor {
         put(PowerUpType.EXTRA_LIFE,R.drawable.lifeball2);
         put(PowerUpType.BALL_SPEED_INCREASE,R.drawable.featherball2);
         put(PowerUpType.BALL_SPEED_DECREASE,R.drawable.featherball2);
+        put(PowerUpType.DOUBLE_BALL,R.drawable.ball2);
     }};
 
 

@@ -9,23 +9,12 @@ package com.example.ultrabreakout;
  */
 
 import android.graphics.BitmapFactory;
-import android.graphics.Bitmap;
 
-import java.util.ArrayList;
+import androidx.annotation.DrawableRes;
+
 import java.util.Random;
 
 class Brick extends Actor {
-
-    // The powerup types that a block can hold.
-    public enum PowerUpType {
-        NONE,                   // Normal block.
-        PADDLE_WIDTH_INCREASE,  // Increase the width of the paddle.
-        NUM_POWERUP_TYPES,
-        GOLDEN_BALL,
-        PADDLE_WIDTH_DECREASE,
-        BALL_SPEED_INCREASE,
-        BALL_SPEED_DECREASE,
-    }
 
     private static final int[] BRICK_SPRITES = new int[]{
             R.drawable.breakout_tiles_01, R.drawable.breakout_tiles_03, R.drawable.breakout_tiles_05,
@@ -41,61 +30,68 @@ class Brick extends Actor {
 
     public static int BRICK_WIDTH;
     public static int BRICK_HEIGHT;
-    private int health;
+    public int health;
     private int brick_index;
 
 
     // The powerup types that the brick holds.
     public PowerUpType powerup;
 
-    public Brick(float x_pos, float y_pos, PowerUpType powerup) {
-        super(x_pos, y_pos, 0, 0, BRICK_WIDTH, BRICK_HEIGHT,
-                BitmapFactory.decodeResource(sprites,
-                        BRICK_SPRITES[0]));
-        brick_index = new Random().nextInt(BRICK_SPRITES.length);
-        setSprite(BRICK_SPRITES[brick_index]);
-        this.powerup = powerup;
-        this.health = 2;
-    }
-
-    public Brick(float x_pos, float y_pos, PowerUpType powerup, int sprite_num) {
+    public Brick(float x_pos, float y_pos, PowerUpType powerup, int sprite_num, int health) {
         super(x_pos, y_pos, 0, 0, BRICK_WIDTH, BRICK_HEIGHT,
                 BitmapFactory.decodeResource(sprites,sprite_num));
         this.powerup = powerup;
+        this.health = health;
     }
 
     //Generates a brick; to be used with the generateActors function
     public static Brick generateBrick (final float j, final float i){
         float x_pos = j * BRICK_WIDTH;
         float y_pos = i * BRICK_HEIGHT * 2;
-        if (Math.random() > 0.95) {
-            return new Brick(
-                            x_pos,
-                            y_pos,
-                            PowerUpType.PADDLE_WIDTH_INCREASE,
-                            R.drawable.breakout_tiles_48
-            );
-        } else if (Math.random() > 0.95) {
-            return new Brick(
-                            x_pos,
-                            y_pos,
-                            PowerUpType.GOLDEN_BALL,
-                            R.drawable.goldenball_tile
-            );
-        } else if (Math.random() > 0.95) {
-            return new Brick(
-                            x_pos,
-                            y_pos,
-                            PowerUpType.PADDLE_WIDTH_DECREASE,
-                            R.drawable.breakout_tiles_48
-            );
-        } else {
-            return new Brick(
-                            x_pos,
-                            y_pos,
-                            PowerUpType.NONE
-            );
+        PowerUpType power_up = PowerUpType.NONE;
+        @DrawableRes int sprite = BRICK_SPRITES[new Random().nextInt(BRICK_SPRITES.length)];
+        int health = 2; //Defaults to 2 hits per brick
+
+        //Roughly 10% of Bricks will contain a powerup
+        if (Math.random() > 0.6) {
+            health = 1; //One hit for powerup bricks
+            switch ((int) (Math.random() * 7)) {
+                //Set above number to one above number of powerups
+                case 0:
+                    power_up = PowerUpType.PADDLE_WIDTH_INCREASE;
+                    sprite = R.drawable.breakout_tiles_48;
+                    break;
+                case 1:
+                    power_up = PowerUpType.GOLDEN_BALL;
+                    sprite = R.drawable.goldenball_tile;
+                    break;
+                case 2:
+                    power_up = PowerUpType.PADDLE_WIDTH_DECREASE;
+                    sprite = R.drawable.breakout_tiles_48;
+                    break;
+                case 3:
+                    power_up = PowerUpType.BALL_SPEED_INCREASE;
+                    sprite = R.drawable.featherball;
+                    break;
+                case 4:
+                    power_up = PowerUpType.BALL_SPEED_DECREASE;
+                    sprite = R.drawable.featherball2;
+                    break;
+                case 5:
+                    power_up = PowerUpType.EXTRA_LIFE;
+                    sprite = R.drawable.lifeball;
+                case 6:
+                    power_up = PowerUpType.DOUBLE_BALL;
+                    sprite = R.drawable.lifeball2;
+            }
         }
+        return new Brick(
+            x_pos,
+            y_pos,
+            power_up,
+            sprite,
+            health
+        );
     }
 
     //Colliding event with ball
@@ -109,7 +105,7 @@ class Brick extends Actor {
                 Math.abs(hitbox.left - ball.hitbox.right),
                 Math.abs(hitbox.right - ball.hitbox.left)
         );
-        if (ball.ballState != Ball.BallState.GOLDEN){
+        if (ball.ballState != ActorState.GOLDEN){
             if (vertical_dist >= horizontal_dist){
                 ball.velocity.reverseX();
             }
@@ -118,49 +114,17 @@ class Brick extends Actor {
             }
         }
 
-        //Ball is trapped between two bricks, no damage
-        if (!ball.isActive){
-            return;
-        }
-
         //Make brick take damage
         if (--health == 1) {
             setBrokenSprite();
         }
 
     }
-    public void decrementHealth() {
-            health --;
-
-    }
-
-    public int returnHealth() {
-
-        return health;
-    }
 
 
     public void setBrokenSprite() {
         setSprite(BRICK_BROKEN_SPRITES[brick_index]);
     }
-
-    public Item.PowerUpType checkPowerUp(){
-        switch(this.powerup){
-            case PADDLE_WIDTH_DECREASE:
-                return Item.PowerUpType.PADDLE_WIDTH_DECREASE;
-            case PADDLE_WIDTH_INCREASE:
-                return Item.PowerUpType.PADDLE_WIDTH_INCREASE;
-            case GOLDEN_BALL:
-                return Item.PowerUpType.GOLDEN_BALL;
-            case BALL_SPEED_DECREASE:
-                return Item.PowerUpType.BALL_SPEED_DECREASE;
-            case BALL_SPEED_INCREASE:
-                return Item.PowerUpType.BALL_SPEED_INCREASE;
-            default:
-                return Item.PowerUpType.NONE;
-        }
-    }
-
 
 
     //Updates the Brick

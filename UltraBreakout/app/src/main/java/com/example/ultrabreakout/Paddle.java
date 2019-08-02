@@ -8,6 +8,8 @@ package com.example.ultrabreakout;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
 
+import java.util.ArrayList;
+
 class Paddle extends Actor {
     public static final int PADDLE_WIDTH = 160;
     public static final int PADDLE_HEIGHT = 40;
@@ -17,12 +19,7 @@ class Paddle extends Actor {
     // Timer and handler to implement paddle width powerup object.
     public Handler paddleWidthTimer;
     private Runnable paddleWidthCallback;
-    private enum PaddleState {
-        INCREASE,
-        DECREASE,
-        NORMAL,
-    }
-    private PaddleState paddleState;
+    private ActorState paddleState;
 
     public Paddle(float x_pos, float y_pos) {
         super(x_pos, y_pos, 0, 0, PADDLE_WIDTH, PADDLE_HEIGHT,
@@ -40,8 +37,6 @@ class Paddle extends Actor {
     }
 
     public void collide (Ball ball){
-        //Ball becomes active if it was part of level initially
-        ball.isActive = true;
         float x_diff = ball.hitbox.centerX() - hitbox.centerX();
         float x_velocity = (x_diff / (width / 2)) * Ball.X_VELOCITY;
         ball.velocity.setVelocity(x_velocity, -ball.velocity.y);
@@ -58,7 +53,7 @@ class Paddle extends Actor {
         updatePos(fps);
     }
 
-    public void powerup(Item item, Ball ball,Stats stats){
+    public void powerup(Item item, ArrayList<Ball> balls, Stats stats){
         switch (item.powerup) {
             case PADDLE_WIDTH_INCREASE:
                 this.paddleWidthIncrease();
@@ -67,14 +62,25 @@ class Paddle extends Actor {
                 this.paddleWidthDecrease();
                 break;
             case GOLDEN_BALL:
-                ball.setGoldenBall();
+                for (Ball ball : balls){
+                    ball.setGoldenBall();
+                }
                 break;
             case EXTRA_LIFE:
                 stats.incrementLives();
+                break;
             case BALL_SPEED_DECREASE:
-                ball.decreaseBallSpeed();
+                for (Ball ball : balls){
+                    ball.decreaseBallSpeed();
+                }
+                break;
             case BALL_SPEED_INCREASE:
-                ball.increaseBallSpeed();
+                for (Ball ball : balls){
+                    ball.increaseBallSpeed();
+                }
+                break;
+            case DOUBLE_BALL:
+                balls.add(new Ball (balls.get(0)));
         }
     }
 
@@ -96,15 +102,15 @@ class Paddle extends Actor {
         paddleWidthTimer.postDelayed(paddleWidthCallback, PADDLE_POWERUP_TIME);
 
         // Set the new coordinates and size for the paddle if not already bigger.
-        if (paddleState == PaddleState.NORMAL) {
-            paddleState = PaddleState.INCREASE;
+        if (paddleState == ActorState.NORMAL) {
+            paddleState = ActorState.INCREASE;
             hitbox.right += 0.5 * PADDLE_WIDTH;
             hitbox.left -= 0.5 * width;
             width = PADDLE_WIDTH * 2;
         }
-        else if(paddleState == PaddleState.DECREASE){
+        else if(paddleState == ActorState.DECREASE){
             paddleWidthNormal();
-            paddleState = PaddleState.NORMAL;
+            paddleState = ActorState.NORMAL;
             width = PADDLE_WIDTH * 2;
         }
     }
@@ -115,34 +121,35 @@ class Paddle extends Actor {
     public void paddleWidthDecrease() {
         paddleWidthTimer.removeCallbacks(paddleWidthCallback);
         paddleWidthTimer.postDelayed(paddleWidthCallback, PADDLE_POWERUP_TIME);
-        if (paddleState == PaddleState.NORMAL) {
-            paddleState = PaddleState.INCREASE;
+        if (paddleState == ActorState.NORMAL) {
+            paddleState = ActorState.INCREASE;
             hitbox.right -= 0.5 * PADDLE_WIDTH;
             hitbox.left += 0.5 * width;
             width = PADDLE_WIDTH / 2;
         }
-        else if(paddleState == PaddleState.INCREASE){
+        else if(paddleState == ActorState.INCREASE){
             paddleWidthNormal();
-            paddleState = PaddleState.NORMAL;
+            paddleState = ActorState.NORMAL;
             width = PADDLE_WIDTH / 2;
         }
 
 
     }
     public void paddleWidthNormal() {
-        if (paddleState == PaddleState.DECREASE) {
-            paddleState = PaddleState.INCREASE;
+        if (paddleState == ActorState.DECREASE) {
+            paddleState = ActorState.INCREASE;
             hitbox.right += 0.5 * PADDLE_WIDTH;
             hitbox.left -= 0.5 * width;
             width = PADDLE_WIDTH * 2;
         }
-        else if(paddleState == PaddleState.INCREASE){
+        else if(paddleState == ActorState.INCREASE){
             hitbox.right -= 0.5 * PADDLE_WIDTH;
             hitbox.left += 0.5 * width;
             width = PADDLE_WIDTH / 2;
         }
-        paddleState = PaddleState.NORMAL;
+        paddleState = ActorState.NORMAL;
         width = PADDLE_WIDTH;
+        paddleWidthTimer.removeCallbacks(paddleWidthCallback);
     }
 
     public void destroy() {
