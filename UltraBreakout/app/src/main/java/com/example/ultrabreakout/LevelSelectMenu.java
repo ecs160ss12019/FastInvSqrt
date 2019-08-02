@@ -2,33 +2,25 @@ package com.example.ultrabreakout;
 
 import android.content.Intent;
 import android.content.res.AssetManager;
-
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
-
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+
 
 /*
  * Activity for the level select screen.
- * Able to select a level from a preconfigured number, and it sends
- * the choice to the UltraBreakoutActivity.
+ * Generates buttons automatically based on number of files in the levels folder in assets.
+ * Buttons start UltraBreakOutActivity and sends level file name so it can be loaded in.
  */
 
 public class LevelSelectMenu extends PopUpScreen {
     //array storing the names of all files in the level folder
     String[] level_file_names;
-    //array storing resource id's of previous button so we can layout the next button right below it
-    List<Integer> r_ids = new ArrayList<Integer>();
 
     Sound sound;
 
@@ -43,7 +35,7 @@ public class LevelSelectMenu extends PopUpScreen {
     }
 
 
-    //Set up the Level selection
+    //Configure button graphics, layout, and sets up on click function
     private void configureButton(final int level, LinearLayout ll ){
 
         Button button = new Button(this);
@@ -55,13 +47,12 @@ public class LevelSelectMenu extends PopUpScreen {
 
         int id = View.generateViewId();
         button.setId(id);
-        r_ids.add(id);
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 100);
         button.setLayoutParams(params);
         params.setMargins(0, 20, 0, 20);
 
-
+        //configure button onclick
         button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
@@ -70,19 +61,22 @@ public class LevelSelectMenu extends PopUpScreen {
                 startActivity(i);
             }
         });
+
+        //configure button text
         button.setText(level_file_names[level].substring(0,level_file_names[level].length() - 4) );
         ll.addView(button,params);
-
     }
 
-    //For each file in the levels directory, builds a button that starts an UltraBreakoutActivity that sends the file name to the created activity
+    /*
+     * For each file in the levels directory, builds a button that starts an UltraBreakoutActivity.
+     * Sends the file name of csv file to the created activity
+     *
+     */
     private void setUpLevelSelectButtons(){
-        //for (int i = 0; i < level_file_names.length; i++){
-        //temporarily set as 2 until over lapping button position bug is fixed.
         ScrollView sv = (ScrollView)findViewById(R.id.popup_window);
         LinearLayout ll = new LinearLayout(this);
         ll.setOrientation(LinearLayout.VERTICAL);
-        for (int i = 0; i < level_file_names.length; i++){    //currently there is a bug when generating greater than 2 buttons
+        for (int i = 0; i < level_file_names.length; i++){
             configureButton(i, ll);
         }
         sv.addView(ll);

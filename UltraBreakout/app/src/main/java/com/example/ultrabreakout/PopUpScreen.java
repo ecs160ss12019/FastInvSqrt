@@ -1,8 +1,10 @@
 package com.example.ultrabreakout;
 
 import android.graphics.Point;
-import android.util.DisplayMetrics;
 
+/*
+ * Class for handling Pop-Up type Android screens such as the level selection menu.
+ */
 public class PopUpScreen extends ScreenActivity {
 
     public void configurePopUpScreen(){

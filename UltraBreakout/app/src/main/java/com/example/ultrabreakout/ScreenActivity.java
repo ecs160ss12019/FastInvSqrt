@@ -3,8 +3,11 @@ package com.example.ultrabreakout;
 import android.graphics.Point;
 import android.view.Display;
 import android.view.View;
-
 import androidx.appcompat.app.AppCompatActivity;
+
+/*
+ * Class containing functions to set up screen and get display information;
+ */
 
 public class ScreenActivity extends AppCompatActivity{
 

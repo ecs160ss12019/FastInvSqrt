@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -28,9 +29,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
     private SurfaceHolder holder;
     private Canvas canvas;
     private Paint paint;
-
     private Input input;
-
     private ArrayList<Paddle> paddles;
     private ArrayList<Ball> balls;
     private ArrayList<Actor> actors;
@@ -65,7 +64,7 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         this.statsBarOffset = screenHeight / (Level.NUM_ROWS);
 
         this.level = level;
-
+ 
         Brick.BRICK_WIDTH = screenWidth/Level.NUM_COLUMNS;
         Brick.BRICK_HEIGHT = screenHeight / (Level.NUM_ROWS * 2);
         Spike.SPIKE_WIDTH = screenWidth/Level.NUM_COLUMNS;
@@ -90,11 +89,13 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         // Initialize paused game.
         paused = false;
         gameThread = null;
+
         this.pauseButton = new PauseButton(screenWidth, screenHeight);
         this.pauseMenu = new PauseMenu(screenHeight, screenWidth);
         this.gameOverMenu = new GameOverMenu(screenHeight, screenWidth);
 
         frameTimeNow = frameTimePrev = System.currentTimeMillis();
+
 
         System.out.println("INITIALIZING THE GAME");
     }
@@ -317,12 +318,13 @@ public class UltraBreakout extends SurfaceView implements Runnable {
         }
     }
 
+
     void draw() {
         if (holder.getSurface().isValid()) {
-                // Lock the canvas, so we can start drawing.
-                canvas = holder.lockCanvas();
+            canvas = holder.lockCanvas();
 
             canvas.drawColor(Color.rgb(0, 0, 0));
+
 
             drawActorList(balls);
             drawActorList(paddles);

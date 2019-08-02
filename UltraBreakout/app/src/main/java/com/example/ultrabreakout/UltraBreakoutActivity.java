@@ -8,6 +8,7 @@ import android.view.Display;
 /* Main activity for project, simply sets up app and sends it to UltraBreakout
  * class.
  */
+
 public class UltraBreakoutActivity extends ScreenActivity {
 
     // Class that contains all the main logic for the game.
@@ -33,6 +34,9 @@ public class UltraBreakoutActivity extends ScreenActivity {
 
         configureScreen();
         size = obtainScreenSize();
+
+        //places in front
+        //ultraBreakout.setBackground(getResources().getDrawable(R.drawable.game_background2));
 
         ultraBreakout = new UltraBreakout(this, size.x, size.y, level, this);
         setContentView(ultraBreakout);
