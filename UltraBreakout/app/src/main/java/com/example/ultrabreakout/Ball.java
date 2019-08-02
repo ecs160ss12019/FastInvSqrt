@@ -98,9 +98,11 @@ class Ball extends Actor {
     }
     public void normalBall(){
         setSprite(R.drawable.ball3);
-        this.ballState = ActorState.NORMAL;
         this.velocity.x = X_VELOCITY;
         this.velocity.y = Y_VELOCITY;
+        this.ballState = ActorState.NORMAL;
+        ballTimer.removeCallbacks(ballCallback);
+
     }
 
     public void update (float fps, float screenWidth){

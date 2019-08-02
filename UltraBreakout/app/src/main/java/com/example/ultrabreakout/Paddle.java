@@ -149,6 +149,7 @@ class Paddle extends Actor {
         }
         paddleState = ActorState.NORMAL;
         width = PADDLE_WIDTH;
+        paddleWidthTimer.removeCallbacks(paddleWidthCallback);
     }
 
     public void destroy() {
