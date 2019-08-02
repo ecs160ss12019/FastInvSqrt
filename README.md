@@ -26,3 +26,7 @@ New at Java programming but has experience in web development and creating small
 
 ### Kamal Sadek
 Experience in Java and mobile development. Master of the "anything goes" style of programming, hoping to learn about software engineering.
+
+## Assets
+Title Screen Background: https://www.youtube.com/watch?v=TEquk8KmZMs
+Font: https://fontmeme.com/fonts/8-bit-wonder-font/
