@@ -41,7 +41,7 @@ class Brick extends Actor {
         super(x_pos, y_pos, 0, 0, BRICK_WIDTH, BRICK_HEIGHT,
                 BitmapFactory.decodeResource(sprites,sprite_num));
         this.powerup = powerup;
-        this.health = 2;
+        this.health = health;
     }
 
     //Generates a brick; to be used with the generateActors function
