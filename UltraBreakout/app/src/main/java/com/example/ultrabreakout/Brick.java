@@ -65,31 +65,26 @@ class Brick extends Actor {
         //Roughly 10% of Bricks will contain a powerup
         if (Math.random() > 0.6) {
             health = 1; //One hit for powerup bricks
+            sprite = R.drawable.breakout_tiles_48;
             switch ((int) (Math.random() * 7)) {
                 //Set above number to one above number of powerups
                 case 0:
                     power_up = PowerUpType.PADDLE_WIDTH_INCREASE;
-                    sprite = R.drawable.breakout_tiles_48;
                     break;
                 case 1:
                     power_up = PowerUpType.GOLDEN_BALL;
-                    sprite = R.drawable.goldenball_tile;
                     break;
                 case 2:
                     power_up = PowerUpType.PADDLE_WIDTH_DECREASE;
-                    sprite = R.drawable.breakout_tiles_48;
                     break;
                 case 3:
                     power_up = PowerUpType.BALL_SPEED_INCREASE;
-                    sprite = R.drawable.featherball;
                     break;
                 case 4:
                     power_up = PowerUpType.BALL_SPEED_DECREASE;
-                    sprite = R.drawable.featherball2;
                     break;
                 case 5:
                     power_up = PowerUpType.EXTRA_LIFE;
-                    sprite = R.drawable.lifeball;
                     break;
 /*                case 6:
                     power_up = PowerUpType.DOUBLE_BALL;
